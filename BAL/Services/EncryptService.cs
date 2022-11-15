@@ -10,11 +10,6 @@ namespace BAL.Services
 {
     public class EncryptService : IEncrypt
     {
-        private readonly ILogger<EncryptService> _logger;
-        public EncryptService(ILogger<EncryptService> logger)
-        {
-            _logger = logger;
-        }
         public string EncodePasswordToBase64(string password)
         { 
                 byte[] encData_byte = new byte[password.Length];
@@ -22,6 +17,7 @@ namespace BAL.Services
                 string encodedData = Convert.ToBase64String(encData_byte);
                 return encodedData;  
         }
+
         //this function Convert to Decord your Password
         public string DecodeFrom64(string encodedData)
         {

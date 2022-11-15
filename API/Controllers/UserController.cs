@@ -12,15 +12,15 @@ namespace API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly ILogger<UserService> _logger;
         private readonly IUserInterface _userService;
         private readonly DbSportsBuzzContext dbContext;
-        public UserController(DbSportsBuzzContext dbcontext, ILogger<UserService> logger, IUserInterface userService)
+
+        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService)
         {
             dbContext = dbcontext;
-            _logger = logger;
             _userService = userService;
         }
+
          // GET: api/<UserController>
         [HttpGet]
         public JsonResult UserDetails()
@@ -65,7 +65,7 @@ namespace API.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{Mail}")]
+        [HttpPut("Forget Password")]
         public JsonResult ForgetPassword(string Mail, ChangePassword changePassword)
         {
             try

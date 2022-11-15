@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace Models.DbModels
 {
-    public class Status
+    public class CrudStatus
     {
-        bool status;
-        string message;
-        public Status(bool status, string message)
-        {
-            this.status = status;
-            this.message = message;
-        }
+        public bool Status { get; set; }
+        public string? Message { get; set; }
     }
 }
