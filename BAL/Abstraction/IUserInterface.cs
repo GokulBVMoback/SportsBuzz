@@ -11,8 +11,8 @@ namespace BAL.Abstraction
     public interface IUserInterface
     {
         List<TblUser> GetUser();
-        string Registration(Registration user);
-        string LogIn(LogIn login);
-       string ForgetPassword(ChangePassword changePassword);
+        Status Registration(Registration user);
+        Status LogIn(LogIn login);
+       Status ForgetPassword(ChangePassword changePassword);
     }
 }
