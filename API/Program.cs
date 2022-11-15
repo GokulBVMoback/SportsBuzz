@@ -1,9 +1,8 @@
-//using BAL.Services;
-//using Entities.Models;
+using BAL.Services;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
-//using BAL.Abstraction;
+using BAL.Abstraction;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +17,8 @@ option.UseSqlServer(connectionString)
 );
 // Add services to the container.
 
-//builder.Services.AddScoped<IUserInterface, UserService>();
-//builder.Services.AddScoped<IEncrypt, EncryptService>();
+builder.Services.AddScoped<IUserInterface, UserService>();
+builder.Services.AddScoped<IEncrypt, EncryptService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -6,6 +6,8 @@ namespace Entities.Models;
 
 public partial class DbSportsBuzzContext : DbContext
 {
+    public object TblUser;
+
     public DbSportsBuzzContext()
     {
     }
