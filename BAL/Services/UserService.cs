@@ -75,7 +75,7 @@ namespace BAL.Services
         {
             string encryptPassword = encryptService.EncodePasswordToBase64(changePassword.Password!);
             string encryptConPassword = encryptService.EncodePasswordToBase64(changePassword.ConfirmPassword!);
-            if (changePassword.Password == changePassword.ConfirmPassword)
+            if (encryptPassword == encryptConPassword)
             {
                 TblUser tblUser = _dbContext.TblUsers.Where(x => x.Email == changePassword.Email).FirstOrDefault()!;
                 tblUser!.Password = encryptPassword;
