@@ -15,16 +15,13 @@ namespace API.Controllers
         private readonly ILogger<UserService> _logger;
         private readonly IUserInterface _userService;
         private readonly DbSportsBuzzContext dbContext;
-
-
         public UserController(DbSportsBuzzContext dbcontext, ILogger<UserService> logger, IUserInterface userService)
         {
             dbContext = dbcontext;
             _logger = logger;
             _userService = userService;
         }
-
-        // GET: api/<UserController>
+         // GET: api/<UserController>
         [HttpGet]
         public JsonResult UserDetails()
         {
@@ -35,49 +32,39 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 return new JsonResult(ex);
-
             }
-        }
-
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-         public string Get(int id)
-        {
-            return "value";
         }
 
         // POST api/<UserController>
         [HttpPost]
         [Route("registration")]
-
         public JsonResult Registration(Registration User)
         {
             try
             {
                 return new JsonResult(_userService.Registration(User));
-
             }
             catch (Exception ex)
             {
                 return new JsonResult(ex.Message);
             }
         }
+
         [HttpPost]
         [Route("LogIn")]
-
         public JsonResult LogIn( LogIn logIn)
         {
             try
             {
                 _userService.LogIn(logIn);
                 return new JsonResult(_userService.LogIn(logIn));
-
             }
             catch (Exception ex)
             {
                 return new JsonResult(ex.Message);
             }
         }
+
         // PUT api/<UserController>/5
         [HttpPut("{Mail}")]
         public JsonResult ForgetPassword(string Mail, ChangePassword changePassword)
@@ -86,7 +73,6 @@ namespace API.Controllers
             {
                 changePassword.Email = Mail;
                 return new JsonResult(_userService.ForgetPassword(changePassword));
-
             }
             catch (Exception ex)
             {
