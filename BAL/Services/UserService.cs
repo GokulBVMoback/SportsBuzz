@@ -82,9 +82,6 @@ namespace BAL.Services
                 tblUser.UpdatedDate = DateTime.Now;
                 if (tblUser != null)
                 {
-                    tblUser.UpdatedDate = DateTime.Now;
-                    if (tblUser != null)
-                    { 
                     _dbContext.Entry(tblUser).State = EntityState.Modified;
                     _dbContext.SaveChanges();
                     return new Status(false, "Password updated successfully");
