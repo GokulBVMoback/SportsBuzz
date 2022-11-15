@@ -56,8 +56,7 @@ namespace API.Controllers
         {
             try
             {
-                _userService.LogIn(logIn);
-                return new JsonResult(_userService.LogIn(logIn));
+               return new JsonResult(_userService.LogIn(logIn));
             }
             catch (Exception ex)
             {
