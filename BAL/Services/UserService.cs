@@ -80,10 +80,10 @@ namespace BAL.Services
             if (encryptPassword == encryptConPassword)
             {
                 TblUser tblUser = _dbContext.TblUsers.Where(x => x.Email == changePassword.Email).FirstOrDefault()!;
-                tblUser!.Password = encryptPassword;
-                tblUser.UpdatedDate = DateTime.Now;
                 if (tblUser != null)
                 {
+                    tblUser!.Password = encryptPassword;
+                    tblUser.UpdatedDate = DateTime.Now;
                     _dbContext.Entry(tblUser).State = EntityState.Modified;
                     _dbContext.SaveChanges();
                     return new CrudStatus() { Status = true, Message = "Password updated successfully" };
