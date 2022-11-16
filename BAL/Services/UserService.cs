@@ -22,43 +22,49 @@ namespace BAL.Services
             _dbContext = dbContext;
         }
 
-        public List<TblUser> GetUser()
+        public List<UserDisplay> GetUser()
         {
-            var users = _dbContext.TblUsers.ToList();
-            return users;
+            List<UserDisplay> result = (from su in _dbContext.TblUsers
+                                        join ut in _dbContext.TblUserRoles on su.UserRole equals ut.UserRoleId
+                                        orderby su.UserId
+                                        select new UserDisplay
+                                        {
+                                            UserId = su.UserId,
+                                            FirstName = su.FirstName,
+                                            LastName = su.LastName,
+                                            Email = su.Email,
+                                            PhoneNum = su.PhoneNum,
+                                            UserRole = ut.UserRole,
+                                            CreatedDate = su.CreatedDate,
+                                            UpdatedDate = su.UpdatedDate,
+                                            Active = su.Active
+                                        }).ToList();
+            return result.ToList();
         }
 
         public CrudStatus Registration(Registration user)
         {
             string encryptPassword = encryptService.EncodePasswordToBase64(user.Password!);
             string encryptConPassword = encryptService.EncodePasswordToBase64(user.ConfirmPassword!);
-            if (encryptPassword == encryptConPassword)
+            TblUser user1 = _dbContext.TblUsers.Where(x => x.Email == user.Email).FirstOrDefault()!;
+            if (user1 is null)
             {
-                TblUser obj = new TblUser
+                user1 = user;
+                user1.Password = encryptPassword;
+                user1.CreatedDate = DateTime.Now;
+                user1.UpdatedDate = null;
+                user1.Active = true;
+                if (encryptPassword == encryptConPassword)
                 {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    PhoneNum = user.PhoneNum,
-                    Password = encryptPassword,
-                    UserRole = user.UserRole,
-                    CreatedDate = DateTime.Now,
-                    UpdatedDate = null,
-                    Active = true,
-                };
-                TblUser user1 = _dbContext.TblUsers.Where(x => x.Email == user.Email).FirstOrDefault()!;
-                if (user1 is null)
-                {
-                    _dbContext.TblUsers.Add(obj);
+                    _dbContext.TblUsers.Add(user1);
                     _dbContext.SaveChanges();
                     return new CrudStatus() { Status = true, Message = "Registration process done" };
                 }
-                return new CrudStatus() { Status = false, Message = "Your Email already registered. Please Log in" };
-
+                return new CrudStatus() { Status = false, Message = "Password and Confirm password not matched" };
             }
             else
             {
-                return new CrudStatus() { Status = false, Message = "Password and Confirm password not matched" };
+                return new CrudStatus() { Status = false, Message = "Your Email already registered. Please Log in" };
             }
         }
 
@@ -77,10 +83,10 @@ namespace BAL.Services
         {
             string encryptPassword = encryptService.EncodePasswordToBase64(changePassword.Password!);
             string encryptConPassword = encryptService.EncodePasswordToBase64(changePassword.ConfirmPassword!);
-            if (encryptPassword == encryptConPassword)
+            TblUser tblUser = _dbContext.TblUsers.Where(x => x.Email == changePassword.Email).FirstOrDefault()!;
+            if (tblUser != null)
             {
-                TblUser tblUser = _dbContext.TblUsers.Where(x => x.Email == changePassword.Email).FirstOrDefault()!;
-                if (tblUser != null)
+                if (encryptPassword == encryptConPassword)
                 {
                     tblUser!.Password = encryptPassword;
                     tblUser.UpdatedDate = DateTime.Now;
@@ -88,11 +94,11 @@ namespace BAL.Services
                     _dbContext.SaveChanges();
                     return new CrudStatus() { Status = true, Message = "Password updated successfully" };
                 }
-                return new CrudStatus() { Status = false, Message = "Email doesn't registered. Please Sign up" };
+                return new CrudStatus() { Status = false, Message = "Password and Confirm password not matched" };
             }
             else
             {
-                return new CrudStatus() { Status = false, Message = "Password and Confirm password not matched" };
+                return new CrudStatus() { Status = false, Message = "Email doesn't registered. Please Sign up" };
             }
         }
     }

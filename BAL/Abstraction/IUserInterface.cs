@@ -10,7 +10,7 @@ namespace BAL.Abstraction
 {
     public interface IUserInterface
     {
-        List<TblUser> GetUser();
+        List<UserDisplay> GetUser();
         CrudStatus Registration(Registration user);
         CrudStatus LogIn(LogIn login);
         CrudStatus ForgetPassword(ChangePassword changePassword);
