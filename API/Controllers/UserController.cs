@@ -5,23 +5,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.DbModels;
-
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         private readonly IUserInterface _userService;
-        private readonly DbSportsBuzzContext dbContext;
-
-        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService)
+        
+        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService) : base(dbcontext)
         {
-            dbContext = dbcontext;
             _userService = userService;
         }
 
-         // GET: api/<UserController>
         [HttpGet]
         public JsonResult UserDetails()
         {
@@ -35,14 +31,30 @@ namespace API.Controllers
             }
         }
 
-        // POST api/<UserController>
         [HttpPost]
         [Route("registration")]
         public JsonResult Registration(Registration User)
         {
             try
             {
-                return new JsonResult(_userService.Registration(User));
+                bool result= _userService.CheckExtistUser(User);
+                if(result==false)
+                {
+                    result=_userService.CheckPassword(User);
+                    if(result == true)
+                    {
+                        result= _userService.Registration(User);
+                        if (result == true)
+                        {
+                            return new JsonResult(new CrudStatus() { Status = result,Message= "Registration process done" });
+                        }
+                    }
+                    else
+                    {
+                        return new JsonResult(new CrudStatus() { Status = result, Message = "Password and Confirm password not matched" });
+                    }
+                }
+                    return new JsonResult(new CrudStatus() { Status = false, Message= "Your Email already registered. Please Log in" });
             }
             catch (Exception ex)
             {
@@ -52,11 +64,17 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("LogIn")]
-        public JsonResult LogIn( LogIn logIn)
+        public JsonResult LogIn(TblUser logIn)
         {
             try
             {
-               return new JsonResult(_userService.LogIn(logIn));
+                bool result = _userService.LogIn(logIn);
+                if(result==true)
+                {
+                    return new JsonResult(new CrudStatus() { Status = true, Message = "Login successfully" });
+
+                }
+                return new JsonResult(new CrudStatus() { Status = false, Message = "Email and Password doesnt match" });
             }
             catch (Exception ex)
             {
@@ -64,14 +82,30 @@ namespace API.Controllers
             }
         }
 
-        // PUT api/<UserController>/5
         [HttpPut("Forget Password")]
-        public JsonResult ForgetPassword(string Mail, ChangePassword changePassword)
+        public JsonResult ForgetPassword(string Mail, Registration changePassword)
         {
             try
             {
                 changePassword.Email = Mail;
-                return new JsonResult(_userService.ForgetPassword(changePassword));
+                bool result = _userService.CheckExtistUser(changePassword);
+                if (result == true)
+                {
+                    result = _userService.CheckPassword(changePassword);
+                    if (result == true)
+                    {
+                        result = _userService.ForgetPassword(changePassword);
+                        if (result == true)
+                        {
+                            return new JsonResult(new CrudStatus() { Status = true, Message = "Password updated successfully" });
+                        }
+                    }
+                    else
+                    {
+                        return new JsonResult(new CrudStatus() { Status = result, Message = "Password and Confirm password not matched" });
+                    }
+                }
+                return new JsonResult(new CrudStatus() { Status = false, Message = "Email doesn't registered. Please Sign up" });
             }
             catch (Exception ex)
             {
