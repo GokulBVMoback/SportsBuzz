@@ -27,5 +27,7 @@ public partial class TblTeam
 
     public virtual TblSportType? SportTypeNavigation { get; set; }
 
+    public virtual ICollection<TblTeamMember> TblTeamMembers { get; } = new List<TblTeamMember>();
+
     public virtual TblUser? User { get; set; }
 }

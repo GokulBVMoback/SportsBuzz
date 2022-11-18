@@ -19,6 +19,8 @@ public partial class DbSportsBuzzContext : DbContext
 
     public virtual DbSet<TblTeam> TblTeams { get; set; }
 
+    public virtual DbSet<TblTeamMember> TblTeamMembers { get; set; }
+
     public virtual DbSet<TblUser> TblUsers { get; set; }
 
     public virtual DbSet<TblUserRole> TblUserRoles { get; set; }
@@ -66,6 +68,29 @@ public partial class DbSportsBuzzContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.TblTeams)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__tbl_Team__UserID__34C8D9D1");
+        });
+
+        modelBuilder.Entity<TblTeamMember>(entity =>
+        {
+            entity.HasKey(e => e.MemberId).HasName("PK__tbl_Team__0CF04B18801EEA95");
+
+            entity.ToTable("tbl_Team_Members");
+
+            entity.Property(e => e.MemberId).ValueGeneratedNever();
+            entity.Property(e => e.PlayerFirstName)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.PlayerLastName)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.State)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TeamId).HasColumnName("TeamID");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.TblTeamMembers)
+                .HasForeignKey(d => d.TeamId)
+                .HasConstraintName("FK__tbl_Team___TeamI__403A8C7D");
         });
 
         modelBuilder.Entity<TblUser>(entity =>
