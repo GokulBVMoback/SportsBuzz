@@ -25,5 +25,7 @@ public partial class TblUser
 
     public bool? Active { get; set; }
 
+    public virtual ICollection<TblTeam> TblTeams { get; } = new List<TblTeam>();
+
     public virtual TblUserRole? UserRoleNavigation { get; set; }
 }
