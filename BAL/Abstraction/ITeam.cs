@@ -20,6 +20,5 @@ namespace BAL.Abstraction
         bool TeamRegistration(TblTeam team);
         bool EditTeam(TblTeam TeamName, string NewTeamName);
         bool DeleteTeam(TblTeam TeamName);   
-
     }   
 }

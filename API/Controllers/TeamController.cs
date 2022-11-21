@@ -61,13 +61,11 @@ namespace API.Controllers
         [Route("TeamRegistration")]
         public JsonResult TeamRegistration(TblTeam team)
         {
-
             try
             {
                 bool result = _teamService.CheckExtistUserId(team);
                 if (result == false)
                 {
-
                     result = _teamService.CheckExtistTeam(team);
                     if (result == false)
                     {
@@ -113,7 +111,6 @@ namespace API.Controllers
                     }
                 }
                 return new JsonResult(new CrudStatus() { Status = result, Message = "Team name not matched" });
-
             }
             catch (Exception ex)
             {

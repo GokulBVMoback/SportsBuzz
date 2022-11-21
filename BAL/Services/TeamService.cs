@@ -74,7 +74,6 @@ namespace BAL.Services
 
         public bool CheckExtistUserId(TblTeam team) 
         {
-
             TblTeam team1 = _dbContext.TblTeams.Where(x => x.UserId == team.UserId).FirstOrDefault()!;
             if (team1 is null)
             {
