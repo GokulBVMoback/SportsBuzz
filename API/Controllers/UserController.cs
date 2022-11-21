@@ -83,11 +83,10 @@ namespace API.Controllers
         }
 
         [HttpPut("Forget Password")]
-        public JsonResult ForgetPassword(string Mail, Registration changePassword)
+        public JsonResult ForgetPassword(Registration changePassword)
         {
             try
             {
-                changePassword.Email = Mail;
                 bool result = _userService.CheckExtistUser(changePassword);
                 if (result == true)
                 {
