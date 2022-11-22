@@ -19,6 +19,8 @@ option.UseSqlServer(connectionString)
 
 builder.Services.AddScoped<IUserInterface, UserService>();
 builder.Services.AddScoped<IEncrypt, EncryptService>();
+builder.Services.AddScoped<ITeam, TeamService>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
