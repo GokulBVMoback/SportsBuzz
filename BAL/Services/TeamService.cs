@@ -54,18 +54,8 @@ namespace BAL.Services
 
         public bool CheckExtistTeam(TblTeam team)
         {
-            TblTeam team1 = _dbContext.TblTeams.Where(x => x.TeamName== team.TeamName).FirstOrDefault()!;
-            if (team1 is null)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool CheckExtistTeam(string team)
-        {
-            TblTeam team1 = _dbContext.TblTeams.Where(x => x.TeamName == team).FirstOrDefault()!;
-            if (team1 is null)
+            TblTeam team1 = _dbContext.TblTeams.Where(x => x.TeamName == team.TeamName).FirstOrDefault()!;
+            if (team1 == null)
             {
                 return false;
             }
@@ -74,8 +64,8 @@ namespace BAL.Services
 
         public bool CheckExtistUserId(TblTeam team) 
         {
-            TblTeam team1 = _dbContext.TblTeams.Where(x => x.UserId == team.UserId).FirstOrDefault()!;
-            if (team1 is null)
+            TblTeam team2 = _dbContext.TblTeams.Where(y => y.UserId == team.UserId).FirstOrDefault()!;
+            if (team2 == null)
             {
                 return false;
             }
@@ -92,10 +82,10 @@ namespace BAL.Services
             return true;
         }
 
-        public bool EditTeam(TblTeam TeamName,string NewTeamName)
+        public bool EditTeam(TblTeam TeamName)
         {
-            TblTeam team = _dbContext.TblTeams.Where(x => x.TeamName == TeamName.TeamName).FirstOrDefault()!;
-            team.TeamName = NewTeamName;
+            TblTeam team = _dbContext.TblTeams.Where(x => x.TeamId == TeamName.TeamId).FirstOrDefault()!;
+            team.TeamName = TeamName.TeamName;
             team.UpdatedDate = DateTime.Now;
             _dbContext.Entry(team).State = EntityState.Modified;
             _dbContext.SaveChanges();

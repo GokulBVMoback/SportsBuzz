@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.DbModels;
+
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -35,26 +36,31 @@ namespace API.Controllers
         [Route("registration")]
         public JsonResult Registration(Registration User)
         {
+            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result= _userService.CheckExtistUser(User);
                 if(result==false)
                 {
                     result=_userService.CheckPassword(User);
-                    if(result == true)
+                    if (result == true)
                     {
-                        result= _userService.Registration(User);
-                        if (result == true)
-                        {
-                            return new JsonResult(new CrudStatus() { Status = result,Message= "Registration process done" });
-                        }
+                        _userService.Registration(User);
+                        crudStatus.Status = true;
+                        crudStatus.Message = "Registration process done";
                     }
                     else
                     {
-                        return new JsonResult(new CrudStatus() { Status = result, Message = "Password and Confirm password not matched" });
+                        crudStatus.Status = false;
+                        crudStatus.Message = "Password and Confirm password not matched";
                     }
                 }
-                    return new JsonResult(new CrudStatus() { Status = false, Message= "Your Email already registered. Please Log in" });
+                else
+                {
+                    crudStatus.Status = false;
+                    crudStatus.Message = "Your Email already registered. Please Log in";
+                }
+                    return new JsonResult(crudStatus);
             }
             catch (Exception ex)
             {
@@ -66,15 +72,21 @@ namespace API.Controllers
         [Route("LogIn")]
         public JsonResult LogIn(TblUser logIn)
         {
+            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result = _userService.LogIn(logIn);
                 if(result==true)
                 {
-                    return new JsonResult(new CrudStatus() { Status = true, Message = "Login successfully" });
-
+                    crudStatus.Status = true;
+                    crudStatus.Message = "Login successfully";
                 }
-                return new JsonResult(new CrudStatus() { Status = false, Message = "Email and Password doesnt match" });
+                else
+                {
+                    crudStatus.Status = false;
+                    crudStatus.Message = "Email and Password doesnt match";
+                }
+                return new JsonResult(crudStatus);
             }
             catch (Exception ex)
             {
@@ -85,6 +97,7 @@ namespace API.Controllers
         [HttpPut("Forget Password")]
         public JsonResult ForgetPassword(Registration changePassword)
         {
+            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result = _userService.CheckExtistUser(changePassword);
@@ -93,18 +106,22 @@ namespace API.Controllers
                     result = _userService.CheckPassword(changePassword);
                     if (result == true)
                     {
-                        result = _userService.ForgetPassword(changePassword);
-                        if (result == true)
-                        {
-                            return new JsonResult(new CrudStatus() { Status = true, Message = "Password updated successfully" });
-                        }
+                        _userService.ForgetPassword(changePassword);
+                        crudStatus.Status = true;
+                        crudStatus.Message = "Password updated successfully";
                     }
                     else
                     {
-                        return new JsonResult(new CrudStatus() { Status = result, Message = "Password and Confirm password not matched" });
+                        crudStatus.Status = false;
+                        crudStatus.Message = "Password and Confirm password not matched";
                     }
                 }
-                return new JsonResult(new CrudStatus() { Status = false, Message = "Email doesn't registered. Please Sign up" });
+                else
+                {
+                    crudStatus.Status = false;
+                    crudStatus.Message = "Email doesn't registered. Please Sign up";
+                }
+                return new JsonResult(crudStatus);
             }
             catch (Exception ex)
             {

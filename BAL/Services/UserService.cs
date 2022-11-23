@@ -54,7 +54,6 @@ namespace BAL.Services
 
         public bool CheckPassword(Registration user)
         {
-            TblUser user1 = _dbContext.TblUsers.Where(x => x.Email == user.Email).FirstOrDefault()!;
             if (user.Password == user.ConfirmPassword)
             {
                 return true;
