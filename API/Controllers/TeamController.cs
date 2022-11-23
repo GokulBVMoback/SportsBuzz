@@ -13,6 +13,7 @@ namespace API.Controllers
     public class TeamController : BaseController
     {
         private readonly ITeam _teamService;
+        
         public TeamController(DbSportsBuzzContext dbcontext, ITeam teamService):base(dbcontext)
         {
             _teamService = teamService;
@@ -61,6 +62,7 @@ namespace API.Controllers
         [Route("TeamRegistration")]
         public JsonResult TeamRegistration(TblTeam team)
         {
+            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result = _teamService.CheckExtistUserId(team);
@@ -69,18 +71,22 @@ namespace API.Controllers
                     result = _teamService.CheckExtistTeam(team);
                     if (result == false)
                     {
-                        result = _teamService.TeamRegistration(team);
-                        if (result == true)
-                        {
-                            return new JsonResult(new CrudStatus() { Status = result, Message = "Registration process done" });
-                        }
+                        _teamService.TeamRegistration(team);
+                        crudStatus.Status = true;
+                        crudStatus.Message = "Team added successfully";
                     }
                     else
                     {
-                        return new JsonResult(new CrudStatus() { Status = result, Message = "Team name is already extist" });
+                        crudStatus.Status = false;
+                        crudStatus.Message = "Team name is already extist";
                     }
                 }
-                return new JsonResult(new CrudStatus() { Status = result, Message = "This user already have a team" });
+                else
+                {
+                    crudStatus.Status = false;
+                    crudStatus.Message = "This user already have a team";
+                }
+                return new JsonResult(crudStatus);
             }
             catch (Exception ex)
             {
@@ -89,28 +95,24 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public JsonResult EditTeam(TblTeam TeamName, string NewTeamName)
+        public JsonResult EditTeam(TblTeam TeamName)
         {
+            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result = _teamService.CheckExtistTeam(TeamName);
-                if (result == true)
+                if (result == false)
                 {
-                    result = _teamService.CheckExtistTeam(NewTeamName);
-                    if (result == false)
-                    {
-                        result = _teamService.EditTeam(TeamName, NewTeamName);
-                        if (result == true)
-                        {
-                            return new JsonResult(new CrudStatus() { Status = result, Message = "Team name is updated successfully" });
-                        }
-                    }
-                    else
-                    {
-                        return new JsonResult(new CrudStatus() { Status = false, Message = "New team name is already extist" });
-                    }
+                    _teamService.EditTeam(TeamName);
+                    crudStatus.Status = true;
+                    crudStatus.Message = "Team name is updated successfully";
                 }
-                return new JsonResult(new CrudStatus() { Status = result, Message = "Team name not matched" });
+                else
+                {
+                    crudStatus.Status = false;
+                    crudStatus.Message = "New team name is already extist";
+                }
+                return new JsonResult(crudStatus);
             }
             catch (Exception ex)
             {
@@ -121,10 +123,22 @@ namespace API.Controllers
         [HttpDelete]
         public JsonResult DeleteTeam(TblTeam team)
         {
+            CrudStatus crudStatus = new CrudStatus();
             try
             {
-                _teamService.DeleteTeam(team);
-                return new JsonResult(new CrudStatus() { Status = true, Message = "Team delete successfully" });
+                bool result = _teamService.CheckExtistTeam(team);
+                if (result == true)
+                {
+                    _teamService.DeleteTeam(team);
+                    crudStatus.Status = true;
+                    crudStatus.Message = "Team deleted successfully";
+                }
+                else
+                {
+                    crudStatus.Status = false;
+                    crudStatus.Message = "Team not extist";
+                }
+                return new JsonResult(crudStatus);
             }
             catch (Exception ex)
             {

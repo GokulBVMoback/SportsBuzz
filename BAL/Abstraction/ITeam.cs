@@ -15,10 +15,9 @@ namespace BAL.Abstraction
         List<TeamList> SearchByCity(string City);
         TeamList SearchByTeamName(string Team);
         bool CheckExtistTeam(TblTeam team);
-        bool CheckExtistTeam(string team);
         bool CheckExtistUserId(TblTeam team);
         bool TeamRegistration(TblTeam team);
-        bool EditTeam(TblTeam TeamName, string NewTeamName);
+        bool EditTeam(TblTeam TeamName);
         bool DeleteTeam(TblTeam TeamName);   
     }   
 }
