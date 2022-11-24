@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace Models.DbModels
 {
-    public  class TeamList : TblTeam
+    public class GroundList:TblGround
     {
-        public string? SportType { get; set; }  
+        public new string? SportType { get; set; }
         public string? FirstName { get; set; }
-        public string? LastName { get; set;}
-
+        public string? LastName { get; set; }
     }
 }
