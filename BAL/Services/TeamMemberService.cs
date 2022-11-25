@@ -23,16 +23,17 @@ namespace BAL.Services
              List<PlayerList> result = (from player in _dbContext.TblTeamMembers
                                       join team in _dbContext.TblTeams on player.TeamId equals team.TeamId                                    
                                       orderby player.TeamId
-                                        select new PlayerList                                     { 
-                                         MemberId=player.MemberId,
-                                         TeamName=team.TeamName,
-                                         PlayerFirstName = player.PlayerFirstName,
-                                         PlayerLastName = player.PlayerLastName,
-                                         Age=player.Age,
-                                         JerseyNo=player.JerseyNo,  
-                                         State=player.State,  
-                                        
-                                     }).ToList();
+                                        select new PlayerList
+                                        {
+                                            MemberId = player.MemberId,
+                                            TeamName = team.TeamName,
+                                            PlayerFirstName = player.PlayerFirstName,
+                                            PlayerLastName = player.PlayerLastName,
+                                            Age = player.Age,
+                                            JerseyNo = player.JerseyNo,
+                                            State = player.State,
+
+                                        }).ToList();
              return result.ToList();         
         }
 
