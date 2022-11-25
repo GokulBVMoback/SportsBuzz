@@ -5,6 +5,8 @@ namespace Entities.Models;
 
 public partial class TblUser
 {
+    public readonly object Userid;
+
     public int UserId { get; set; }
 
     public string? FirstName { get; set; }
