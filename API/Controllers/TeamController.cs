@@ -4,10 +4,12 @@ using BAL.Services;
 using Models.DbModels;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers
 {
+    [Authorize(Policy = "Team Manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamController : BaseController
