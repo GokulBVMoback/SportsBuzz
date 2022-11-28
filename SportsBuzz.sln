@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{0C389B86-B99B-464A-81A8-5B88289B1D44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{0C389B86-B99B-464A-81A8-5B88289B1D44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BAL", "BAL\BAL.csproj", "{49EC4465-992F-445B-BBA0-761DAEB98FE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BAL", "BAL\BAL.csproj", "{49EC4465-992F-445B-BBA0-761DAEB98FE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{22DEAB76-C505-4F0B-BF66-34EE20B44F9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{22DEAB76-C505-4F0B-BF66-34EE20B44F9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{715EC64B-F580-40B5-A582-C5DA3E9D43D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{715EC64B-F580-40B5-A582-C5DA3E9D43D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BALTests", "BALTests\BALTests.csproj", "{2C72618E-C371-4CBF-A8F0-A0481E4B9229}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{715EC64B-F580-40B5-A582-C5DA3E9D43D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{715EC64B-F580-40B5-A582-C5DA3E9D43D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{715EC64B-F580-40B5-A582-C5DA3E9D43D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C72618E-C371-4CBF-A8F0-A0481E4B9229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C72618E-C371-4CBF-A8F0-A0481E4B9229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C72618E-C371-4CBF-A8F0-A0481E4B9229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C72618E-C371-4CBF-A8F0-A0481E4B9229}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
