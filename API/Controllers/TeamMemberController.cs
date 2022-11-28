@@ -1,6 +1,7 @@
 ﻿using BAL.Abstraction;
 using BAL.Services;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DbModels;
 
@@ -8,7 +9,7 @@ using Models.DbModels;
 
 namespace API.Controllers
 {
-
+    [Authorize(Policy = "Team Manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamMemberController : BaseController
