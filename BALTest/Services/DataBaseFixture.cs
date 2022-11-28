@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace BALTest.Services
 {
-    public class DataFixture:IDisposable
+    public class DataBaseFixture:IDisposable
     {
         private static DbContextOptions<DbSportsBuzzContext> dbContextOptions = new DbContextOptionsBuilder<DbSportsBuzzContext>()
           .UseInMemoryDatabase(databaseName: "db_SportsBuzz")
           .Options;
         public DbSportsBuzzContext context;
 
-        public DataFixture()
+        public DataBaseFixture()
         {
             context = new DbSportsBuzzContext(dbContextOptions);
             context.Database.EnsureCreated();
@@ -42,6 +42,23 @@ namespace BALTest.Services
                 new TblUser(){ UserId=3, FirstName="Gokul", LastName="B V", Email="bvgok@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=1, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true }
             };
             context.TblUsers.AddRange(user);
+            context.SaveChanges();
+
+            var sport = new List<TblSportType>()
+            {
+                new TblSportType(){ SportTypeId=1, SportType="Badmindon"  },
+                new TblSportType(){ SportTypeId=2, SportType="Tennis" }
+            };
+            context.TblSportTypes.AddRange(sport);
+            context.SaveChanges();
+
+            var team = new List<TblTeam>()
+            {
+                new TblTeam(){ TeamId=1, UserId=1, TeamName="MKP Stars", City="Nagercoil", Email="bvgokulgok@gmail.com", PhoneNum=8834834383,  SportType=1, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true },
+                //new TblTeam(){ UserId=2, FirstName="Gokul", LastName="B V", Email="bvgokul@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=2, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true },
+                //new TblTeam(){ UserId=3, FirstName="Gokul", LastName="B V", Email="bvgok@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=1, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true }
+            };
+            context.TblTeams.AddRange(team);
             context.SaveChanges();
         }
 

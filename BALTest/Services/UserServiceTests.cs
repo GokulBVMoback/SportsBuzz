@@ -9,13 +9,22 @@ using System.Collections.Generic;
 
 namespace BALTest.Services
 {
-    public class UserServiceTests : IClassFixture<DataFixture>
+    [CollectionDefinition("Database collection")]
+    public class DatabaseCollection : ICollectionFixture<DataBaseFixture>
     {
-        DataFixture _fixture;
-        UserService userService;
-        Mock<IEncrypt> encrypt;
+        // This class has no code, and is never created. Its purpose is simply
+        // to be the place to apply [CollectionDefinition] and all the
+        // ICollectionFixture<> interfaces.
+    }
 
-        public UserServiceTests(DataFixture fixture)
+    [Collection("Database collection")]
+    public class UserServiceTests
+    {
+        private readonly DataBaseFixture _fixture;
+        private readonly UserService userService;
+        private readonly Mock<IEncrypt> encrypt;
+
+        public UserServiceTests(DataBaseFixture fixture)
         {
             _fixture = fixture;
             encrypt = new Mock<IEncrypt>();
@@ -31,8 +40,9 @@ namespace BALTest.Services
             var result = userService.GetUser();
 
             //Assert
+            var expected=_fixture.context.TblUsers.Count();
             var items = Assert.IsType<List<UserDisplay>>(result);
-            Assert.Equal(3, items.Count);
+            Assert.Equal(expected, items.Count);
         }
 
         [Fact]
