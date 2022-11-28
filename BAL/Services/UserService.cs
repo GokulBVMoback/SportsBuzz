@@ -86,11 +86,11 @@ namespace BAL.Services
                 var token = GenerateToken(user);
                 return token;
             }
-            return null;
+            return null!;
         }
-        private string GenerateToken(TblUser user)
+        public string GenerateToken(TblUser user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             TblUserRole role = _dbContext.TblUserRoles.Where(x=>x.UserRoleId==user.UserRole).FirstOrDefault()!;
             var claims = new[]
@@ -113,7 +113,7 @@ namespace BAL.Services
         public bool ForgetPassword(Registration changePassword)
         {
             TblUser user1 = _dbContext.TblUsers.Where(x => x.Email == changePassword.Email).FirstOrDefault()!;
-            user1!.Password = encryptService.EncodePasswordToBase64(changePassword.Password);
+            user1!.Password = encryptService.EncodePasswordToBase64(changePassword.Password!);
             user1.UpdatedDate = DateTime.Now;
             _dbContext.Entry(user1).State = EntityState.Modified;
             _dbContext.SaveChanges();

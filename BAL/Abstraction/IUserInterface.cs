@@ -16,5 +16,6 @@ namespace BAL.Abstraction
         bool Registration(Registration user);
         string LogIn(TblUser login);
         bool ForgetPassword(Registration changePassword);
+        string GenerateToken(TblUser user);
     }
 }
