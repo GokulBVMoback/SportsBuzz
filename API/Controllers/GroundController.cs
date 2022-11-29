@@ -1,9 +1,11 @@
 ﻿using BAL.Abstraction;
 using BAL.Services;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.DbModels;
+using System.Text.RegularExpressions;
 
 namespace API.Controllers
 {
@@ -19,6 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet("GetGroundDetails")]
+        [Authorize]
         public JsonResult GetGroundDetails()
         {
             try
@@ -32,6 +35,7 @@ namespace API.Controllers
         }
 
         [HttpGet("Ground_City")]
+        [Authorize]
         public JsonResult SearchByGroundCity(string City)
         {
             try
@@ -45,6 +49,7 @@ namespace API.Controllers
         }
 
         [HttpGet("GroundName")]
+        [Authorize]
         public JsonResult SearchByGroundName(string GroundName)
         {
             try
@@ -59,6 +64,7 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("AddGround")]
+        [Authorize(Policy = "Ground Manager")]
         public JsonResult AddGrounds(TblGround ground)
         {
             CrudStatus crudStatus = new CrudStatus();
@@ -76,6 +82,7 @@ namespace API.Controllers
         }
         
         [HttpPut("EditeGround")]
+        [Authorize(Policy = "Ground Manager")]
         public JsonResult EditGround(TblGround venu)
         {
             CrudStatus crudStatus = new CrudStatus();
@@ -102,6 +109,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteGroundDetails")]
+        [Authorize(Policy = "Ground Manager")]
         public JsonResult DeleteGroundDetails(TblGround ground)
         {
             CrudStatus crudStatus = new CrudStatus();
