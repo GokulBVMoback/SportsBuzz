@@ -5,6 +5,7 @@ using Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace BAL.Services
             _dbContext = dbContext;
         }
 
-        public List<GroundList> GetTeamMember()
+        public List<GroundList> GetGroundDetails()
         {
             List<GroundList> result = (from ground in _dbContext.TblGrounds
                                        join user in _dbContext.TblUsers on ground.UserId equals user.UserId
@@ -26,59 +27,64 @@ namespace BAL.Services
                                        orderby ground.GroundId
                                        select new GroundList
                                        {
-                                           GroundId= ground.GroundId,
-                                           FirstName= user.FirstName,
-                                           LastName= user.LastName,
-                                           CompanyName= ground.CompanyName,
-                                           Venue= ground.Venue,
-                                           City= ground.City,
-                                           SportType=sport.SportType,
-                                           CreatedDate= ground.CreatedDate,
-                                           UpdatedDate= ground.UpdatedDate,
-                                           Active= ground.Active
+                                           GroundId = ground.GroundId,
+                                           CompanyName = ground.CompanyName,
+                                           Venue = ground.Venue,
+                                           City = ground.City,
+                                           SportType = sport.SportType,
+                                           CreatedDate = ground.CreatedDate,
+                                           UpdatedDate = ground.UpdatedDate,
+                                           Active = ground.Active
                                        }).ToList();
             return result.ToList();
         }
 
-        public bool AddTeamMember(TblTeamMember Player)
+        public bool AddGrounds(TblGround ground)
         {
-            Player.PlayerFirstName = Player.PlayerFirstName;
-            Player.PlayerLastName = Player.PlayerLastName;
-            Player.Age = Player.Age;
-            Player.JerseyNo = Player.JerseyNo;
-            _dbContext.TblTeamMembers.Add(Player);
+            ground.CreatedDate = DateTime.Now;
+            ground.UpdatedDate = null;
+            ground.Active = true;
+            _dbContext.TblGrounds.Add(ground);
             _dbContext.SaveChanges();
             return true;
         }
 
-        public bool TeamMemberExtist(TblTeamMember Player)
+        public bool GroundChecking(TblGround grounds)
         {
-            TblTeamMember player = _dbContext.TblTeamMembers.Where(x => x.MemberId == Player.MemberId).FirstOrDefault()!;
-            if (player is null)
+            TblGround AlreadyExsistGround = _dbContext.TblGrounds.Where(x => x.GroundId == grounds.GroundId).FirstOrDefault()!;
+            if (AlreadyExsistGround!=null)
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
-        public bool EditTeamMember(TblTeamMember Player)
+        public bool EditGround(TblGround ground)
         {
-            TblTeamMember player = _dbContext.TblTeamMembers.Where(x => x.MemberId == Player.MemberId).FirstOrDefault()!;
-            player.PlayerFirstName = player.PlayerFirstName;
-            player.PlayerLastName = player.PlayerLastName;
-            player.Age = player.Age;
-            player.JerseyNo = player.JerseyNo;
-            _dbContext.Entry(player).State = EntityState.Modified;
+            TblGround ground1 = _dbContext.TblGrounds.Where(x => x.GroundId == ground.GroundId).FirstOrDefault()!;
+            ground1.CompanyName = ground.CompanyName;
+            ground1.Venue = ground.Venue;
+            ground1.UpdatedDate = DateTime.Now; 
+            _dbContext.Entry(ground1).State = EntityState.Modified;
             _dbContext.SaveChanges();
             return true;
         }
 
-        public bool DeleteTeamMember(TblTeamMember Player)
+        public bool DeleteGroundDetails(TblGround ground)
         {
-            TblTeamMember teamMember1 = _dbContext.TblTeamMembers.Where(x => x.MemberId == Player.MemberId).FirstOrDefault()!;
-            _dbContext.TblTeamMembers.Remove(teamMember1);
+            TblGround ground2 = _dbContext.TblGrounds.Where(x => x.GroundId== ground.GroundId).FirstOrDefault()!;
+            _dbContext.TblGrounds.Remove(ground2);
             _dbContext.SaveChanges();
             return true;
+        }
+        public List<GroundList> SearchByGroundCity(string City)
+        {
+            return GetGroundDetails().Where(x => x.City == City).ToList();
+        }
+
+        public GroundList SearchByGroundName(string Ground)
+        {
+            return GetGroundDetails().Where(x => x.Venue == Ground).FirstOrDefault()!;
         }
     }
 }
