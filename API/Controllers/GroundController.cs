@@ -1,6 +1,7 @@
 ﻿using BAL.Abstraction;
 using BAL.Services;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.DbModels;
@@ -9,6 +10,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "Ground Manager")]
     public class GroundController : BaseController
     {
         private readonly IGround _GroundService;
