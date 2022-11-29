@@ -23,6 +23,7 @@ public partial class DbSportsBuzzContext : DbContext
 
     public virtual DbSet<TblUserRole> TblUserRoles { get; set; }
 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TblGround>(entity =>
