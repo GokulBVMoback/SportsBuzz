@@ -6,14 +6,12 @@ namespace Entities.Models;
 
 public partial class DbSportsBuzzContext : DbContext
 {
-    public DbSportsBuzzContext()
-    {
-    }
-
     public DbSportsBuzzContext(DbContextOptions<DbSportsBuzzContext> options)
         : base(options)
     {
     }
+
+    public virtual DbSet<TblGround> TblGrounds { get; set; }
 
     public virtual DbSet<TblSportType> TblSportTypes { get; set; }
 
@@ -25,12 +23,42 @@ public partial class DbSportsBuzzContext : DbContext
 
     public virtual DbSet<TblUserRole> TblUserRoles { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server = 65.0.181.176;Database=db_SportsBuzz;User Id = admin;Password = Asdf1234*;TrustServerCertificate=True;Connection Timeout=300;command timeout=300;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TblGround>(entity =>
+        {
+            entity.HasKey(e => e.GroundId).HasName("PK__tbl_Grou__3B3A8E8032515E6E");
+
+            entity.ToTable("tbl_Ground");
+
+            entity.Property(e => e.City)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CompanyName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.Latitude)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Longitude)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.Venue)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.SportTypeNavigation).WithMany(p => p.TblGrounds)
+                .HasForeignKey(d => d.SportType)
+                .HasConstraintName("FK__tbl_Groun__Sport__4316F928");
+
+            entity.HasOne(d => d.User).WithMany(p => p.TblGrounds)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__tbl_Groun__UserI__440B1D61");
+        });
+
         modelBuilder.Entity<TblSportType>(entity =>
         {
             entity.HasKey(e => e.SportTypeId).HasName("PK__tbl_Spor__509BB1FFC75231C7");
