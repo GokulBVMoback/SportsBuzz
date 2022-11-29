@@ -10,7 +10,6 @@ namespace Models.DbModels
     public class GroundList:TblGround
     {
         public new string? SportType { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        
     }
 }

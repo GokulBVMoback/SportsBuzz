@@ -13,11 +13,13 @@ namespace API.Controllers
     {
         private readonly IGround _GroundService;
         private readonly DbSportsBuzzContext _dbcontext;
+
         public GroundController(DbSportsBuzzContext dbcontext, IGround GroundService) : base(dbcontext)
         {
             _GroundService = GroundService;
             _dbcontext = dbcontext;
         }
+
         [HttpGet("GetGroundDetails")]
         public JsonResult GetGroundDetails()
         {
@@ -74,6 +76,7 @@ namespace API.Controllers
                 return new JsonResult(ex.Message);
             }
         }
+        
         [HttpPut("EditeGround")]
         public JsonResult EditGround(TblGround venu)
         {

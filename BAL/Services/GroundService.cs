@@ -14,6 +14,7 @@ namespace BAL.Services
     public class GroundService:IGround
     {
         private readonly DbSportsBuzzContext _dbContext;
+
         public GroundService(DbSportsBuzzContext dbContext)
         {
             _dbContext = dbContext;
