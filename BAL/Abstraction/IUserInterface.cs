@@ -14,7 +14,8 @@ namespace BAL.Abstraction
         bool CheckExtistUser(Registration user);
         bool CheckPassword(Registration user);
         bool Registration(Registration user);
-        bool LogIn(TblUser login);
+        string LogIn(TblUser login);
         bool ForgetPassword(Registration changePassword);
+        string GenerateToken(TblUser user);
     }
 }

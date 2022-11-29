@@ -1,6 +1,7 @@
 ﻿using BAL.Abstraction;
 using BAL.Services;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -20,6 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public JsonResult UserDetails()
         {
             try
@@ -75,16 +77,16 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _userService.LogIn(logIn);
-                if(result==true)
+                string result = _userService.LogIn(logIn);
+                if(result!=null)
                 {
-                    crudStatus.Status = true;
-                    crudStatus.Message = "Login successfully";
+                    crudStatus.Status=true;
+                    crudStatus.Message=result;
                 }
                 else
-                {
+                { 
                     crudStatus.Status = false;
-                    crudStatus.Message = "Email and Password doesnt match";
+                    crudStatus.Message = "Email and Password does not match";
                 }
                 return new JsonResult(crudStatus);
             }
