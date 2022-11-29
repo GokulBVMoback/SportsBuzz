@@ -65,7 +65,7 @@ namespace BALTests
             //Arrange
             var teamName = new TblTeam()
             {
-                TeamName = "Royal"
+                TeamName = "Royalk"
             };
             //Act
             var result =_teamService.SearchByTeamName(teamName.TeamName);
@@ -79,12 +79,25 @@ namespace BALTests
             //Arrange
             var teamExtist = new TblTeam()
             {
-                TeamName="Royal"
+                TeamName="Royalk"
             };
             //Act
             var result =_teamService.CheckExtistTeam(teamExtist);
             //Assert
-            Assert.True(teamExtist.TeamId.Equals(teamExtist.TeamId));   
+            Assert.True(result);   
+        }
+        [Fact]
+        public void CheckExtist_Newteam()
+        {
+            //Arrange
+            var teamExtist = new TblTeam()
+            {
+                TeamName = "Royalkk"
+            };
+            //Act
+            var result = _teamService.CheckExtistTeam(teamExtist);
+            //Assert
+            Assert.False(result);
         }
 
         [Fact]  
@@ -98,7 +111,18 @@ namespace BALTests
             //Act
             var result =_teamService.CheckExtistUserId(teamExtistUser);
             //Assert
-            Assert.True(teamExtistUser.UserId.Equals(teamExtistUser.UserId));                          
+            Assert.True(result);                          
+        }
+
+        [Fact]
+        public void CheckExtist_newuserId()
+        {
+            var teamExtistuser = new TblTeam()
+            {
+                UserId = 5,
+            };
+            var result = _teamService.CheckExtistUserId(teamExtistuser);
+            Assert.False(result);  
         }
 
         [Fact]
@@ -117,7 +141,7 @@ namespace BALTests
             //Act
             var result = _teamService.TeamRegistration(teamRegister);
             //Assert
-            Assert.True(teamRegister.Equals(teamRegister));            
+            Assert.True(result);            
         }
 
         [Fact]
@@ -131,7 +155,7 @@ namespace BALTests
             //Act
             var result = _teamService.EditTeam(teamEdit);
             //Assert
-            Assert.False(result.Equals(teamEdit.TeamId));            
+            Assert.True(result);            
         }
 
         [Fact]
@@ -145,7 +169,7 @@ namespace BALTests
             //Act
             var result = _teamService.DeleteTeam(deleteteam);
             //Assert
-            Assert.False(result.Equals(deleteteam));           
+            Assert.True(result);           
         }
     }
 }

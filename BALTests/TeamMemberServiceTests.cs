@@ -1,5 +1,6 @@
 ﻿using BAL.Services;
 using Entities.Models;
+using EnvDTE;
 using Microsoft.EntityFrameworkCore;
 using Models.DbModels;
 using System;
@@ -45,9 +46,9 @@ namespace BALTests
                 TeamId = 1,
             };
             //Act
-            var result = teamMemberService.Equals(AddMember);
+            var result = teamMemberService.AddTeamMember(AddMember);
             //Assert
-            Assert.True(AddMember.Equals(AddMember));
+            Assert.True(result);
         }
 
         [Fact]
@@ -59,9 +60,23 @@ namespace BALTests
                 MemberId = 1,
             };
             //Act
-            var result = teamMemberService.Equals(teamMemberExtist);
+            var result = teamMemberService.TeamMemberExtist(teamMemberExtist);
             //Assert
-            Assert.True(teamMemberExtist.MemberId.Equals(teamMemberExtist.MemberId));
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void TeamMember_newExtits()
+        {
+            //Arrange
+            var teamMemberExtist = new TblTeamMember()
+            {
+                MemberId = 5,
+            };
+            //Act
+            var result =teamMemberService.TeamMemberExtist(teamMemberExtist);
+            //Assert
+            Assert.False(result);
         }
 
         [Fact]
@@ -73,9 +88,9 @@ namespace BALTests
                 MemberId = 1,
             };
             //Act
-            var result = teamMemberService.Equals(EditTeamMember);
+            var result = teamMemberService.EditTeamMember(EditTeamMember);
             //Assert
-            Assert.False(result.Equals(EditTeamMember.MemberId));
+            Assert.True(result);
         }
 
         [Fact]
@@ -87,9 +102,9 @@ namespace BALTests
                 MemberId = 1,
             };
               //Act
-            var result = teamMemberService.Equals(DeleteTeamMember);
+            var result = teamMemberService.DeleteTeamMember(DeleteTeamMember);
             //Assert
-            Assert.False(result.Equals(DeleteTeamMember));
+            Assert.True(result);
         }
     }    
 }
