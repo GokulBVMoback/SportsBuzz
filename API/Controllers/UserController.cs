@@ -1,6 +1,7 @@
 ﻿using BAL.Abstraction;
 using BAL.Services;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -20,6 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public JsonResult UserDetails()
         {
             try
