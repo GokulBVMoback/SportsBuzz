@@ -86,6 +86,7 @@ namespace BALTests
             //Assert
             Assert.True(result);   
         }
+
         [Fact]
         public void CheckExtist_Newteam()
         {
@@ -117,11 +118,14 @@ namespace BALTests
         [Fact]
         public void CheckExtist_newuserId()
         {
+            //Arrange
             var teamExtistuser = new TblTeam()
             {
                 UserId = 5,
             };
+            //Act
             var result = _teamService.CheckExtistUserId(teamExtistuser);
+            //Assert
             Assert.False(result);  
         }
 
@@ -150,7 +154,7 @@ namespace BALTests
             //Arrange
             var teamEdit = new TblTeam()
             {
-                TeamId=1,   
+                TeamId=1,
             };
             //Act
             var result = _teamService.EditTeam(teamEdit);
