@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.DbModels;
+using System.Text.RegularExpressions;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "Ground Manager")]
     public class GroundController : BaseController
     {
         private readonly IGround _GroundService;
@@ -19,7 +19,7 @@ namespace API.Controllers
         {
             _GroundService = GroundService;
         }
-
+        [Authorize]
         [HttpGet("GetGroundDetails")]
         public JsonResult GetGroundDetails()
         {
@@ -32,7 +32,7 @@ namespace API.Controllers
                 return new JsonResult(ex);
             }
         }
-
+        [Authorize]
         [HttpGet("Ground_City")]
         public JsonResult SearchByGroundCity(string City)
         {
@@ -45,7 +45,7 @@ namespace API.Controllers
                 return new JsonResult(ex);
             }
         }
-
+        [Authorize]
         [HttpGet("GroundName")]
         public JsonResult SearchByGroundName(string GroundName)
         {
@@ -58,7 +58,7 @@ namespace API.Controllers
                 return new JsonResult(ex);
             }
         }
-
+        [Authorize(Policy = "Ground Manager")]
         [HttpPost]
         [Route("AddGround")]
         public JsonResult AddGrounds(TblGround ground)
@@ -76,7 +76,7 @@ namespace API.Controllers
                 return new JsonResult(ex.Message);
             }
         }
-        
+        [Authorize(Policy = "Ground Manager")]
         [HttpPut("EditeGround")]
         public JsonResult EditGround(TblGround venu)
         {
@@ -102,7 +102,7 @@ namespace API.Controllers
                 return new JsonResult(ex);
             }
         }
-
+        [Authorize(Policy = "Ground Manager")]
         [HttpDelete("DeleteGroundDetails")]
         public JsonResult DeleteGroundDetails(TblGround ground)
         {
