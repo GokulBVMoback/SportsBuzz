@@ -1,11 +1,18 @@
 using API.Controllers;
 using BAL.Abstraction;
 using BAL.Services;
+using Castle.Components.DictionaryAdapter.Xml;
 using Entities.Models;
+using EnvDTE;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Models.DbModels;
 using Moq;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace BALTest.Services
 {
@@ -23,12 +30,19 @@ namespace BALTest.Services
         private readonly DataBaseFixture _fixture;
         private readonly UserService userService;
         private readonly Mock<IEncrypt> encrypt;
+        private readonly IConfiguration configuration;
 
         public UserServiceTests(DataBaseFixture fixture)
         {
             _fixture = fixture;
             encrypt = new Mock<IEncrypt>();
-            userService = new UserService(_fixture.context, encrypt.Object);
+            configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(@"appsettings.json",false,false)
+                .AddEnvironmentVariables()
+                .Build();
+            userService = new UserService(_fixture.context, encrypt.Object, configuration);
+
         }
 
         [Fact]
@@ -115,14 +129,14 @@ namespace BALTest.Services
         public void LogIn_with_correct_mail_password()
         {
             //Arrange
-            var user = new TblUser() { Email = "bvgokulgok@gmail.com", Password = "1234" };
-            encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
+            var user = new TblUser() { Email = "bvgokulgok@gmail.com", Password = "1234", UserRole=1 };
+            encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);           
 
             //Act
-            var result = userService.LogIn(user);
+            string result = userService.LogIn(user);
 
             //Assert
-            Assert.True(result);
+            Assert.NotNull(result);
         }
 
         [Fact]
@@ -136,7 +150,7 @@ namespace BALTest.Services
             var result = userService.LogIn(user);
 
             //Assert
-            Assert.False(result);
+            Assert.Equal(null,result);
         }
 
         [Fact]
@@ -150,7 +164,7 @@ namespace BALTest.Services
             var result = userService.LogIn(user);
             
             //Assert
-            Assert.False(result);
+            Assert.Equal(null,result);
         }
 
         [Fact]
