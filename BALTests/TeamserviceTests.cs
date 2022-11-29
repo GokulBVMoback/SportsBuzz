@@ -14,30 +14,32 @@ using System.Numerics;
 using EnvDTE;
 using Xunit.Abstractions;
 
-//using Service.services;
-
 namespace BALTests
 {
-    public class TeamserviceTests : IClassFixture<DataFixture>
+    [CollectionDefinition("Team Service")]
+    public class DatabaseTests : ICollectionFixture<DataFixture>
     {
-        private readonly DbContext _dbContext;
+
+    }
+
+    [Collection("Team Service")]
+    public class TeamserviceTests
+    { 
         private readonly TeamService _teamService;
         DataFixture _fixture;
-        TeamService teamService;
 
         public TeamserviceTests(DataFixture fixture)
         {
-            _fixture = fixture;          
-            teamService = new TeamService(_fixture.context);
+            _fixture = fixture;
+            _teamService = new TeamService(_fixture.context);
         }
    
         [Fact]
         public void GetAll_Team()
         {
             //Arrange
-
             //Act
-            var result = teamService.GetTeam();  
+            var result = _teamService.GetTeam();  
             //Assert
             var items = Assert.IsType<List<TeamList>>(result);
             Assert.Equal(2, items.Count);           
@@ -52,7 +54,7 @@ namespace BALTests
                 City = "Benguluru"
             };
             //Act
-            var result = teamService.SearchByCity(city.City);
+            var result = _teamService.SearchByCity(city.City);
             //Assert
             Assert.True(city.City.Equals(city.City));
         }
@@ -66,7 +68,7 @@ namespace BALTests
                 TeamName = "Royal"
             };
             //Act
-            var result =teamService.SearchByTeamName(teamName.TeamName);
+            var result =_teamService.SearchByTeamName(teamName.TeamName);
             //Assert
             Assert.True(teamName.TeamName.Equals(teamName.TeamName));            
         }
@@ -80,7 +82,7 @@ namespace BALTests
                 TeamName="Royal"
             };
             //Act
-            var result =teamService.CheckExtistTeam(teamExtist);
+            var result =_teamService.CheckExtistTeam(teamExtist);
             //Assert
             Assert.True(teamExtist.TeamId.Equals(teamExtist.TeamId));   
         }
@@ -94,7 +96,7 @@ namespace BALTests
                 UserId=1
             };
             //Act
-            var result =teamService.CheckExtistUserId(teamExtistUser);
+            var result =_teamService.CheckExtistUserId(teamExtistUser);
             //Assert
             Assert.True(teamExtistUser.UserId.Equals(teamExtistUser.UserId));                          
         }
@@ -113,7 +115,7 @@ namespace BALTests
                 UserId= 1              
             };
             //Act
-            var result = teamService.TeamRegistration(teamRegister);
+            var result = _teamService.TeamRegistration(teamRegister);
             //Assert
             Assert.True(teamRegister.Equals(teamRegister));            
         }
@@ -127,7 +129,7 @@ namespace BALTests
                 TeamId=1,   
             };
             //Act
-            var result = teamService.EditTeam(teamEdit);
+            var result = _teamService.EditTeam(teamEdit);
             //Assert
             Assert.False(result.Equals(teamEdit.TeamId));            
         }
@@ -141,7 +143,7 @@ namespace BALTests
                 TeamId = 1,
             };
             //Act
-            var result = teamService.DeleteTeam(deleteteam);
+            var result = _teamService.DeleteTeam(deleteteam);
             //Assert
             Assert.False(result.Equals(deleteteam));           
         }

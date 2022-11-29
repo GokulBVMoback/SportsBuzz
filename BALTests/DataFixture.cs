@@ -55,6 +55,13 @@ namespace BALTests
             };
             context.TblTeams.AddRange(teams);
             context.SaveChanges();
+
+            var teamMembers = new List<TblTeamMember>()
+            {
+                new TblTeamMember(){MemberId=1,PlayerFirstName="Sachin",PlayerLastName="Tendulkar",Age=23,JerseyNo=2,State="Karnataka",TeamId=1}
+            };
+            context.TblTeamMembers.AddRange(teamMembers);
+            context.SaveChanges();  
         }
 
         public void Dispose()
