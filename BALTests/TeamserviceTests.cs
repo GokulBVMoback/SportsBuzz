@@ -17,7 +17,7 @@ using Xunit.Abstractions;
 namespace BALTests
 {
     [CollectionDefinition("Team Service")]
-    public class DatabaseTests : ICollectionFixture<DataFixture>
+    public class DataBaseTests : ICollectionFixture<DataBaseFixture>
     {
 
     }
@@ -26,9 +26,9 @@ namespace BALTests
     public class TeamserviceTests
     { 
         private readonly TeamService _teamService;
-        DataFixture _fixture;
+        DataBaseFixture _fixture;
 
-        public TeamserviceTests(DataFixture fixture)
+        public TeamserviceTests(DataBaseFixture fixture)
         {
             _fixture = fixture;
             _teamService = new TeamService(_fixture.context);

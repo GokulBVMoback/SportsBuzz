@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace BALTests
 {
-    public class DataFixture : IDisposable
+    public class DataBaseFixture : IDisposable
     {
         private static DbContextOptions<DbSportsBuzzContext> dbContextOptions = new DbContextOptionsBuilder<DbSportsBuzzContext>()
          .UseInMemoryDatabase(databaseName: "db_SportsBuzz")
             .Options;
         public DbSportsBuzzContext context;
 
-        public DataFixture()
+        public DataBaseFixture()
         {
             context = new DbSportsBuzzContext(dbContextOptions);
             context.Database.EnsureCreated();

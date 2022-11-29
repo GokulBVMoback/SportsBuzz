@@ -14,9 +14,9 @@ namespace BALTests
     public class TeamMemberServiceTests
     {
         private readonly TeamMemberService teamMemberService;
-        DataFixture _fixture;
+        DataBaseFixture _fixture;
 
-        public TeamMemberServiceTests(DataFixture fixture)
+        public TeamMemberServiceTests(DataBaseFixture fixture)
         {
             _fixture = fixture;
             teamMemberService = new TeamMemberService(_fixture.context);
