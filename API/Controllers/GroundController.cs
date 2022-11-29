@@ -12,12 +12,10 @@ namespace API.Controllers
     public class GroundController : BaseController
     {
         private readonly IGround _GroundService;
-        private readonly DbSportsBuzzContext _dbcontext;
 
-        public GroundController(DbSportsBuzzContext dbcontext, IGround GroundService) : base(dbcontext)
+        public GroundController(IGround GroundService) : base(dbcontext)
         {
             _GroundService = GroundService;
-            _dbcontext = dbcontext;
         }
 
         [HttpGet("GetGroundDetails")]
