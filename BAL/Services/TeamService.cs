@@ -49,7 +49,7 @@ namespace BAL.Services
 
         public TeamList SearchByTeamName(string Team)
         {
-            return GetTeam().Where(x=>x.TeamName.ToLower()==Team.ToLower()).FirstOrDefault()!;
+            return GetTeam().Where(x=>x.TeamName!.ToLower()==Team.ToLower()).FirstOrDefault()!;
         }
 
         public bool CheckExtistTeam(TblTeam team)
