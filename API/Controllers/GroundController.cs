@@ -48,7 +48,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("GroundName")]
+        [HttpGet("GroundName")]
         [Authorize]
         public JsonResult SearchByGroundName(string GroundName)
         {
