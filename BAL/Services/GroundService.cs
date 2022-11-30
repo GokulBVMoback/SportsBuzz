@@ -80,12 +80,12 @@ namespace BAL.Services
         }
         public List<GroundList> SearchByGroundCity(string City)
         {
-            return GetGroundDetails().Where(x => x.City == City).ToList();
+            return GetGroundDetails().Where(x => x.City.ToLower() == City.ToLower()).ToList();
         }
 
         public GroundList SearchByGroundName(string Ground)
         {
-            return GetGroundDetails().Where(x => x.Venue == Ground).FirstOrDefault()!;
+            return GetGroundDetails().Where(x => x.Venue.ToLower() == Ground.ToLower()).FirstOrDefault()!;
         }
     }
 }

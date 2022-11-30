@@ -44,12 +44,12 @@ namespace BAL.Services
 
         public List<TeamList> SearchByCity(string City)
         {
-            return GetTeam().Where(x => x.City == City).ToList();
+            return GetTeam().Where(x => x.City.ToLower() == City.ToLower()).ToList();
         }
 
         public TeamList SearchByTeamName(string Team)
         {
-            return GetTeam().Where(x=>x.TeamName==Team).FirstOrDefault()!;
+            return GetTeam().Where(x=>x.TeamName.ToLower()==Team.ToLower()).FirstOrDefault()!;
         }
 
         public bool CheckExtistTeam(TblTeam team)
