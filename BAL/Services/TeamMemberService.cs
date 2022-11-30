@@ -48,7 +48,7 @@ namespace BAL.Services
             return true;
         }
 
-        public bool TeamMemberExtist(TblTeamMember Player)
+        public bool CheckExtistTeamMember(TblTeamMember Player)
         {
             TblTeamMember player = _dbContext.TblTeamMembers.Where(x => x.MemberId == Player.MemberId).FirstOrDefault()!;
             if (player is null)

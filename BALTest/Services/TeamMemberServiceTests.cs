@@ -38,7 +38,6 @@ namespace BALTests
             //Arrange
             var AddMember = new TblTeamMember()
             {
-                MemberId = 1,
                 PlayerFirstName = "Sachin",
                 PlayerLastName = "Tendulkar",
                 Age = 23,
@@ -55,7 +54,7 @@ namespace BALTests
         }
 
         [Fact]
-        public void TeamMember_Extist()
+        public void CheckExtistTeamMember()
         {
             //Arrange
             var teamMemberExtist = new TblTeamMember()
@@ -64,14 +63,14 @@ namespace BALTests
             };
 
             //Act
-            var result = teamMemberService.TeamMemberExtist(teamMemberExtist);
+            var result = teamMemberService.CheckExtistTeamMember(teamMemberExtist);
 
             //Assert
             Assert.True(result);
         }
 
         [Fact]
-        public void TeamMember_newExtits()
+        public void CheckExtistNewTeamMember()
         {
             //Arrange
             var teamMemberExtist = new TblTeamMember()
@@ -80,7 +79,7 @@ namespace BALTests
             };
 
             //Act
-            var result =teamMemberService.TeamMemberExtist(teamMemberExtist);
+            var result =teamMemberService.CheckExtistTeamMember(teamMemberExtist);
 
             //Assert
             Assert.False(result);
