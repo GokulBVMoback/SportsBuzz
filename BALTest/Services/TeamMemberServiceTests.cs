@@ -46,8 +46,10 @@ namespace BALTests
                 State = "Karnataka",
                 TeamId = 1,
             };
+
             //Act
             var result = teamMemberService.AddTeamMember(AddMember);
+
             //Assert
             Assert.True(result);
         }
@@ -60,8 +62,10 @@ namespace BALTests
             {
                 MemberId = 1,
             };
+
             //Act
             var result = teamMemberService.TeamMemberExtist(teamMemberExtist);
+
             //Assert
             Assert.True(result);
         }
@@ -74,8 +78,10 @@ namespace BALTests
             {
                 MemberId = 5,
             };
+
             //Act
             var result =teamMemberService.TeamMemberExtist(teamMemberExtist);
+
             //Assert
             Assert.False(result);
         }
@@ -88,8 +94,10 @@ namespace BALTests
             {
                 MemberId = 1,
             };
+
             //Act
             var result = teamMemberService.EditTeamMember(EditTeamMember);
+
             //Assert
             Assert.True(result);
         }
@@ -102,8 +110,10 @@ namespace BALTests
             {
                 MemberId = 1,
             };
+
               //Act
             var result = teamMemberService.DeleteTeamMember(DeleteTeamMember);
+
             //Assert
             Assert.True(result);
         }

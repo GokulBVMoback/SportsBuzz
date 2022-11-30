@@ -34,8 +34,10 @@ namespace BALTests
         public void GetAll_Team()
         {
             //Arrange
+
             //Act
-            var result = _teamService.GetTeam();  
+            var result = _teamService.GetTeam();
+
             //Assert
             var items = Assert.IsType<List<TeamList>>(result);
             Assert.Equal(3, items.Count);           
@@ -49,8 +51,10 @@ namespace BALTests
             {
                 City = "Chennai"
             };
+
             //Act
             var result = _teamService.SearchByCity(city.City);
+
             //Assert
             Assert.Equal(1,result.Count());
         }
@@ -63,8 +67,10 @@ namespace BALTests
             {
                 TeamName = "Royalk"
             };
+
             //Act
             var result =_teamService.SearchByTeamName(teamName.TeamName);
+
             //Assert
             Assert.Equal(teamName.TeamName,result.TeamName);            
         }
@@ -77,8 +83,10 @@ namespace BALTests
             {
                 TeamName="Royalk"
             };
+
             //Act
             var result =_teamService.CheckExtistTeam(teamExtist);
+
             //Assert
             Assert.True(result);   
         }
@@ -91,8 +99,10 @@ namespace BALTests
             {
                 TeamName = "Royalkk"
             };
+
             //Act
             var result = _teamService.CheckExtistTeam(teamExtist);
+
             //Assert
             Assert.False(result);
         }
@@ -105,8 +115,10 @@ namespace BALTests
             {
                 UserId=1
             };
+
             //Act
             var result =_teamService.CheckExtistUserId(teamExtistUser);
+
             //Assert
             Assert.True(result);                          
         }
@@ -119,8 +131,10 @@ namespace BALTests
             {
                 UserId = 5,
             };
+
             //Act
             var result = _teamService.CheckExtistUserId(teamExtistuser);
+
             //Assert
             Assert.False(result);  
         }
@@ -138,8 +152,10 @@ namespace BALTests
                 PhoneNum = 83569879,
                 UserId= 3              
             };
+
             //Act
             var result = _teamService.TeamRegistration(teamRegister);
+
             //Assert
             Assert.True(result);            
         }
@@ -152,8 +168,10 @@ namespace BALTests
             {
                 TeamId = 3
             };
+
             //Act
             var result = _teamService.EditTeam(teamEdit);
+
             //Assert
             Assert.True(result);            
         }
@@ -166,8 +184,10 @@ namespace BALTests
             {
                 TeamId = 2,
             };
+
             //Act
             var result = _teamService.DeleteTeam(deleteteam);
+
             //Assert
             Assert.True(result);           
         }
