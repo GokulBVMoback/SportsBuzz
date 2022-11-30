@@ -39,26 +39,35 @@ namespace BALTest.Services
             {
                 new TblUser(){ UserId=1, FirstName="Gokul", LastName="B V", Email="bvgokulgok@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=1, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true },
                 new TblUser(){ UserId=2, FirstName="Gokul", LastName="B V", Email="bvgokul@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=2, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true },
-                new TblUser(){ UserId=3, FirstName="Gokul", LastName="B V", Email="bvgok@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=1, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true }
+                new TblUser(){ UserId=3, FirstName="Gokul", LastName="B V", Email="bvgok@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=1, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true },
+                new TblUser(){ UserId=4, FirstName="Gokul", LastName="B V", Email="bv@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=1, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true }
             };
             context.TblUsers.AddRange(user);
             context.SaveChanges();
 
-            var sport = new List<TblSportType>()
+            var sports = new List<TblSportType>()
             {
-                new TblSportType(){ SportTypeId=1, SportType="Badmindon"  },
-                new TblSportType(){ SportTypeId=2, SportType="Tennis" }
+                new TblSportType(){SportTypeId=1,SportType="Badminton"},
+                new TblSportType(){SportTypeId=2,SportType="Tennis"}
             };
-            context.TblSportTypes.AddRange(sport);
+            context.TblSportTypes.AddRange(sports);
             context.SaveChanges();
 
-            var team = new List<TblTeam>()
+            var teams = new List<TblTeam>()
             {
-                new TblTeam(){ TeamId=1, UserId=1, TeamName="MKP Stars", City="Nagercoil", Email="bvgokulgok@gmail.com", PhoneNum=8834834383,  SportType=1, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true },
-                //new TblTeam(){ UserId=2, FirstName="Gokul", LastName="B V", Email="bvgokul@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=2, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true },
-                //new TblTeam(){ UserId=3, FirstName="Gokul", LastName="B V", Email="bvgok@gmail.com", PhoneNum=8834834383, Password="1234", UserRole=1, CreatedDate=DateTime.Now, UpdatedDate=null, Active=true }
+                new TblTeam(){TeamId=1, TeamName="Royalk",City="Bengaluru",PhoneNum=8698789,Email="royalk@gmail.com", SportType=1,UserId=1,CreatedDate=null,UpdatedDate=null,Active=true},
+                new TblTeam(){TeamId=2, TeamName="chennaisuperking",City="Chennai",PhoneNum=73582465,Email="Chennai@gmail.com",SportType=1,UserId = 3,CreatedDate=null,UpdatedDate=null,Active=true},
+                new TblTeam(){TeamId=3, TeamName="KKR",City="Kolkata",PhoneNum=73582465,Email="kolkata@gmail.com",SportType=1,UserId = 4,CreatedDate=null,UpdatedDate=null,Active=true}
+
             };
-            context.TblTeams.AddRange(team);
+            context.TblTeams.AddRange(teams);
+            context.SaveChanges();
+
+            var teamMembers = new List<TblTeamMember>()
+            {
+                new TblTeamMember(){MemberId=1,PlayerFirstName="Sachin",PlayerLastName="Tendulkar",Age=23,JerseyNo=2,State="Karnataka",TeamId=1}
+            };
+            context.TblTeamMembers.AddRange(teamMembers);
             context.SaveChanges();
         }
 
