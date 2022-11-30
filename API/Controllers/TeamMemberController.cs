@@ -59,7 +59,7 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _TeamMemberService.TeamMemberExtist(Player);
+                bool result = _TeamMemberService.CheckExtistTeamMember(Player);
                 if (result == true)
                 {
                     _TeamMemberService.EditTeamMember(Player);
@@ -86,7 +86,7 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _TeamMemberService.TeamMemberExtist(Player);
+                bool result = _TeamMemberService.CheckExtistTeamMember(Player);
                 if (result == true)
                 {
                     _TeamMemberService.DeleteTeamMember(Player);
