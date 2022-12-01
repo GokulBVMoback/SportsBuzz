@@ -69,8 +69,17 @@ namespace BALTest.Services
             };
             context.TblTeamMembers.AddRange(teamMembers);
             context.SaveChanges();
-        }
 
+            var Ground = new List<TblGround>()
+            {
+                new TblGround(){GroundId=1, CompanyName="india",Venue="chinaswami",City="chennai",Latitude="12345",Longitude="1234", SportType=1,UserId=2,CreatedDate=null,UpdatedDate=null,Active=true},
+                new TblGround(){GroundId=2, CompanyName="Dhinka",Venue="wankhere",City="Mumbai",Latitude="4567",Longitude="98765", SportType=2,UserId=2,CreatedDate=null,UpdatedDate=null,Active=true},
+                new TblGround(){GroundId=3, CompanyName="bengal",Venue="hula",City="Kolkata",Latitude="6789",Longitude="69587", SportType=1,UserId=2,CreatedDate=null,UpdatedDate=null,Active=true},
+                new TblGround(){GroundId=4, CompanyName="Brila",Venue="Modi",City="Gujarat",Latitude="4567",Longitude="98765", SportType=2,UserId=2,CreatedDate=null,UpdatedDate=null,Active=true}
+            };
+            context.TblGrounds.AddRange(Ground);
+            context.SaveChanges();
+        }
         public void Dispose()
         {
             context.Database.EnsureDeleted();
