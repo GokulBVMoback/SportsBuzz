@@ -34,13 +34,14 @@ namespace BALTests
         public void GetAll_Team()
         {
             //Arrange
+            var expect = _fixture.context.TblTeams.Count();
 
             //Act
             var result = _teamService.GetTeam();
 
             //Assert
             var items = Assert.IsType<List<TeamList>>(result);
-            Assert.Equal(3, items.Count);           
+            Assert.Equal(expect, items.Count);           
         } 
 
         [Fact]
@@ -56,7 +57,8 @@ namespace BALTests
             var result = _teamService.SearchByCity(city.City);
 
             //Assert
-            Assert.Equal(1,result.Count());
+            var items = Assert.IsType<List<TeamList>>(result);
+            Assert.Equal(1, items.Count());
         }
 
         [Fact]
@@ -72,7 +74,8 @@ namespace BALTests
             var result =_teamService.SearchByTeamName(teamName.TeamName);
 
             //Assert
-            Assert.Equal(teamName.TeamName,result.TeamName);            
+            var items = Assert.IsType<TeamList>(result);
+            Assert.Equal(teamName.TeamName, items.TeamName);
         }
 
         [Fact]  
@@ -140,7 +143,7 @@ namespace BALTests
         }
 
         [Fact]
-        public void TeamRegistration_not()
+        public void TeamRegistration()
         {
             //Arrange
             var teamRegister = new TblTeam()
