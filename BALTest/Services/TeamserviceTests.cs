@@ -34,17 +34,18 @@ namespace BALTests
         public void GetAll_Team()
         {
             //Arrange
+            var expect = _fixture.context.TblTeams.Count();
 
             //Act
             var result = _teamService.GetTeam();
 
             //Assert
             var items = Assert.IsType<List<TeamList>>(result);
-            Assert.Equal(3, items.Count);           
+            Assert.Equal(expect, items.Count);           
         } 
 
         [Fact]
-        public void Search_By_City()
+        public void Team_serachByCity()
         {     
             //Arrange
             var city = new TblTeam()
@@ -56,11 +57,12 @@ namespace BALTests
             var result = _teamService.SearchByCity(city.City);
 
             //Assert
-            Assert.Equal(1,result.Count());
+            var items = Assert.IsType<List<TeamList>>(result);
+            Assert.Equal(1, items.Count());
         }
 
         [Fact]
-        public void Search_By_TeamName()
+        public void SearchBy_TeamName()
         {
             //Arrange
             var teamName = new TblTeam()
@@ -72,11 +74,12 @@ namespace BALTests
             var result =_teamService.SearchByTeamName(teamName.TeamName);
 
             //Assert
-            Assert.Equal(teamName.TeamName,result.TeamName);            
+            var items = Assert.IsType<TeamList>(result);
+            Assert.Equal(teamName.TeamName, items.TeamName);
         }
 
         [Fact]  
-        public void CheckExtistTeam_Extist_Team()
+        public void CheckExtist_team()
         {
             //Arrange
             var teamExtist = new TblTeam()
@@ -92,7 +95,7 @@ namespace BALTests
         }
 
         [Fact]
-        public void CheckExtistTeam_New_Team()
+        public void CheckExtist_Newteam()
         {
             //Arrange
             var teamExtist = new TblTeam()
@@ -108,7 +111,7 @@ namespace BALTests
         }
 
         [Fact]  
-        public void CheckExtist_UserId_Already_Extist()
+        public void CheckExtist_userId()
         {
             //Arrange
             var teamExtistUser = new TblTeam()
@@ -124,7 +127,7 @@ namespace BALTests
         }
 
         [Fact]
-        public void CheckExtist_UserId_Already_New()
+        public void CheckExtist_newuserId()
         {
             //Arrange
             var teamExtistuser = new TblTeam()
@@ -140,7 +143,7 @@ namespace BALTests
         }
 
         [Fact]
-        public void Check_TeamRegistration()
+        public void TeamRegistration()
         {
             //Arrange
             var teamRegister = new TblTeam()
