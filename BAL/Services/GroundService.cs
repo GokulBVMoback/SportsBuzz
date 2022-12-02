@@ -80,5 +80,22 @@ namespace BAL.Services
             _dbContext.SaveChanges();
             return true;
         }
+
+        public bool ChangingActiveStatus(int groundId)
+        {
+            TblGround ground = _dbContext.TblGrounds.Where(x => x.GroundId == groundId).FirstOrDefault()!;
+            if (ground.Active == true)
+            {
+                ground.Active = false;
+            }
+            else
+            {
+                ground!.Active = true;
+            }
+            ground.UpdatedDate = DateTime.Now;
+            _dbContext.Entry(ground).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+            return true;
+        }
     }
 }

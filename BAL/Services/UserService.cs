@@ -119,5 +119,22 @@ namespace BAL.Services
             _dbContext.SaveChanges();
             return true;
         }
+
+        public bool ChangingActiveStatus(int userId)
+        {
+            TblUser user = _dbContext.TblUsers.Where(x => x.UserId == userId).FirstOrDefault()!;
+            if(user.Active==true)
+            {
+                user.Active = false;
+            }
+            else
+            {
+                user!.Active = true;
+            }
+            user.UpdatedDate = DateTime.Now;
+            _dbContext.Entry(user).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+            return true;
+        }
     }
 } 

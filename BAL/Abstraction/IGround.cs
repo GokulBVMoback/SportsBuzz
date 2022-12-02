@@ -16,6 +16,7 @@ namespace BAL.Abstraction
         bool AddGrounds(TblGround ground);
         bool GroundChecking(TblGround grounds);
         bool EditGround(TblGround ground);
+        bool ChangingActiveStatus(int groundID);
 
     }
 }

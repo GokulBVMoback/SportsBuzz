@@ -91,5 +91,22 @@ namespace BAL.Services
             _dbContext.SaveChanges();
             return true;
         }
+
+        public bool ChangingActiveStatus(int teamID)
+        {
+            TblTeam team = _dbContext.TblTeams.Where(x => x.TeamId == teamID).FirstOrDefault()!;
+            if (team.Active == true)
+            {
+                team.Active = false;
+            }
+            else
+            {
+                team!.Active = true;
+            }
+            team.UpdatedDate = DateTime.Now;
+            _dbContext.Entry(team).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+            return true;
+        }
     }
 }
