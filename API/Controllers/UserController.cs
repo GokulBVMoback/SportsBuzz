@@ -130,5 +130,22 @@ namespace API.Controllers
                 return new JsonResult(ex.Message);
             }
         }
+
+        [HttpPut("Changing_Active_Status")]
+        public JsonResult ChangingActiveStatus(int userId)
+        {
+            CrudStatus crudStatus = new CrudStatus();
+            try
+            {
+                bool result = _userService.ChangingActiveStatus(userId);
+                crudStatus.Status = true;
+                crudStatus.Message = "Active status changed successfully";
+                return new JsonResult(crudStatus);
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex.Message);
+            }
+        }
     }
 }

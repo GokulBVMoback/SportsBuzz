@@ -122,29 +122,20 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete]
-        public JsonResult DeleteTeam(TblTeam team)
+        [HttpPut("Changing_Active_Status")]
+        public JsonResult ChangingActiveStatus(int teamID)
         {
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _teamService.CheckExtistTeam(team);
-                if (result == true)
-                {
-                    _teamService.DeleteTeam(team);
-                    crudStatus.Status = true;
-                    crudStatus.Message = "Team deleted successfully";
-                }
-                else
-                {
-                    crudStatus.Status = false;
-                    crudStatus.Message = "Team not extist";
-                }
+                bool result = _teamService.ChangingActiveStatus(teamID);
+                crudStatus.Status = true;
+                crudStatus.Message = "Active status changed successfully";
                 return new JsonResult(crudStatus);
             }
             catch (Exception ex)
             {
-                return new JsonResult(ex);
+                return new JsonResult(ex.Message);
             }
         }
     }

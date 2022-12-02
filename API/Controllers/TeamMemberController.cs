@@ -14,11 +14,11 @@ namespace API.Controllers
     [ApiController]
     public class TeamMemberController : BaseController
     {
-        private readonly ITeamMember _TeamMemberService;
+        private readonly ITeamMember _teamMemberService;
         
-        public TeamMemberController(DbSportsBuzzContext dbcontext, ITeamMember TeamMemberService)  :base(dbcontext)
+        public TeamMemberController(DbSportsBuzzContext dbcontext, ITeamMember teamMemberService)  :base(dbcontext)
         {
-            _TeamMemberService = TeamMemberService;
+            _teamMemberService = teamMemberService;
         }
 
         [HttpGet]
@@ -26,7 +26,7 @@ namespace API.Controllers
         {
             try
             {
-                return new JsonResult(_TeamMemberService.GetTeamMember().ToList());
+                return new JsonResult(_teamMemberService.GetTeamMember().ToList());
             }
             catch (Exception ex)
             {
@@ -41,7 +41,7 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                _TeamMemberService.AddTeamMember(Player);
+                _teamMemberService.AddTeamMember(Player);
                 crudStatus.Status = true;
                 crudStatus.Message = "Player added successfully";
                 return new JsonResult(crudStatus);
@@ -59,10 +59,10 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _TeamMemberService.CheckExtistTeamMember(Player);
+                bool result = _teamMemberService.CheckExtistTeamMember(Player);
                 if (result == true)
                 {
-                    _TeamMemberService.EditTeamMember(Player);
+                    _teamMemberService.EditTeamMember(Player);
                     crudStatus.Status = true;
                     crudStatus.Message = "Player is updated successfully";
                 }
@@ -86,10 +86,10 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _TeamMemberService.CheckExtistTeamMember(Player);
+                bool result = _teamMemberService.CheckExtistTeamMember(Player);
                 if (result == true)
                 {
-                    _TeamMemberService.DeleteTeamMember(Player);
+                    _teamMemberService.DeleteTeamMember(Player);
                     crudStatus.Status = true;
                     crudStatus.Message = "Player deleted successfully";
                 }
