@@ -178,21 +178,5 @@ namespace BALTests
             //Assert
             Assert.True(result);            
         }
-
-        [Fact]
-        public void Delete_Team()
-        {
-            //Arrange
-            var deleteteam = new TblTeam()
-            {
-                TeamId = 2,
-            };
-
-            //Act
-            var result = _teamService.DeleteTeam(deleteteam);
-
-            //Assert
-            Assert.True(result);           
-        }
     }
 }

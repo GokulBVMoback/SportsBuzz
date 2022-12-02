@@ -107,33 +107,6 @@ namespace API.Controllers
                 return new JsonResult(ex);
             }
         }
-
-        [HttpDelete("DeleteGroundDetails")]
-        [Authorize(Policy = "Ground Manager")]
-        public JsonResult DeleteGroundDetails(TblGround ground)
-        {
-            CrudStatus crudStatus = new CrudStatus();
-            try
-            {
-                bool result = _groundService.GroundChecking(ground);
-                if (result == true)
-                {
-                    _groundService.DeleteGroundDetails(ground);
-                    crudStatus.Status = true;
-                    crudStatus.Message = "Ground details deleted successfully";
-                }
-                else
-                {
-                    crudStatus.Status = false;
-                    crudStatus.Message = "Ground not extist";
-                }
-                return new JsonResult(crudStatus);
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(ex);
-            }
-        }
     }
 }
     

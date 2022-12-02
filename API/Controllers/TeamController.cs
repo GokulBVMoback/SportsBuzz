@@ -121,31 +121,5 @@ namespace API.Controllers
                 return new JsonResult(ex);
             }
         }
-
-        [HttpDelete]
-        public JsonResult DeleteTeam(TblTeam team)
-        {
-            CrudStatus crudStatus = new CrudStatus();
-            try
-            {
-                bool result = _teamService.CheckExtistTeam(team);
-                if (result == true)
-                {
-                    _teamService.DeleteTeam(team);
-                    crudStatus.Status = true;
-                    crudStatus.Message = "Team deleted successfully";
-                }
-                else
-                {
-                    crudStatus.Status = false;
-                    crudStatus.Message = "Team not extist";
-                }
-                return new JsonResult(crudStatus);
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(ex);
-            }
-        }
     }
 }

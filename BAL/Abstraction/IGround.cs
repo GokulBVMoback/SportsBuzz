@@ -11,11 +11,11 @@ namespace BAL.Abstraction
     public interface IGround
     {
         List<GroundList> GetGroundDetails();
+        List<GroundList> SearchByGroundCity(string City);
+        GroundList SearchByGroundName(string Ground);
         bool AddGrounds(TblGround ground);
         bool GroundChecking(TblGround grounds);
         bool EditGround(TblGround ground);
-        bool DeleteGroundDetails(TblGround ground);
-        List<GroundList> SearchByGroundCity(string City);
-        GroundList SearchByGroundName(string Ground);
+
     }
 }

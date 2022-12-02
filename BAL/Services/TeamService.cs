@@ -91,13 +91,5 @@ namespace BAL.Services
             _dbContext.SaveChanges();
             return true;
         }
-
-        public bool DeleteTeam(TblTeam team)
-        {
-            TblTeam team1 = _dbContext.TblTeams.Where(x => x.TeamId==team.TeamId).FirstOrDefault()!;
-            _dbContext.TblTeams.Remove(team1);  
-            _dbContext.SaveChanges();
-            return true;
-        }
     }
 }
