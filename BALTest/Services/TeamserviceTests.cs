@@ -44,7 +44,7 @@ namespace BALTests
         } 
 
         [Fact]
-        public void Team_serachByCity()
+        public void Search_By_City()
         {     
             //Arrange
             var city = new TblTeam()
@@ -60,7 +60,7 @@ namespace BALTests
         }
 
         [Fact]
-        public void SearchBy_TeamName()
+        public void Search_By_TeamName()
         {
             //Arrange
             var teamName = new TblTeam()
@@ -76,7 +76,7 @@ namespace BALTests
         }
 
         [Fact]  
-        public void CheckExtist_team()
+        public void CheckExtistTeam_Extist_Team()
         {
             //Arrange
             var teamExtist = new TblTeam()
@@ -92,7 +92,7 @@ namespace BALTests
         }
 
         [Fact]
-        public void CheckExtist_Newteam()
+        public void CheckExtistTeam_New_Team()
         {
             //Arrange
             var teamExtist = new TblTeam()
@@ -108,7 +108,7 @@ namespace BALTests
         }
 
         [Fact]  
-        public void CheckExtist_userId()
+        public void CheckExtist_UserId_Already_Extist()
         {
             //Arrange
             var teamExtistUser = new TblTeam()
@@ -124,7 +124,7 @@ namespace BALTests
         }
 
         [Fact]
-        public void CheckExtist_newuserId()
+        public void CheckExtist_UserId_Already_New()
         {
             //Arrange
             var teamExtistuser = new TblTeam()
@@ -140,7 +140,7 @@ namespace BALTests
         }
 
         [Fact]
-        public void TeamRegistration_not()
+        public void Check_TeamRegistration()
         {
             //Arrange
             var teamRegister = new TblTeam()

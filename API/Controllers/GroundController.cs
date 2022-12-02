@@ -13,11 +13,11 @@ namespace API.Controllers
     [ApiController]
     public class GroundController : BaseController
     {
-        private readonly IGround _GroundService;
+        private readonly IGround _groundService;
 
-        public GroundController(DbSportsBuzzContext dbcontext,IGround GroundService) : base(dbcontext)
+        public GroundController(DbSportsBuzzContext dbcontext,IGround groundService) : base(dbcontext)
         {
-            _GroundService = GroundService;
+            _groundService = groundService;
         }
 
         [HttpGet("GetGroundDetails")]
@@ -26,7 +26,7 @@ namespace API.Controllers
         {
             try
             {
-                return new JsonResult(_GroundService.GetGroundDetails().ToList());
+                return new JsonResult(_groundService.GetGroundDetails().ToList());
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace API.Controllers
         {
             try
             {
-                return new JsonResult(_GroundService.SearchByGroundCity(City).ToList());
+                return new JsonResult(_groundService.SearchByGroundCity(City).ToList());
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace API.Controllers
         {
             try
             {
-                return new JsonResult(_GroundService.SearchByGroundName(GroundName));
+                return new JsonResult(_groundService.SearchByGroundName(GroundName));
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                _GroundService.AddGrounds(ground);
+                _groundService.AddGrounds(ground);
                 crudStatus.Status = true;
                 crudStatus.Message = "Ground added successfully";
                 return new JsonResult(crudStatus);
@@ -88,10 +88,10 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _GroundService.GroundChecking(venu);
+                bool result = _groundService.GroundChecking(venu);
                 if (result == true)
                 {
-                    _GroundService.EditGround(venu);
+                    _groundService.EditGround(venu);
                     crudStatus.Status = true;
                     crudStatus.Message = "Ground details are updated successfully";
                 }
@@ -115,10 +115,10 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _GroundService.GroundChecking(ground);
+                bool result = _groundService.GroundChecking(ground);
                 if (result == true)
                 {
-                    _GroundService.DeleteGroundDetails(ground);
+                    _groundService.DeleteGroundDetails(ground);
                     crudStatus.Status = true;
                     crudStatus.Message = "Ground details deleted successfully";
                 }
