@@ -73,22 +73,6 @@ namespace BALTest.Services
         }
 
         [Fact]
-        public void Delete_Ground()
-        {
-            //Arrange
-            var DeleteGround = new TblGround()
-            {
-                GroundId = 4
-            };
-
-            //Act
-            var result = groundservice.DeleteGroundDetails(DeleteGround);
-
-            //Assert
-            Assert.True(result);
-        }
-
-        [Fact]
         public void SearchBy_GroundName()
         {
             //Arrange
