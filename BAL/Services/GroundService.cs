@@ -40,6 +40,16 @@ namespace BAL.Services
             return result.ToList();
         }
 
+        public List<GroundList> SearchByGroundCity(string City)
+        {
+            return GetGroundDetails().Where(x => x.City.ToLower() == City.ToLower()).ToList();
+        }
+
+        public GroundList SearchByGroundName(string Ground)
+        {
+            return GetGroundDetails().Where(x => x.Venue.ToLower() == Ground.ToLower()).FirstOrDefault()!;
+        }
+
         public bool AddGrounds(TblGround ground)
         {
             ground.CreatedDate = DateTime.Now;
@@ -71,21 +81,21 @@ namespace BAL.Services
             return true;
         }
 
-        public bool DeleteGroundDetails(TblGround ground)
+        public bool ChangingActiveStatus(int groundId)
         {
-            TblGround ground2 = _dbContext.TblGrounds.Where(x => x.GroundId== ground.GroundId).FirstOrDefault()!;
-            _dbContext.TblGrounds.Remove(ground2);
+            TblGround ground = _dbContext.TblGrounds.Where(x => x.GroundId == groundId).FirstOrDefault()!;
+            if (ground.Active == true)
+            {
+                ground.Active = false;
+            }
+            else
+            {
+                ground!.Active = true;
+            }
+            ground.UpdatedDate = DateTime.Now;
+            _dbContext.Entry(ground).State = EntityState.Modified;
             _dbContext.SaveChanges();
             return true;
-        }
-        public List<GroundList> SearchByGroundCity(string City)
-        {
-            return GetGroundDetails().Where(x => x.City.ToLower() == City.ToLower()).ToList();
-        }
-
-        public GroundList SearchByGroundName(string Ground)
-        {
-            return GetGroundDetails().Where(x => x.Venue.ToLower() == Ground.ToLower()).FirstOrDefault()!;
         }
     }
 }

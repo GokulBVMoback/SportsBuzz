@@ -13,11 +13,11 @@ namespace API.Controllers
     [ApiController]
     public class GroundController : BaseController
     {
-        private readonly IGround _GroundService;
+        private readonly IGround _groundService;
 
-        public GroundController(DbSportsBuzzContext dbcontext,IGround GroundService) : base(dbcontext)
+        public GroundController(DbSportsBuzzContext dbcontext,IGround groundService) : base(dbcontext)
         {
-            _GroundService = GroundService;
+            _groundService = groundService;
         }
 
         [HttpGet("GetGroundDetails")]
@@ -26,7 +26,7 @@ namespace API.Controllers
         {
             try
             {
-                return new JsonResult(_GroundService.GetGroundDetails().ToList());
+                return new JsonResult(_groundService.GetGroundDetails().ToList());
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace API.Controllers
         {
             try
             {
-                return new JsonResult(_GroundService.SearchByGroundCity(City).ToList());
+                return new JsonResult(_groundService.SearchByGroundCity(City).ToList());
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace API.Controllers
         {
             try
             {
-                return new JsonResult(_GroundService.SearchByGroundName(GroundName));
+                return new JsonResult(_groundService.SearchByGroundName(GroundName));
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                _GroundService.AddGrounds(ground);
+                _groundService.AddGrounds(ground);
                 crudStatus.Status = true;
                 crudStatus.Message = "Ground added successfully";
                 return new JsonResult(crudStatus);
@@ -88,10 +88,10 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _GroundService.GroundChecking(venu);
+                bool result = _groundService.GroundChecking(venu);
                 if (result == true)
                 {
-                    _GroundService.EditGround(venu);
+                    _groundService.EditGround(venu);
                     crudStatus.Status = true;
                     crudStatus.Message = "Ground details are updated successfully";
                 }
@@ -108,30 +108,20 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("DeleteGroundDetails")]
-        [Authorize(Policy = "Ground Manager")]
-        public JsonResult DeleteGroundDetails(TblGround ground)
+        [HttpPut("Changing_Active_Status")]
+        public JsonResult ChangingActiveStatus(int groundID)
         {
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _GroundService.GroundChecking(ground);
-                if (result == true)
-                {
-                    _GroundService.DeleteGroundDetails(ground);
-                    crudStatus.Status = true;
-                    crudStatus.Message = "Ground details deleted successfully";
-                }
-                else
-                {
-                    crudStatus.Status = false;
-                    crudStatus.Message = "Ground not extist";
-                }
+                bool result = _groundService.ChangingActiveStatus(groundID);
+                crudStatus.Status = true;
+                crudStatus.Message = "Active status changed successfully";
                 return new JsonResult(crudStatus);
             }
             catch (Exception ex)
             {
-                return new JsonResult(ex);
+                return new JsonResult(ex.Message);
             }
         }
     }

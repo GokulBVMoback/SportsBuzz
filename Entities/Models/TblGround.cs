@@ -29,5 +29,7 @@ public partial class TblGround
 
     public virtual TblSportType? SportTypeNavigation { get; set; }
 
+    public virtual ICollection<TblBookGround> TblBookGrounds { get; } = new List<TblBookGround>();
+
     public virtual TblUser? User { get; set; }
 }

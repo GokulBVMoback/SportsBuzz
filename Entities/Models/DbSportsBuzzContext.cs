@@ -11,7 +11,11 @@ public partial class DbSportsBuzzContext : DbContext
     {
     }
 
+    public virtual DbSet<TblBookGround> TblBookGrounds { get; set; }
+
     public virtual DbSet<TblGround> TblGrounds { get; set; }
+
+    public virtual DbSet<TblSession> TblSessions { get; set; }
 
     public virtual DbSet<TblSportType> TblSportTypes { get; set; }
 
@@ -23,9 +27,33 @@ public partial class DbSportsBuzzContext : DbContext
 
     public virtual DbSet<TblUserRole> TblUserRoles { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TblBookGround>(entity =>
+        {
+            entity.HasKey(e => e.BookedId).HasName("PK__tbl_Book__FA2CBA5A650C8E10");
+
+            entity.ToTable("tbl_BookGround");
+
+            entity.Property(e => e.BookedId).ValueGeneratedNever();
+            entity.Property(e => e.Date).HasColumnType("date");
+            entity.Property(e => e.GroundId).HasColumnName("GroundID");
+            entity.Property(e => e.SessionId).HasColumnName("SessionID");
+            entity.Property(e => e.TeamId).HasColumnName("TeamID");
+
+            entity.HasOne(d => d.Ground).WithMany(p => p.TblBookGrounds)
+                .HasForeignKey(d => d.GroundId)
+                .HasConstraintName("FK__tbl_BookG__Groun__4AB81AF0");
+
+            entity.HasOne(d => d.Session).WithMany(p => p.TblBookGrounds)
+                .HasForeignKey(d => d.SessionId)
+                .HasConstraintName("FK__tbl_BookG__Sessi__49C3F6B7");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.TblBookGrounds)
+                .HasForeignKey(d => d.TeamId)
+                .HasConstraintName("FK__tbl_BookG__TeamI__48CFD27E");
+        });
+
         modelBuilder.Entity<TblGround>(entity =>
         {
             entity.HasKey(e => e.GroundId).HasName("PK__tbl_Grou__3B3A8E8032515E6E");
@@ -58,6 +86,13 @@ public partial class DbSportsBuzzContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.TblGrounds)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__tbl_Groun__UserI__440B1D61");
+        });
+
+        modelBuilder.Entity<TblSession>(entity =>
+        {
+            entity.HasKey(e => e.SessionId).HasName("PK__tbl_Sess__C9F49290ADF43E8E");
+
+            entity.ToTable("tbl_Session");
         });
 
         modelBuilder.Entity<TblSportType>(entity =>
