@@ -147,5 +147,19 @@ namespace API.Controllers
                 return new JsonResult(ex.Message);
             }
         }
+
+        [HttpGet("User_Notification")]
+        public JsonResult UserNotifications(int userId)
+        {
+            CrudStatus crudStatus = new CrudStatus();
+            try
+            {
+                return new JsonResult(_userService.UserNotifications(userId));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex.Message);
+            }
+        }
     }
 }

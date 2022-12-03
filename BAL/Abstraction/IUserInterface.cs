@@ -18,5 +18,6 @@ namespace BAL.Abstraction
         bool ForgetPassword(Registration changePassword);
         string GenerateToken(TblUser user);
         bool ChangingActiveStatus(int userId);
+        List<string> UserNotifications(int userId);
     }
 }
