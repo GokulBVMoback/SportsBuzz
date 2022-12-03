@@ -27,6 +27,7 @@ builder.Services.AddScoped<IEncrypt, EncryptService>();
 builder.Services.AddScoped<ITeam, TeamService>();
 builder.Services.AddScoped<ITeamMember, TeamMemberService>();
 builder.Services.AddScoped<IGround, GroundService>();
+builder.Services.AddScoped<IGenarate, Genarate_token>();
 
 
 
