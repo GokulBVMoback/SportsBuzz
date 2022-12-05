@@ -24,7 +24,7 @@ namespace BAL.Services
                 var authToken = "852917dae7fd8e6d2233f3ac5980dc6b";
                 TwilioClient.Init(accountSid, authToken);
                 var messageOptions = new CreateMessageOptions(
-                    new PhoneNumber("whatsapp:+91"+ notification.PhoneNum));
+                new PhoneNumber("whatsapp:+91"+ notification.PhoneNum));
                 messageOptions.From = new PhoneNumber("whatsapp:+14155238886");
                 messageOptions.Body = notification.Message;
                 var message = MessageResource.Create(messageOptions);
