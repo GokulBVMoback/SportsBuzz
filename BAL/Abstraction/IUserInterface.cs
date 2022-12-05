@@ -13,10 +13,10 @@ namespace BAL.Abstraction
         List<UserDisplay> GetUser();
         bool CheckExtistUser(Registration user);
         bool CheckPassword(Registration user);
-        bool Registration(Registration user);
+        string Registration(Registration user);
         string LogIn(TblUser login);
         bool ForgetPassword(Registration changePassword);
-        string GenerateToken(TblUser user);
         bool ChangingActiveStatus(int userId);
+        List<string> UserNotifications(int userId);
     }
 }

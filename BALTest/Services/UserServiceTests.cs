@@ -30,18 +30,15 @@ namespace BALTest.Services
         private readonly DataBaseFixture _fixture;
         private readonly UserService userService;
         private readonly Mock<IEncrypt> encrypt;
-        private readonly IConfiguration configuration;
+        private readonly Mock<IGenarate> genarate;
+
 
         public UserServiceTests(DataBaseFixture fixture)
         {
             _fixture = fixture;
             encrypt = new Mock<IEncrypt>();
-            configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(@"appsettings.json",false,false)
-                .AddEnvironmentVariables()
-                .Build();
-            userService = new UserService(_fixture.context, encrypt.Object, configuration);
+            genarate = new Mock<IGenarate>();
+            userService = new UserService(_fixture.context, encrypt.Object,genarate.Object);
 
         }
 
@@ -117,21 +114,21 @@ namespace BALTest.Services
             //Arrange
             var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "gok@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword="1234", UserRole = 1, CreatedDate = DateTime.Now, UpdatedDate = null, Active = true };
             encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
+            genarate.Setup(x=>x.GenerateToken(user)).Returns("login successfull");
 
             //Act
             var result = userService.Registration(user);
-
             //Assert
-            Assert.True(result);
+            Assert.NotNull(result);
         }
 
         [Fact]
         public void LogIn_with_correct_mail_password()
         {
             //Arrange
-            var user = new TblUser() { Email = "bvgokulgok@gmail.com", Password = "1234", UserRole=1 };
-            encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);           
-
+            var user = new TblUser() { Email = "bvgokulgok@gmail.com", Password = "1234" };
+            encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
+            genarate.Setup(x => x.GenerateToken(user)).Returns("login successfull");
             //Act
             string result = userService.LogIn(user);
 
