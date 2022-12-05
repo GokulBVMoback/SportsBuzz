@@ -17,8 +17,6 @@ namespace BAL.Services
         private readonly INotification _notification;
         GroundService ground;
        
-
-
         public BookingGroundService(DbSportsBuzzContext dbContext, INotification notification)
         {
             _dbContext = dbContext;
@@ -55,6 +53,5 @@ namespace BAL.Services
             }
             return true;
         }
-
     }
 }
