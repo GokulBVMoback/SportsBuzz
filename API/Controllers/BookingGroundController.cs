@@ -35,7 +35,7 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("Booking_Match")]
-        public JsonResult TeamRegistration(TblBookGround booking)
+        public JsonResult BookingGround(TblBookGround booking)
         {
             CrudStatus crudStatus = new CrudStatus();
             try
