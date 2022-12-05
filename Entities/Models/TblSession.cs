@@ -10,4 +10,6 @@ public partial class TblSession
     public TimeSpan? Session { get; set; }
 
     public virtual ICollection<TblBookGround> TblBookGrounds { get; } = new List<TblBookGround>();
+
+    public virtual ICollection<TblChallenge> TblChallenges { get; } = new List<TblChallenge>();
 }
