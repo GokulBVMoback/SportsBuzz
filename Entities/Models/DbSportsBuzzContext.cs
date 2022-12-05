@@ -13,6 +13,8 @@ public partial class DbSportsBuzzContext : DbContext
 
     public virtual DbSet<TblBookGround> TblBookGrounds { get; set; }
 
+    public virtual DbSet<TblChallenge> TblChallenges { get; set; }
+
     public virtual DbSet<TblGround> TblGrounds { get; set; }
 
     public virtual DbSet<TblSession> TblSessions { get; set; }
@@ -31,11 +33,10 @@ public partial class DbSportsBuzzContext : DbContext
     {
         modelBuilder.Entity<TblBookGround>(entity =>
         {
-            entity.HasKey(e => e.BookedId).HasName("PK__tbl_Book__FA2CBA5A650C8E10");
+            entity.HasKey(e => e.BookedId).HasName("PK__tbl_Book__FA2CBA5A5DB7F084");
 
             entity.ToTable("tbl_BookGround");
 
-            entity.Property(e => e.BookedId).ValueGeneratedNever();
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.GroundId).HasColumnName("GroundID");
             entity.Property(e => e.SessionId).HasColumnName("SessionID");
@@ -43,15 +44,43 @@ public partial class DbSportsBuzzContext : DbContext
 
             entity.HasOne(d => d.Ground).WithMany(p => p.TblBookGrounds)
                 .HasForeignKey(d => d.GroundId)
-                .HasConstraintName("FK__tbl_BookG__Groun__4AB81AF0");
+                .HasConstraintName("FK__tbl_BookG__Groun__4F7CD00D");
 
             entity.HasOne(d => d.Session).WithMany(p => p.TblBookGrounds)
                 .HasForeignKey(d => d.SessionId)
-                .HasConstraintName("FK__tbl_BookG__Sessi__49C3F6B7");
+                .HasConstraintName("FK__tbl_BookG__Sessi__4E88ABD4");
 
             entity.HasOne(d => d.Team).WithMany(p => p.TblBookGrounds)
                 .HasForeignKey(d => d.TeamId)
-                .HasConstraintName("FK__tbl_BookG__TeamI__48CFD27E");
+                .HasConstraintName("FK__tbl_BookG__TeamI__4D94879B");
+        });
+
+        modelBuilder.Entity<TblChallenge>(entity =>
+        {
+            entity.HasKey(e => e.ChallengeId).HasName("PK__tbl_Chal__C7AC81C86F467E2A");
+
+            entity.ToTable("tbl_Challenge");
+
+            entity.Property(e => e.Date).HasColumnType("date");
+            entity.Property(e => e.SessionId).HasColumnName("SessionID");
+            entity.Property(e => e.TeamId1).HasColumnName("TeamID1");
+            entity.Property(e => e.TeamId2).HasColumnName("TeamID2");
+
+            entity.HasOne(d => d.Session).WithMany(p => p.TblChallenges)
+                .HasForeignKey(d => d.SessionId)
+                .HasConstraintName("FK__tbl_Chall__Sessi__534D60F1");
+
+            entity.HasOne(d => d.SportTypeNavigation).WithMany(p => p.TblChallenges)
+                .HasForeignKey(d => d.SportType)
+                .HasConstraintName("FK__tbl_Chall__Sport__5535A963");
+
+            entity.HasOne(d => d.TeamId1Navigation).WithMany(p => p.TblChallengeTeamId1Navigations)
+                .HasForeignKey(d => d.TeamId1)
+                .HasConstraintName("FK__tbl_Chall__TeamI__52593CB8");
+
+            entity.HasOne(d => d.TeamId2Navigation).WithMany(p => p.TblChallengeTeamId2Navigations)
+                .HasForeignKey(d => d.TeamId2)
+                .HasConstraintName("FK__tbl_Chall__TeamI__5441852A");
         });
 
         modelBuilder.Entity<TblGround>(entity =>

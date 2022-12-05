@@ -29,6 +29,10 @@ public partial class TblTeam
 
     public virtual ICollection<TblBookGround> TblBookGrounds { get; } = new List<TblBookGround>();
 
+    public virtual ICollection<TblChallenge> TblChallengeTeamId1Navigations { get; } = new List<TblChallenge>();
+
+    public virtual ICollection<TblChallenge> TblChallengeTeamId2Navigations { get; } = new List<TblChallenge>();
+
     public virtual ICollection<TblTeamMember> TblTeamMembers { get; } = new List<TblTeamMember>();
 
     public virtual TblUser? User { get; set; }
