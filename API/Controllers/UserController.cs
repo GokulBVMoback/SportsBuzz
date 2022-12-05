@@ -103,7 +103,7 @@ namespace API.Controllers
             try
             {
                 bool result = _userService.CheckExtistUser(changePassword);
-                if (result== false)
+                if (result== true)
                 {
                     result = _userService.CheckPassword(changePassword);
                     if (result== true)
