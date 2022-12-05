@@ -15,12 +15,12 @@ namespace BAL.Services
     {
         private readonly DbSportsBuzzContext _dbContext;
         private readonly INotification _notification;
-        GroundService ground;
+        private readonly IGround ground;
        
-        public BookingGroundService(DbSportsBuzzContext dbContext, INotification notification)
+        public BookingGroundService(DbSportsBuzzContext dbContext, IGround grnd, INotification notification)
         {
             _dbContext = dbContext;
-            ground = new GroundService(_dbContext);
+            ground = grnd;
             _notification = notification;
         }
 
