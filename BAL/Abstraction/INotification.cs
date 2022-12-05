@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace BAL.Abstraction
 {
     public interface INotification
     {
-        bool SendWhatsAppNotification(TblBookGround tblBookGround);
-        bool SendSMSNotification(TblBookGround tblBookGround);
+        bool SendWhatsAppNotification(Notification notification);
+        bool SendSMSNotification(Notification notification);
     }
 }
