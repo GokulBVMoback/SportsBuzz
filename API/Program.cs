@@ -27,9 +27,8 @@ builder.Services.AddScoped<IEncrypt, EncryptService>();
 builder.Services.AddScoped<ITeam, TeamService>();
 builder.Services.AddScoped<ITeamMember, TeamMemberService>();
 builder.Services.AddScoped<IGround, GroundService>();
+builder.Services.AddScoped<IGenarate, Genarate_token>();
 builder.Services.AddScoped<IBookingGround, BookingGroundService>();
-
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
