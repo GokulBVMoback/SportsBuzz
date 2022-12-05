@@ -14,5 +14,7 @@ namespace BAL.Abstraction
         bool BookingGround(TblBookGround booking);
         bool CheckExtistBookedDetails(TblBookGround booking);
 
+          
+
     }
 }

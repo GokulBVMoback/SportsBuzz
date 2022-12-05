@@ -28,6 +28,7 @@ builder.Services.AddScoped<ITeam, TeamService>();
 builder.Services.AddScoped<ITeamMember, TeamMemberService>();
 builder.Services.AddScoped<IGround, GroundService>();
 builder.Services.AddScoped<IBookingGround, BookingGroundService>();
+builder.Services.AddScoped<INotification, NotificationService>();
 
 
 

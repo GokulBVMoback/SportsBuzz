@@ -11,15 +11,19 @@ using System.Threading.Tasks;
 
 namespace BAL.Services
 {
-    public class BookingGroundService:IBookingGround
+    public class BookingGroundService:IBookingGround 
     {
         private readonly DbSportsBuzzContext _dbContext;
+        private readonly INotification _notification;
         GroundService ground;
+       
 
-        public BookingGroundService(DbSportsBuzzContext dbContext)
+
+        public BookingGroundService(DbSportsBuzzContext dbContext, INotification notification)
         {
             _dbContext = dbContext;
             ground = new GroundService(_dbContext);
+            _notification = notification;
         }
 
         public List<GroundList> GetGroundDetails(SearchAvailableGround availableGround)
@@ -37,6 +41,8 @@ namespace BAL.Services
         {
             _dbContext.TblBookGrounds.Add(booking);
             _dbContext.SaveChanges();
+            _notification.SendWhatsAppNotification(booking);
+            _notification.SendSMSNotification(booking);
             return true;
         }
 
