@@ -45,11 +45,11 @@ namespace API.Controllers
                 if(result==false)
                 {
                     result=_userService.CheckPassword(User);
-                    if (result == true)
+                    if (result==true)
                     {
-                        _userService.Registration(User);
+                        string token=_userService.Registration(User);
                         crudStatus.Status = true;
-                        crudStatus.Message = "Registration process done";
+                        crudStatus.Message = token;
                     }
                     else
                     {
@@ -103,10 +103,10 @@ namespace API.Controllers
             try
             {
                 bool result = _userService.CheckExtistUser(changePassword);
-                if (result == true)
+                if (result== true)
                 {
                     result = _userService.CheckPassword(changePassword);
-                    if (result == true)
+                    if (result== true)
                     {
                         _userService.ForgetPassword(changePassword);
                         crudStatus.Status = true;
