@@ -15,12 +15,12 @@ namespace BAL.Services
     {
         private readonly DbSportsBuzzContext _dbContext;
         private readonly INotification _notification;
-        GroundService ground;
+        private readonly IGround ground;
        
-        public BookingGroundService(DbSportsBuzzContext dbContext, INotification notification)
+        public BookingGroundService(DbSportsBuzzContext dbContext,IGround grnd, INotification notification)
         {
             _dbContext = dbContext;
-            ground = new GroundService(_dbContext);
+            ground = grnd;
             _notification = notification;
         }
 
@@ -39,9 +39,22 @@ namespace BAL.Services
         {
             _dbContext.TblBookGrounds.Add(booking);
             _dbContext.SaveChanges();
-            _notification.SendWhatsAppNotification(booking);
-            _notification.SendSMSNotification(booking);
+            Notification notification = GenerateMessage(booking);
+            _notification.SendWhatsAppNotification(notification);
+            _notification.SendSMSNotification(notification);
             return true;
+        }
+
+        public Notification GenerateMessage(TblBookGround booking)
+        {
+            Notification notification= new Notification();
+            TblTeam team = _dbContext.TblTeams.Where(x => x.TeamId == booking.TeamId).FirstOrDefault()!;
+            TblSession session = _dbContext.TblSessions.Where(x => x.SessionId == booking.SessionId).FirstOrDefault()!;
+            TblGround grd = _dbContext.TblGrounds.Where(x => x.GroundId == booking.GroundId).FirstOrDefault()!;
+            TblUser user = _dbContext.TblUsers.Where(x => x.UserId == grd.UserId).FirstOrDefault()!;
+            notification.Message= "Hello " + team.TeamName + " team booked your ground " + grd.Venue + " on " + booking.Date + " at " + session.Session;
+            notification.PhoneNum = user.PhoneNum.ToString();
+            return notification;
         }
 
         public bool CheckExtistBookedDetails(TblBookGround booking)
