@@ -12,6 +12,7 @@ namespace BAL.Abstraction
     {
         List<GroundList> GetGroundDetails(SearchAvailableGround availableGround);
         bool BookingGround(TblBookGround booking);
+        Notification GenerateMessage(TblBookGround booking);
         bool CheckExtistBookedDetails(TblBookGround booking);
     }
 }
