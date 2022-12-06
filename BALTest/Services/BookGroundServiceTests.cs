@@ -18,35 +18,34 @@ namespace BALTest.Services
         private readonly DataBaseFixture _fixture;
         private readonly BookingGroundService bookingGroundService;
         private readonly Mock<INotification> notification;
-        private readonly Mock<IGround> ground;
+        private readonly IGround ground;
 
         public BookGroundServiceTests(DataBaseFixture fixture)
         {
             _fixture = fixture;
-            notification=new Mock<INotification>();
-            ground=new Mock<IGround>(); 
-            bookingGroundService=new BookingGroundService(_fixture.context, ground.Object,notification.Object);
+            notification = new Mock<INotification>();
+            ground = new GroundService(_fixture.context);
+            bookingGroundService = new BookingGroundService(_fixture.context, ground, notification.Object);
         }
 
         [Fact]
-        public void Get_GroundDetails()
+        public void Get_Available_GroundDetails_withAlreadyBooked_Session_Date()
         {
             //Arrange
             var bookground = new SearchAvailableGround()
             {
                 SessionId = 1,
-                City = "Chebnnai",
+                City = "Chennai",
                 Date = new DateTime(2022, 12, 19)
             };
 
             //Act
             var result = bookingGroundService.GetGroundDetails(bookground);
             //Assert
-            var expected = _fixture.context.TblBookGrounds.Count();
             var items = Assert.IsType<List<GroundList>>(result);
-            Assert.Equal(expected, items.Count);
+            Assert.Equal(0, items.Count);
         }
-      
+
         [Fact]
         public void BookingGround_with_already_booked_Ground()
         {
@@ -60,9 +59,9 @@ namespace BALTest.Services
             };
 
             //Act
-            var result = bookingGroundService.BookingGround(booking);
+            var result = bookingGroundService.CheckExtistBookedDetails(booking);
             //Assert
-           Assert.Null(result);
+           Assert.True(result);
         }
 
         [Fact]
@@ -74,15 +73,13 @@ namespace BALTest.Services
                 TeamId = 1,
                 SessionId = 1,
                 GroundId = 1
-
             };
-           // Act
-                var result = bookingGroundService.GenerateMessage(message);
-            
+
+            // Act
+            var result = bookingGroundService.GenerateMessage(message);
+            //Assert
+            Assert.NotNull(result);   
         }
-
-
-
 
         [Fact]
         public void checkExtist_bookgrounddetails()
@@ -110,7 +107,6 @@ namespace BALTest.Services
                 GroundId=5,
                 SessionId=4,
                 Date=new DateTime(2022,12,19)
-
             };
 
             //Act

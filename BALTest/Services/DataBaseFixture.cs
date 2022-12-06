@@ -58,7 +58,6 @@ namespace BALTest.Services
                 new TblTeam(){TeamId=1, TeamName="Royalk",City="Bengaluru",PhoneNum=8698789,Email="royalk@gmail.com", SportType=1,UserId=1,CreatedDate=null,UpdatedDate=null,Active=true},
                 new TblTeam(){TeamId=2, TeamName="chennaisuperking",City="Chennai",PhoneNum=73582465,Email="Chennai@gmail.com",SportType=1,UserId = 3,CreatedDate=null,UpdatedDate=null,Active=true},
                 new TblTeam(){TeamId=3, TeamName="KKR",City="Kolkata",PhoneNum=73582465,Email="kolkata@gmail.com",SportType=1,UserId = 4,CreatedDate=null,UpdatedDate=null,Active=true}
-
             };
             context.TblTeams.AddRange(teams);
             context.SaveChanges();
@@ -82,11 +81,19 @@ namespace BALTest.Services
 
             var BookingGround=new List<TblBookGround>()
             {
-                new TblBookGround() { BookedId = 1, TeamId = 1, SessionId = 1, Date =new DateTime(2022,12,19), GroundId =4 }
+                new TblBookGround() { BookedId = 1, TeamId = 1, SessionId = 1, Date =new DateTime(2022,12,19), GroundId =1 }
             };
             context.TblBookGrounds.AddRange(BookingGround);
             context.SaveChanges();
+
+            var session = new List<TblSession>()
+            {
+                new TblSession() { SessionId = 1, Session=new TimeSpan(25,20,55)}
+            };
+            context.TblSessions.AddRange(session);
+            context.SaveChanges();
         }
+
         public void Dispose()
         {
             context.Database.EnsureDeleted();
