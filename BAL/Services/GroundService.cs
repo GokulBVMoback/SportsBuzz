@@ -23,7 +23,6 @@ namespace BAL.Services
         public List<GroundList> GetGroundDetails()
         {
             List<GroundList> result = (from ground in _dbContext.TblGrounds
-                                       join user in _dbContext.TblUsers on ground.UserId equals user.UserId
                                        join sport in _dbContext.TblSportTypes on ground.SportType equals sport.SportTypeId
                                        orderby ground.GroundId
                                        select new GroundList
