@@ -82,7 +82,7 @@ namespace BALTest.Services
 
             var BookingGround=new List<TblBookGround>()
             {
-                new TblBookGround() { BookedId = 4, TeamId = 1, SessionId = 1, Date =new DateTime(2022,12,19), GroundId = 6 }
+                new TblBookGround() { BookedId = 1, TeamId = 1, SessionId = 1, Date =new DateTime(2022,12,19), GroundId =4 }
             };
             context.TblBookGrounds.AddRange(BookingGround);
             context.SaveChanges();
