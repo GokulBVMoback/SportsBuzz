@@ -14,10 +14,12 @@ namespace API.Controllers
     public class GroundController : BaseController
     {
         private readonly IGround _groundService;
+        private readonly CrudStatus crudStatus;
 
         public GroundController(DbSportsBuzzContext dbcontext,IGround groundService) : base(dbcontext)
         {
             _groundService = groundService;
+            crudStatus = new CrudStatus();
         }
 
         [HttpGet("GetGroundDetails")]
@@ -67,7 +69,6 @@ namespace API.Controllers
         [Authorize(Policy = "Ground Manager")]
         public JsonResult AddGrounds(TblGround ground)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 _groundService.AddGrounds(ground);
@@ -85,7 +86,6 @@ namespace API.Controllers
         [Authorize(Policy = "Ground Manager")]
         public JsonResult EditGround(TblGround venu)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result = _groundService.GroundChecking(venu);
@@ -111,10 +111,9 @@ namespace API.Controllers
         [HttpPut("Changing_Active_Status")]
         public JsonResult ChangingActiveStatus(int groundID)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _groundService.ChangingActiveStatus(groundID);
+                _groundService.ChangingActiveStatus(groundID);
                 crudStatus.Status = true;
                 crudStatus.Message = "Active status changed successfully";
                 return new JsonResult(crudStatus);

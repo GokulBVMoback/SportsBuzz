@@ -1,5 +1,6 @@
 ﻿using BAL.Abstraction;
 using Entities.Models;
+using EnvDTE;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -135,16 +136,11 @@ namespace BAL.Services
             }
             else
             {
-                TblGround manager = _dbContext.TblGrounds.Where(x => x.UserId == userId).FirstOrDefault()!;
-                List<TblBookGround> notification = _dbContext.TblBookGrounds.Where(x => x.GroundId == manager.GroundId).ToList();
+                List<BookedGroundView> notification = _dbContext.BookedGroundViews.Where(x => x.UserId == userId).ToList()!;
                 List<string> notifications = new List<string>();
                 foreach (var items in notification)
                 {
-                    TblTeam teamName = _dbContext.TblTeams.Where(x => x.TeamId == items.TeamId).FirstOrDefault()!;
-                    TblGround groundname= _dbContext.TblGrounds.Where(x => x.GroundId == items.GroundId).FirstOrDefault()!;
-                    TblSession session= _dbContext.TblSessions.Where(x => x.SessionId == items.SessionId).FirstOrDefault()!;
-
-                    string message = "Hi " + teamName.TeamName + " booked your ground " + groundname.Venue + " on " + items.Date + " at " + session.Session;
+                    string message = "Hi " + items.TeamName + " team booked your ground " + items.Venue + " on " + String.Format($"{items.Date:dd-MM-yyyy}") + " at " + items.Session;
                     notifications.Add(message);
                 }
                 return notifications;

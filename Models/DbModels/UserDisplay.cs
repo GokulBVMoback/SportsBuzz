@@ -6,7 +6,7 @@ namespace Models.DbModels;
 
 public class UserDisplay:TblUser
 {
-    public string? UserRole { get; set; }
+    public new string? UserRole { get; set; }
 
 
 }

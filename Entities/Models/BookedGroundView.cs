@@ -7,6 +7,8 @@ public partial class BookedGroundView
 {
     public int BookedId { get; set; }
 
+    public int UserId { get; set; }
+
     public string? TeamName { get; set; }
 
     public string? Venue { get; set; }
