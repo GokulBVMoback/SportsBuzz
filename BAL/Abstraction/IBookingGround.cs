@@ -11,7 +11,7 @@ namespace BAL.Abstraction
     public interface IBookingGround
     {
         List<GroundList> GetGroundDetails(SearchAvailableGround availableGround);
-        bool BookingGround(TblBookGround booking);
+        void BookingGround(TblBookGround booking);
         Notification GenerateMessage(TblBookGround booking);
         bool CheckExtistBookedDetails(TblBookGround booking);
     }

@@ -13,15 +13,17 @@ namespace API.Controllers
     public class BookingGroundController : BaseController
     {
         private readonly IBookingGround _bookingGround;
+        private readonly CrudStatus crudStatus;
 
         public BookingGroundController(DbSportsBuzzContext dbcontext, IBookingGround bookingGround) : base(dbcontext)
         {
             _bookingGround = bookingGround;
+            crudStatus = new CrudStatus();
         }
 
         [HttpPost("GetAvailableGroundDetails")]
-        //[Authorize]
-        public JsonResult GetGroundDetails(SearchAvailableGround availableGround)
+        [Authorize]
+        public JsonResult GetAvailableGroundDetails(SearchAvailableGround availableGround)
         {
             try
             {
@@ -35,17 +37,17 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("Booking_Match")]
+        [Authorize(Policy = "Team Manager")]
         public JsonResult BookingGround(TblBookGround booking)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result = _bookingGround.CheckExtistBookedDetails(booking);
                 if (result == false)
                 {
-                    result = _bookingGround.BookingGround(booking);
-                        crudStatus.Status = true;
-                        crudStatus.Message = "Ground booked successfully";
+                    _bookingGround.BookingGround(booking);
+                    crudStatus.Status = true;
+                    crudStatus.Message = "Ground booked successfully";
                 }
                 else
                 {

@@ -44,7 +44,7 @@ namespace BAL.Services
 
         public List<TeamList> SearchByCity(string City)
         {
-            return GetTeam().Where(x => x.City.ToLower() == City.ToLower()).ToList();
+            return GetTeam().Where(x => x.City!.ToLower() == City.ToLower()).ToList();
         }
 
         public TeamList SearchByTeamName(string Team)
