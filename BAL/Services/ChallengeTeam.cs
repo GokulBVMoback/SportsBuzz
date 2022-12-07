@@ -49,11 +49,9 @@ namespace BAL.Services
         public Notification GenerateMessage(TblChallenge challenge)
         {
             Notification notification = new Notification();
-            TblTeam team = _dbContext.TblTeams.Where(x => x.TeamId == challenge.TeamId1).FirstOrDefault()!;
-            TblTeam team2 = _dbContext.TblTeams.Where(x => x.TeamId == challenge.TeamId2).FirstOrDefault()!;
-            TblSession session = _dbContext.TblSessions.Where(x => x.SessionId == challenge.SessionId).FirstOrDefault()!;
-            notification.Message = "Hello " + team.TeamName + " team challenged you on " + challenge.Date + " at " + session.Session;
-            notification.PhoneNum = team2.PhoneNum.ToString();
+            ChallengeTeamView team = _dbContext.ChallengeTeamViews.Where(x => x.ChallengeId == challenge.ChallengeId).FirstOrDefault()!;
+            notification.Message = "Hello " + team.Team1 + " team challenged you on " + team.Date + " at " + team.Session;
+            notification.PhoneNum = team.PhoneNumT2.ToString();
             return notification;
         }
 
@@ -77,11 +75,7 @@ namespace BAL.Services
         public bool CheckExtistChallengedDetails(TblChallenge challenge)
         {
             TblChallenge booked = _dbContext.TblChallenges.Where(x => x.SessionId == challenge.SessionId && x.Date == challenge.Date && x.Status==true && x.TeamId1 == challenge.TeamId2 || x.TeamId2 == challenge.TeamId2).FirstOrDefault()!;
-            if (booked is null)
-            {
-                return false;
-            }
-            return true;
+            return booked != null;
         }
     }
 }
