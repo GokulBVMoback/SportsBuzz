@@ -23,7 +23,6 @@ namespace BAL.Services
         public List<GroundList> GetGroundDetails()
         {
             List<GroundList> result = (from ground in _dbContext.TblGrounds
-                                       join user in _dbContext.TblUsers on ground.UserId equals user.UserId
                                        join sport in _dbContext.TblSportTypes on ground.SportType equals sport.SportTypeId
                                        orderby ground.GroundId
                                        select new GroundList
@@ -42,35 +41,30 @@ namespace BAL.Services
 
         public List<GroundList> SearchByGroundCity(string City)
         {
-            return GetGroundDetails().Where(x => x.City.ToLower() == City.ToLower()).ToList();
+            return GetGroundDetails().Where(x => x.City!.ToLower() == City.ToLower()).ToList();
         }
 
         public GroundList SearchByGroundName(string Ground)
         {
-            return GetGroundDetails().Where(x => x.Venue.ToLower() == Ground.ToLower()).FirstOrDefault()!;
+            return GetGroundDetails().Where(x => x.Venue!.ToLower() == Ground.ToLower()).FirstOrDefault()!;
         }
 
-        public bool AddGrounds(TblGround ground)
+        public void AddGrounds(TblGround ground)
         {
             ground.CreatedDate = DateTime.Now;
             ground.UpdatedDate = null;
             ground.Active = true;
             _dbContext.TblGrounds.Add(ground);
             _dbContext.SaveChanges();
-            return true;
         }
 
         public bool GroundChecking(TblGround grounds)
         {
             TblGround AlreadyExsistGround = _dbContext.TblGrounds.Where(x => x.GroundId == grounds.GroundId).FirstOrDefault()!;
-            if (AlreadyExsistGround!=null)
-            {
-                return true;
-            }
-            return false;
+            return AlreadyExsistGround != null;
         }
 
-        public bool EditGround(TblGround ground)
+        public void EditGround(TblGround ground)
         {
             TblGround ground1 = _dbContext.TblGrounds.Where(x => x.GroundId == ground.GroundId).FirstOrDefault()!;
             ground1.CompanyName = ground.CompanyName;
@@ -78,24 +72,15 @@ namespace BAL.Services
             ground1.UpdatedDate = DateTime.Now; 
             _dbContext.Entry(ground1).State = EntityState.Modified;
             _dbContext.SaveChanges();
-            return true;
         }
 
-        public bool ChangingActiveStatus(int groundId)
+        public void ChangingActiveStatus(int groundId)
         {
             TblGround ground = _dbContext.TblGrounds.Where(x => x.GroundId == groundId).FirstOrDefault()!;
-            if (ground.Active == true)
-            {
-                ground.Active = false;
-            }
-            else
-            {
-                ground!.Active = true;
-            }
+            ground.Active=ground.Active == true ? false : true;
             ground.UpdatedDate = DateTime.Now;
             _dbContext.Entry(ground).State = EntityState.Modified;
             _dbContext.SaveChanges();
-            return true;
         }
     }
 }

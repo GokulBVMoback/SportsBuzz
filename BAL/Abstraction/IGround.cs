@@ -13,10 +13,10 @@ namespace BAL.Abstraction
         List<GroundList> GetGroundDetails();
         List<GroundList> SearchByGroundCity(string City);
         GroundList SearchByGroundName(string Ground);
-        bool AddGrounds(TblGround ground);
+        void AddGrounds(TblGround ground);
         bool GroundChecking(TblGround grounds);
-        bool EditGround(TblGround ground);
-        bool ChangingActiveStatus(int groundID);
+        void EditGround(TblGround ground);
+        void ChangingActiveStatus(int groundID);
 
     }
 }

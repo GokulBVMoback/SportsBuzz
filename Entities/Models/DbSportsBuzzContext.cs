@@ -11,6 +11,12 @@ public partial class DbSportsBuzzContext : DbContext
     {
     }
 
+    public virtual DbSet<BookedGroundView> BookedGroundViews { get; set; }
+
+    public virtual DbSet<ChallengeTeamView> ChallengeTeamViews { get; set; }
+
+    public virtual DbSet<GroundView> GroundViews { get; set; }
+
     public virtual DbSet<TblBookGround> TblBookGrounds { get; set; }
 
     public virtual DbSet<TblChallenge> TblChallenges { get; set; }
@@ -29,8 +35,77 @@ public partial class DbSportsBuzzContext : DbContext
 
     public virtual DbSet<TblUserRole> TblUserRoles { get; set; }
 
+    public virtual DbSet<TeamMemberView> TeamMemberViews { get; set; }
+
+    public virtual DbSet<TeamView> TeamViews { get; set; }
+
+    public virtual DbSet<UserView> UserViews { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<BookedGroundView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("BookedGroundView");
+
+            entity.Property(e => e.City)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Date).HasColumnType("date");
+            entity.Property(e => e.SessionId).HasColumnName("SessionID");
+            entity.Property(e => e.SportType)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TeamName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Venue)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<ChallengeTeamView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("ChallengeTeamView");
+
+            entity.Property(e => e.Date).HasColumnType("date");
+            entity.Property(e => e.SessionId).HasColumnName("SessionID");
+            entity.Property(e => e.SportType)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Team1)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Team2)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<GroundView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("GroundView");
+
+            entity.Property(e => e.City)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CompanyName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.SportType)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.Venue)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<TblBookGround>(entity =>
         {
             entity.HasKey(e => e.BookedId).HasName("PK__tbl_Book__FA2CBA5A5DB7F084");
@@ -218,6 +293,76 @@ public partial class DbSportsBuzzContext : DbContext
 
             entity.ToTable("tbl_User_Role");
 
+            entity.Property(e => e.UserRole)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<TeamMemberView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("TeamMemberView");
+
+            entity.Property(e => e.PlayerFirstName)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.PlayerLastName)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.State)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TeamName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<TeamView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("TeamView");
+
+            entity.Property(e => e.City)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SportType)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TeamName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedDate).HasColumnType("smalldatetime");
+        });
+
+        modelBuilder.Entity<UserView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("UserView");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedDate).HasColumnType("smalldatetime");
             entity.Property(e => e.UserRole)
                 .HasMaxLength(50)
                 .IsUnicode(false);
