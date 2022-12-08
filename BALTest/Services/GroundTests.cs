@@ -54,23 +54,6 @@ namespace BALTest.Services
                 UserId=2,
             };
         }
-        [Fact]
-        public void Edit_Ground()
-        {
-            //Arrange
-            var Editground = new TblGround()
-            {
-                CompanyName = "bcci",
-                Venue = "Lords",
-                GroundId=1
-            };
-
-            //Act
-            var result = groundservice.EditGround(Editground);
-
-            //Assert
-            Assert.True(result);
-        }
 
         [Fact]
         public void SearchBy_GroundName()
