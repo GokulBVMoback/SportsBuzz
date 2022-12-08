@@ -59,9 +59,9 @@ namespace BALTest.Services
             };
 
             //Act
-            var result = bookingGroundService.CheckExtistBookedDetails(booking);
+            var result = bookingGroundService.BookingGround(booking);
             //Assert
-           Assert.True(result);
+            Assert.True(result);
         }
 
         [Fact]
