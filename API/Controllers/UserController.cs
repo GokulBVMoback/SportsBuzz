@@ -1,9 +1,12 @@
-﻿using BAL.Abstraction;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using BAL.Abstraction;
 using BAL.Services;
 using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.DbModels;
 
@@ -14,10 +17,15 @@ namespace API.Controllers
     public class UserController : BaseController
     {
         private readonly IUserInterface _userService;
-        
-        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService) : base(dbcontext)
+        private readonly IMapper _mapper;
+        private readonly DbSportsBuzzContext _db;
+
+
+        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService, IMapper mapper) : base(dbcontext)
         {
+            _db = dbcontext;
             _userService = userService;
+            _mapper=mapper;
         }
 
         [HttpGet]
@@ -32,6 +40,28 @@ namespace API.Controllers
             {
                 return new JsonResult(ex);
             }
+        }
+
+        [HttpGet]
+        [Authorize]
+        [MapToApiVersion("2")]
+        [Route("V2")]
+        public ActionResult<List<UserDisplayV2>> UserDetails2()
+        {
+            var users = _userService.GetUserVersion2().Select(x=>_mapper.Map<UserDisplayV2>(x));
+            return Ok(users);
+        }
+
+        [HttpGet]
+        //[Authorize]
+        [MapToApiVersion("3")]
+        [Route("V3")]
+        public ActionResult<List<UserDisplayV2>> UserDetails3()
+        {
+            var c = new MapperConfiguration(cfg => cfg.CreateProjection<TblUser, UserDisplay>()
+                                                      .ForMember(dto => dto.UserRole, conf =>
+                                                  conf.MapFrom(ol => ol.UserRoleNavigation.UserRole)));
+            return Ok(_db.TblUsers.ProjectTo<UserDisplay>(c).ToList());
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
 using API.Controllers;
+using AutoMapper;
 using BAL.Abstraction;
 using BAL.Services;
 using Castle.Components.DictionaryAdapter.Xml;
@@ -28,7 +29,7 @@ namespace BALTest.Services
     public class UserServiceTests
     {
         private readonly DataBaseFixture _fixture;
-        private readonly UserService userService;
+        private readonly IUserInterface userService;
         private readonly Mock<IEncrypt> encrypt;
         private readonly Mock<IGenarate> genarate;
 

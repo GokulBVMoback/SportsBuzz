@@ -7,8 +7,21 @@ using System.Threading.Tasks;
 
 namespace Models.DbModels
 {
-    public  class PlayerList : TblTeamMember
+    public  class PlayerList
     {
-        public string? TeamName { get; set; }   
+        public int MemberId { get; set; }
+
+        public string? TeamName { get; set; }
+
+        public string? PlayerFirstName { get; set; }
+
+        public string? PlayerLastName { get; set; }
+
+        public int? Age { get; set; }
+
+        public int? JerseyNo { get; set; }
+
+        public string? State { get; set; }
+
     }
 }

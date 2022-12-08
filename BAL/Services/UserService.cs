@@ -41,13 +41,17 @@ namespace BAL.Services
                                             LastName = user.LastName,
                                             Email = user.Email,
                                             PhoneNum = user.PhoneNum,
-                                            UserRole = role.UserRole,
-                                            CreatedDate = user.CreatedDate,
-                                            UpdatedDate = user.UpdatedDate,
-                                            Active = user.Active
+                                            UserRole = role.UserRole
                                         }).ToList();
             return result.ToList();
         }
+
+        public List<UserView> GetUserVersion2()
+        {
+            var ver2 = _dbContext.UserViews.ToList();
+            return ver2.ToList();
+        }
+
 
         public bool CheckExtistUser(Registration user)
         {

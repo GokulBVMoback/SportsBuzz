@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +68,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Team Manager",
          policy => policy.RequireRole("Team Manager"));
 });
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

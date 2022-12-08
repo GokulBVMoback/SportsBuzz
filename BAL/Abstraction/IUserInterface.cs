@@ -11,6 +11,8 @@ namespace BAL.Abstraction
     public interface IUserInterface
     {
         List<UserDisplay> GetUser();
+        List<UserView> GetUserVersion2();
+
         bool CheckExtistUser(Registration user);
         bool CheckPassword(Registration user);
         string Registration(Registration user);

@@ -21,7 +21,7 @@ namespace BALTests
     [Collection("Database collection")]
     public class TeamserviceTests
     { 
-        private readonly TeamService _teamService;
+        private readonly ITeam _teamService;
         DataBaseFixture _fixture;
 
         public TeamserviceTests(DataBaseFixture fixture)
