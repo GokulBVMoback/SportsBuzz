@@ -14,7 +14,8 @@ namespace API.Controllers
     public class UserController : BaseController
     {
         private readonly IUserInterface _userService;
-        
+        public const string SessionKey = "UserId";
+
         public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService) : base(dbcontext)
         {
             _userService = userService;
@@ -77,11 +78,13 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                string result = _userService.LogIn(logIn);
-                if(result!=null)
+                Tuple<string, int> result = _userService.LogIn(logIn);
+                if (result!=null)
                 {
+                    HttpContext.Session.SetInt32(SessionKey, result.Item2);
+                    var test = HttpContext.Session.GetInt32(SessionKey);
                     crudStatus.Status=true;
-                    crudStatus.Message=result;
+                    crudStatus.Message=result.Item1;
                 }
                 else
                 { 

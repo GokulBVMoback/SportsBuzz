@@ -14,7 +14,7 @@ namespace BAL.Abstraction
         bool CheckExtistUser(Registration user);
         bool CheckPassword(Registration user);
         string Registration(Registration user);
-        string LogIn(TblUser login);
+        Tuple<string, int> LogIn(TblUser login);
         bool ForgetPassword(Registration changePassword);
         bool ChangingActiveStatus(int userId);
         List<string> UserNotifications(int userId);
