@@ -122,19 +122,19 @@ namespace BALTest.Services
             Assert.NotNull(result);
         }
 
-        [Fact]
-        public void LogIn_with_correct_mail_password()
-        {
-            //Arrange
-            var user = new TblUser() { Email = "bvgokulgok@gmail.com", Password = "1234" };
-            encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
-            genarate.Setup(x => x.GenerateToken(user)).Returns("login successfull");
-            //Act
-            string result = userService.LogIn(user);
+        //[Fact]
+        //public void LogIn_with_correct_mail_password()
+        //{
+        //    //Arrange
+        //    var user = new TblUser() { Email = "bvgokulgok@gmail.com", Password = "1234" };
+        //    encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
+        //    genarate.Setup(x => x.GenerateToken(user)).Returns("login successfull");
+        //    //Act
+        //    string result = userService.LogIn(user);
 
-            //Assert
-            Assert.NotNull(result);
-        }
+        //    //Assert
+        //    Assert.NotNull(result);
+        //}
 
         [Fact]
         public void LogIn_with_correct_mail_wrong_password()

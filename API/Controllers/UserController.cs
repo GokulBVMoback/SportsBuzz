@@ -80,9 +80,9 @@ namespace API.Controllers
             {
                 Tuple<string, int> result = _userService.LogIn(logIn);
                 if (result!=null)
-                {
-                    HttpContext.Session.SetInt32(SessionKey, result.Item2);
-                    var test = HttpContext.Session.GetInt32(SessionKey);
+                {                    
+                    HttpContext.Session.SetInt32(SessionKey,result.Item2);
+                    LoginId(SessionKey);
                     crudStatus.Status=true;
                     crudStatus.Message=result.Item1;
                 }

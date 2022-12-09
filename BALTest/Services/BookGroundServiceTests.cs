@@ -23,7 +23,7 @@ namespace BALTest.Services
         {
             _fixture = fixture;
             notification= new Mock<INotification>();
-            _bookinggroundservice = new BookingGroundService(_fixture.context,notification.Object);
+            //_bookinggroundservice = new BookingGroundService(_fixture.context,notification.Object);
         }
 
         [Fact]
