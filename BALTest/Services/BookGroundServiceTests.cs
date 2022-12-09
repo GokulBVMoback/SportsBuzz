@@ -1,6 +1,7 @@
 ﻿using BAL.Abstraction;
 using BAL.Services;
 using Entities.Models;
+using Microsoft.AspNetCore.Http.Features;
 using Models.DbModels;
 using Moq;
 using System;
@@ -16,7 +17,7 @@ namespace BALTest.Services
     public class BookGroundServiceTests
     {
         private readonly DataBaseFixture _fixture;
-        private readonly BookingGroundService bookingGroundService;
+        private readonly IBookingGround bookingGroundService;
         private readonly Mock<INotification> notification;
         private readonly IGround ground;
 
@@ -47,21 +48,39 @@ namespace BALTest.Services
         }
 
         [Fact]
-        public void BookingGround_with_already_booked_Ground()
+        public void Get_Availabe_GroundDetails_not_booked_Session()
         {
             //Arrange
-            var booking = new TblBookGround()
+            var bookground = new SearchAvailableGround()
             {
-                TeamId=1,
-                SessionId=1,
-                Date= new DateTime(2022, 12, 19),
-                GroundId=1
+                SessionId = 2,
+                City="Chennai",
+                Date = new DateTime(2022, 12, 19)
             };
 
             //Act
-            var result = bookingGroundService.BookingGround(booking);
+            var result = bookingGroundService.GetGroundDetails(bookground);
             //Assert
-            Assert.True(result);
+            var items = Assert.IsType<List<GroundList>>(result);
+            Assert.Equal(1,items.Count);   
+        }
+
+        [Fact]
+        public void Get_Availabe_GroundDetails_not_booked_date()
+        {
+            var bookground = new SearchAvailableGround()
+            {
+                SessionId=1,
+                City="Chennai",
+                Date= new DateTime(2022, 12, 20)
+            };
+
+            //Act
+            var result = bookingGroundService.GetGroundDetails(bookground);
+            //Assert
+            var items = Assert.IsType<List<GroundList>>(result); 
+            Assert.Equal(1, items.Count);
+
         }
 
         [Fact]
@@ -70,9 +89,7 @@ namespace BALTest.Services
             //Arrage
             var message = new TblBookGround()
             {
-                TeamId = 1,
-                SessionId = 1,
-                GroundId = 1
+                BookedId= 1
             };
 
             // Act
@@ -99,7 +116,7 @@ namespace BALTest.Services
         }
 
         [Fact]
-        public void CheckExtist_booknewgrounddetails()
+        public void CheckExtist_bookgrounddetails_groundId()
         {
             //Arrange
             var bookdetailsExtist = new TblBookGround()

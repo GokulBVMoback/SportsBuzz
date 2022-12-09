@@ -81,14 +81,16 @@ namespace BALTest.Services
 
             var BookingGround=new List<TblBookGround>()
             {
-                new TblBookGround() { BookedId = 1, TeamId = 1, SessionId = 1, Date =new DateTime(2022,12,19), GroundId =1 }
+                new TblBookGround() { BookedId = 1, TeamId = 1, SessionId = 1, Date =new DateTime(2022,12,19), GroundId =1 },             
             };
             context.TblBookGrounds.AddRange(BookingGround);
             context.SaveChanges();
 
             var session = new List<TblSession>()
             {
-                new TblSession() { SessionId = 1, Session=new TimeSpan(25,20,55)}
+                new TblSession() { SessionId = 1, Session=new TimeSpan(6, 30, 00)},
+                new TblSession() {SessionId= 2, Session=new TimeSpan(10, 30, 00)},
+                new TblSession() {SessionId= 3, Session=new TimeSpan(12,30,00)}
             };
             context.TblSessions.AddRange(session);
             context.SaveChanges();
