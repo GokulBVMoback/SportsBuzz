@@ -15,7 +15,7 @@ namespace BAL.Abstraction
 
         bool CheckExtistUser(Registration user);
         bool CheckPassword(Registration user);
-        string Registration(Registration user);
+        string Registration(TblUser user);
         string LogIn(TblUser login);
         bool ForgetPassword(Registration changePassword);
         bool ChangingActiveStatus(int userId);

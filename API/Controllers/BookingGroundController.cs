@@ -4,7 +4,8 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DbModels;
-
+using NHibernate.Mapping;
+using Repository;
 
 namespace API.Controllers
 {
@@ -38,14 +39,16 @@ namespace API.Controllers
         [HttpPost]
         [Route("Booking_Match")]
         [Authorize(Policy = "Team Manager")]
-        public JsonResult BookingGround(TblBookGround booking)
+        public JsonResult BookingGround(GroundBooking booking)
         {
             try
             {
-                bool result = _bookingGround.CheckExtistBookedDetails(booking);
+                var bookingdto=AutoMapper<GroundBooking, TblBookGround>.MapList2(booking);
+
+                bool result = _bookingGround.CheckExtistBookedDetails(bookingdto);
                 if (result == false)
                 {
-                    _bookingGround.BookingGround(booking);
+                    _bookingGround.BookingGround(bookingdto);
                     crudStatus.Status = true;
                     crudStatus.Message = "Ground booked successfully";
                 }

@@ -2,11 +2,6 @@
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Models.DbModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BAL.Services
 {
@@ -37,13 +32,9 @@ namespace BAL.Services
              return result.ToList();         
         }
 
-        public bool AddTeamMember(TblTeamMember Player)
-        {            
-            Player.PlayerFirstName = Player.PlayerFirstName;
-            Player.PlayerLastName = Player.PlayerLastName;
-            Player.Age = Player.Age;
-            Player.JerseyNo = Player.JerseyNo;
-            _dbContext.TblTeamMembers.Add(Player);
+        public bool AddTeamMember(TblTeamMember player)
+        {
+            _dbContext.TblTeamMembers.Add(player);
             _dbContext.SaveChanges();
             return true;
         }
@@ -70,9 +61,9 @@ namespace BAL.Services
             return true;
         }
 
-        public bool DeleteTeamMember(TblTeamMember Player)
+        public bool DeleteTeamMember(TblTeamMember player)
         {
-            TblTeamMember teamMember1 = _dbContext.TblTeamMembers.Where(x => x.MemberId == Player.MemberId).FirstOrDefault()!;
+            TblTeamMember teamMember1 = _dbContext.TblTeamMembers.Where(x => x.MemberId == player.MemberId).FirstOrDefault()!;
             _dbContext.TblTeamMembers.Remove(teamMember1);
             _dbContext.SaveChanges();
             return true;

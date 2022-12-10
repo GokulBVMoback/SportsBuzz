@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.DbModels;
+using Repository;
 using System.Text.RegularExpressions;
 
 namespace API.Controllers
@@ -67,11 +68,12 @@ namespace API.Controllers
         [HttpPost]
         [Route("AddGround")]
         [Authorize(Policy = "Ground Manager")]
-        public JsonResult AddGrounds(TblGround ground)
+        public JsonResult AddGrounds(GroundRegister ground)
         {
             try
             {
-                _groundService.AddGrounds(ground);
+                var grounddto = AutoMapper<GroundRegister, TblGround>.MapList2(ground);
+                _groundService.AddGrounds(grounddto);
                 crudStatus.Status = true;
                 crudStatus.Message = "Ground added successfully";
                 return new JsonResult(crudStatus);

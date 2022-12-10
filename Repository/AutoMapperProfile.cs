@@ -9,6 +9,7 @@ namespace Repository
         public AutoMapperProfile()
         {
             CreateMap<UserView, UserDisplayV2>();
+
         }
     }
 }
