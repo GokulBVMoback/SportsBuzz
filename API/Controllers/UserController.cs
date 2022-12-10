@@ -114,12 +114,13 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("LogIn")]
-        public JsonResult LogIn(TblUser logIn)
+        public JsonResult LogIn(LogIn logIn)
         {
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                string result = _userService.LogIn(logIn);
+                var logIndto = AutoMapper<LogIn, TblUser>.MapList2(logIn);
+                string result = _userService.LogIn(logIndto);
                 if(result!=null)
                 {
                     crudStatus.Status=true;
