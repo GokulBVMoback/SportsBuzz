@@ -4,6 +4,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DbModels;
+using Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,12 +37,13 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("AddTeamMember")]
-        public JsonResult AddTeamMember(TblTeamMember Player)
+        public JsonResult AddTeamMember(PlayerRegister player)
         {
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                _teamMemberService.AddTeamMember(Player);
+                var playerdto = AutoMapper<PlayerRegister, TblTeamMember>.MapClass(player);
+                _teamMemberService.AddTeamMember(playerdto);
                 crudStatus.Status = true;
                 crudStatus.Message = "Player added successfully";
                 return new JsonResult(crudStatus);

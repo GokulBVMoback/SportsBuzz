@@ -1,4 +1,5 @@
-﻿using BAL.Services;
+﻿using BAL.Abstraction;
+using BAL.Services;
 using BALTest.Services;
 using Entities.Models;
 using EnvDTE;
@@ -18,7 +19,7 @@ namespace BALTest.Services
     public class GroundTests
     {
 
-        private readonly GroundService groundservice;
+        private readonly IGround groundservice;
         private readonly DataBaseFixture _fixture;
 
         public GroundTests(DataBaseFixture fixture)
