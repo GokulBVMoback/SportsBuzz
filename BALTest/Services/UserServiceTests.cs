@@ -172,10 +172,18 @@ namespace BALTest.Services
             encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
 
             //Act
-            var result = userService.ForgetPassword(user);
+            try
+            {
+                userService.ForgetPassword(user);
+                Assert.True(true);
+            }
+            catch
+            {
+                Assert.True(false);
+            }
 
             //Assert
-            Assert.True(result);
+           
         }
     }
 }

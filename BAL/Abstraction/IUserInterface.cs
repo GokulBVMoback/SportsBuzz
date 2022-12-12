@@ -10,13 +10,13 @@ namespace BAL.Abstraction
 {
     public interface IUserInterface
     {
-        List<UserDisplay> GetUser();
+         List<UserDisplay> GetUser();
         bool CheckExtistUser(Registration user);
         bool CheckPassword(Registration user);
         string Registration(Registration user);
         string LogIn(TblUser login);
-        bool ForgetPassword(Registration changePassword);
-        bool ChangingActiveStatus(int userId);
+        void ForgetPassword(Registration changePassword);
+        void ChangingActiveStatus(int userId);
         List<string> UserNotifications(int userId);
     }
 }

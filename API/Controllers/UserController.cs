@@ -4,8 +4,11 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.DbModels;
+using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -14,10 +17,15 @@ namespace API.Controllers
     public class UserController : BaseController
     {
         private readonly IUserInterface _userService;
-        
-        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService) : base(dbcontext)
+        private readonly DbSportsBuzzContext _dbcontext;
+        private readonly IPagination _pagination;
+        CrudStatus crudStatus;
+        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService, IPagination pagination) : base(dbcontext)
         {
             _userService = userService;
+            _dbcontext = dbcontext;
+            _pagination = pagination;
+            crudStatus = new CrudStatus();
         }
 
         [HttpGet]
@@ -34,11 +42,28 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Paginated")]
+        public IActionResult GetUsers([FromQuery] PaginationParameters ownerParameters)
+        {
+            var user =  _pagination.GetUser(ownerParameters);
+            var metadata = new
+            {
+                user.TotalCount,
+                user.PageSize,
+                user.CurrentPage,
+                user.TotalPages,
+                user.HasNext,
+                user.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(user);
+        }
+
         [HttpPost]
         [Route("registration")]
         public JsonResult Registration(Registration User)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result= _userService.CheckExtistUser(User);
@@ -74,7 +99,6 @@ namespace API.Controllers
         [Route("LogIn")]
         public JsonResult LogIn(TblUser logIn)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 string result = _userService.LogIn(logIn);
@@ -99,7 +123,6 @@ namespace API.Controllers
         [HttpPut("Forget Password")]
         public JsonResult ForgetPassword(Registration changePassword)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result = _userService.CheckExtistUser(changePassword);
@@ -134,10 +157,9 @@ namespace API.Controllers
         [HttpPut("Changing_Active_Status")]
         public JsonResult ChangingActiveStatus(int userId)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _userService.ChangingActiveStatus(userId);
+                _userService.ChangingActiveStatus(userId);
                 crudStatus.Status = true;
                 crudStatus.Message = "Active status changed successfully";
                 return new JsonResult(crudStatus);
@@ -151,7 +173,6 @@ namespace API.Controllers
         [HttpGet("User_Notification")]
         public JsonResult UserNotifications(int userId)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 return new JsonResult(_userService.UserNotifications(userId));

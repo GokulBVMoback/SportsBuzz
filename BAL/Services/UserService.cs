@@ -14,14 +14,18 @@ using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Twilio.TwiML.Messaging;
+using Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
+
 namespace BAL.Services
 {
-    public class UserService : IUserInterface
+    public class UserService : IUserInterface,IPagination
     {
         private readonly DbSportsBuzzContext _dbContext;
         private readonly IEncrypt encryptService;
-        private readonly IGenarate _genarate;
-
+        private readonly IGenarate _genarate; 
         public UserService(DbSportsBuzzContext dbContext, IEncrypt encrypt, IGenarate genarate)
         {
             encryptService = encrypt;
@@ -30,8 +34,8 @@ namespace BAL.Services
         }
 
         public List<UserDisplay> GetUser()
-        {
-            List<UserDisplay> result = (from user in _dbContext.TblUsers
+        { 
+            List<UserDisplay> result =  (from user in _dbContext.TblUsers
                                         join role in _dbContext.TblUserRoles on user.UserRole equals role.UserRoleId
                                         orderby user.UserId
                                         select new UserDisplay
@@ -41,31 +45,37 @@ namespace BAL.Services
                                             LastName = user.LastName,
                                             Email = user.Email,
                                             PhoneNum = user.PhoneNum,
-                                            UserRole = role.UserRole,
-                                            CreatedDate = user.CreatedDate,
-                                            UpdatedDate = user.UpdatedDate,
-                                            Active = user.Active
+                                            UserRole = role.UserRole
                                         }).ToList();
             return result.ToList();
+        }
+        public IQueryable<TblUser> GetAll()
+        {
+            return this. _dbContext.Set<TblUser>()
+                .AsNoTracking();
+        }
+        public PagedList<TblUser> GetUser(PaginationParameters ownerParameters)
+        {
+            bool IsDescending=ownerParameters.IsDescending;
+            if(IsDescending==false)
+            return PagedList<TblUser>.ToPagedList(GetAll().OrderBy(on => on.CreatedDate),
+                ownerParameters.PageNumber,
+                ownerParameters.PageSize);
+            else
+            return PagedList<TblUser>.ToPagedList(GetAll().OrderByDescending(on => on.CreatedDate),
+                ownerParameters.PageNumber,
+                ownerParameters.PageSize);
         }
 
         public bool CheckExtistUser(Registration user)
         {
             TblUser user1 = _dbContext.TblUsers.Where(x => x.Email == user.Email).FirstOrDefault()!;
-            if (user1 is null)
-            {
-                return false;
-            }
-            return true;
+            return user1!=null;
         }
 
         public bool CheckPassword(Registration user)
         {
-            if (user.Password == user.ConfirmPassword)
-            {
-                return true;
-            }
-            return false;
+            return user.Password == user.ConfirmPassword;
         }
 
         public string Registration(Registration user)
@@ -92,31 +102,22 @@ namespace BAL.Services
             return null!;
         }
  
-        public bool ForgetPassword(Registration changePassword)
+        public void ForgetPassword(Registration changePassword)
         {
             TblUser user1 = _dbContext.TblUsers.Where(x => x.Email == changePassword.Email).FirstOrDefault()!;
             user1!.Password = encryptService.EncodePasswordToBase64(changePassword.Password!);
             user1.UpdatedDate = DateTime.Now;
             _dbContext.Entry(user1).State = EntityState.Modified;
             _dbContext.SaveChanges();
-            return true;
         }
 
-        public bool ChangingActiveStatus(int userId)
+        public void ChangingActiveStatus(int userId)
         {
             TblUser user = _dbContext.TblUsers.Where(x => x.UserId == userId).FirstOrDefault()!;
-            if(user.Active==true)
-            {
-                user.Active = false;
-            }
-            else
-            {
-                user!.Active = true;
-            }
+            user.Active=user.Active==true?false:true;
             user.UpdatedDate = DateTime.Now;
             _dbContext.Entry(user).State = EntityState.Modified;
             _dbContext.SaveChanges();
-            return true;
         }
 
         public List<string> UserNotifications(int userId)
@@ -125,13 +126,7 @@ namespace BAL.Services
             if (user.UserRole == 1)
             {
                 TblTeam manager = _dbContext.TblTeams.Where(x => x.UserId == userId).FirstOrDefault()!;
-                //List<TblBookGround> notification = _dbContext.TblBookGrounds.Where(x => x.GroundId == manager.GroundId).ToList();
                 List<string> notifications = new List<string>();
-                //foreach (var items in notification)
-                //{
-                //    string message = "Hi " + items.TeamId + " booked your ground " + items.GroundId + " on " + items.Date + " at " + items.SessionId;
-                //    notifications.Add(message);
-                //}
                 return notifications;
             }
             else
