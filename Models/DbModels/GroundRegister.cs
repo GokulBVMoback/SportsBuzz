@@ -1,5 +1,4 @@
-﻿using Entities.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Models.DbModels
 {
-    public class GroundList
+    public class GroundRegister
     {
-        public int GroundId { get; set; }
-
         public string? CompanyName { get; set; }
 
         public string? Venue { get; set; }
@@ -21,14 +18,8 @@ namespace Models.DbModels
 
         public string? Longitude { get; set; }
 
-        public string? SportType { get; set; }
+        public int? SportType { get; set; }
 
         public int? UserId { get; set; }
-
-        public DateTime? CreatedDate { get; set; }
-
-        public DateTime? UpdatedDate { get; set; }
-
-        public bool? Active { get; set; }
     }
 }

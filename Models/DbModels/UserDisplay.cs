@@ -4,9 +4,18 @@ using System.Collections.Generic;
 
 namespace Models.DbModels;
 
-public class UserDisplay:TblUser
+public class UserDisplay
 {
-    public new string? UserRole { get; set; }
+    public int UserId { get; set; }
 
+    public string? FirstName { get; set; }
+
+    public string? LastName { get; set; }
+
+    public string? Email { get; set; }
+
+    public long? PhoneNum { get; set; }
+
+    public string? UserRole { get; set; }
 
 }
