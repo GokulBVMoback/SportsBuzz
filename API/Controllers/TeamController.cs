@@ -68,7 +68,7 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                var teamdto = AutoMapper<TeamRegister, TblTeam>.MapList2(team);
+                var teamdto = AutoMapper<TeamRegister, TblTeam>.MapClass(team);
                 bool result = _teamService.CheckExtistUserId(teamdto);
                 if (result == false)
                 {

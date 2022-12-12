@@ -72,7 +72,7 @@ namespace API.Controllers
         {
             try
             {
-                var grounddto = AutoMapper<GroundRegister, TblGround>.MapList2(ground);
+                var grounddto = AutoMapper<GroundRegister, TblGround>.MapClass(ground);
                 _groundService.AddGrounds(grounddto);
                 crudStatus.Status = true;
                 crudStatus.Message = "Ground added successfully";

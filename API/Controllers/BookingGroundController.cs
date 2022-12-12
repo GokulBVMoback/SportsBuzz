@@ -43,7 +43,7 @@ namespace API.Controllers
         {
             try
             {
-                var bookingdto=AutoMapper<GroundBooking, TblBookGround>.MapList2(booking);
+                var bookingdto=AutoMapper<GroundBooking, TblBookGround>.MapClass(booking);
 
                 bool result = _bookingGround.CheckExtistBookedDetails(bookingdto);
                 if (result == false)

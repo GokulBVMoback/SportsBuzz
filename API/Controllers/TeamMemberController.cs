@@ -42,7 +42,7 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                var playerdto = AutoMapper<PlayerRegister, TblTeamMember>.MapList2(player);
+                var playerdto = AutoMapper<PlayerRegister, TblTeamMember>.MapClass(player);
                 _teamMemberService.AddTeamMember(playerdto);
                 crudStatus.Status = true;
                 crudStatus.Message = "Player added successfully";

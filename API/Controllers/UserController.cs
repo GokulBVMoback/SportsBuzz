@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.DbModels;
+using NHibernate.Mapping;
 using Repository;
 
 namespace API.Controllers
@@ -82,7 +83,7 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                var userdto = AutoMapper<Registration, TblUser>.MapList2(user);
+                var userdto = AutoMapper<Registration, TblUser>.MapClass(user);
                 bool result = _userService.CheckExtistUser(user);
                 if(result==false)
                 {
@@ -119,7 +120,7 @@ namespace API.Controllers
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                var logIndto = AutoMapper<LogIn, TblUser>.MapList2(logIn);
+                var logIndto = AutoMapper<LogIn, TblUser>.MapClass(logIn);
                 string result = _userService.LogIn(logIndto);
                 if(result!=null)
                 {
@@ -140,18 +141,19 @@ namespace API.Controllers
         }
 
         [HttpPut("Forget Password")]
-        public JsonResult ForgetPassword(Registration changePassword)
+        public JsonResult ForgetPassword(ForgotPassword changePassword)
         {
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _userService.CheckExtistUser(changePassword);
+                var changePassworddto = AutoMapper<ForgotPassword, Registration>.MapClass(changePassword);
+                bool result = _userService.CheckExtistUser(changePassworddto);
                 if (result== true)
                 {
-                    result = _userService.CheckPassword(changePassword);
+                    result = _userService.CheckPassword(changePassworddto);
                     if (result== true)
                     {
-                        _userService.ForgetPassword(changePassword);
+                        _userService.ForgetPassword(changePassworddto);
                         crudStatus.Status = true;
                         crudStatus.Message = "Password updated successfully";
                     }

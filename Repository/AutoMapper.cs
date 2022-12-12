@@ -18,7 +18,7 @@ namespace Repository
             return result;
         }
 
-        public static TDestination MapList2(Tsource soure)
+        public static TDestination MapClass(Tsource soure)
         {
             var result = _mapper.Map<TDestination>(soure);
             return result!;
