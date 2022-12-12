@@ -80,22 +80,6 @@ namespace BALTest.Services
             //Assert
             var items = Assert.IsType<List<GroundList>>(result); 
             Assert.Equal(1, items.Count);
-
-        }
-
-        [Fact]
-        public void GenerateMessage_notification()
-        {
-            //Arrage
-            var message = new TblBookGround()
-            {
-                BookedId= 1
-            };
-
-            // Act
-            var result = bookingGroundService.GenerateMessage(message);
-            //Assert
-            Assert.NotNull(result);   
         }
 
         [Fact]

@@ -89,8 +89,8 @@ namespace BALTest.Services
             var session = new List<TblSession>()
             {
                 new TblSession() { SessionId = 1, Session=new TimeSpan(6, 30, 00)},
-                new TblSession() {SessionId= 2, Session=new TimeSpan(10, 30, 00)},
-                new TblSession() {SessionId= 3, Session=new TimeSpan(12,30,00)}
+                new TblSession() {SessionId= 2, Session=new TimeSpan(10, 00, 00)},
+                new TblSession() {SessionId= 3, Session=new TimeSpan(2,00,00)}
             };
             context.TblSessions.AddRange(session);
             context.SaveChanges();
