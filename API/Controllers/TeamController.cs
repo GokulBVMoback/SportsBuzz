@@ -5,6 +5,7 @@ using Models.DbModels;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Repository;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers
@@ -62,18 +63,19 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("TeamRegistration")]
-        public JsonResult TeamRegistration(TblTeam team)
+        public JsonResult TeamRegistration(TeamRegister team)
         {
             CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _teamService.CheckExtistUserId(team);
+                var teamdto = AutoMapper<TeamRegister, TblTeam>.MapClass(team);
+                bool result = _teamService.CheckExtistUserId(teamdto);
                 if (result == false)
                 {
-                    result = _teamService.CheckExtistTeam(team);
+                    result = _teamService.CheckExtistTeam(teamdto);
                     if (result == false)
                     {
-                        _teamService.TeamRegistration(team);
+                        _teamService.TeamRegistration(teamdto);
                         crudStatus.Status = true;
                         crudStatus.Message = "Team added successfully";
                     }

@@ -1,19 +1,7 @@
 ﻿using BAL.Abstraction;
 using Entities.Models;
-using EnvDTE;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Models.DbModels;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 namespace BAL.Services
 {
     public class UserService : IUserInterface
@@ -41,13 +29,17 @@ namespace BAL.Services
                                             LastName = user.LastName,
                                             Email = user.Email,
                                             PhoneNum = user.PhoneNum,
-                                            UserRole = role.UserRole,
-                                            CreatedDate = user.CreatedDate,
-                                            UpdatedDate = user.UpdatedDate,
-                                            Active = user.Active
+                                            UserRole = role.UserRole
                                         }).ToList();
             return result.ToList();
         }
+
+        public List<UserView> GetUserVersion2()
+        {
+            var ver2 = _dbContext.UserViews.ToList();
+            return ver2;
+        }
+
 
         public bool CheckExtistUser(Registration user)
         {
@@ -68,7 +60,7 @@ namespace BAL.Services
             return false;
         }
 
-        public string Registration(Registration user)
+        public string Registration(TblUser user)
         {
             user.Password = encryptService.EncodePasswordToBase64(user.Password!);
             user.CreatedDate = DateTime.Now;

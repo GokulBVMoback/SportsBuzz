@@ -1,4 +1,5 @@
-﻿using BAL.Services;
+﻿using BAL.Abstraction;
+using BAL.Services;
 using BALTest.Services;
 using Entities.Models;
 using EnvDTE;
@@ -15,7 +16,7 @@ namespace BALTests
     [Collection("Database collection")]
     public class TeamMemberServiceTests
     {
-        private readonly TeamMemberService teamMemberService;
+        private readonly ITeamMember teamMemberService;
         DataBaseFixture _fixture;
 
         public TeamMemberServiceTests(DataBaseFixture fixture)

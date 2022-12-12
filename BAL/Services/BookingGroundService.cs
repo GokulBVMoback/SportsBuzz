@@ -1,14 +1,6 @@
 ﻿using BAL.Abstraction;
 using Entities.Models;
-using EnvDTE;
-using Microsoft.EntityFrameworkCore;
 using Models.DbModels;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BAL.Services
 {
@@ -28,12 +20,14 @@ namespace BAL.Services
         public List<GroundList> GetGroundDetails(SearchAvailableGround availableGround)
         {
             List<TblBookGround> list = _dbContext.TblBookGrounds.ToList().Where(x => x.SessionId == availableGround.SessionId && x.Date==availableGround.Date).ToList();
-            List<GroundList> grd2 = ground.SearchByGroundCity(availableGround.City!).ToList();            
+            List<GroundList> grd2 = ground.SearchByGroundCity(availableGround.City!).ToList();
+            List<GroundList> grnds = new List<GroundList>();
             foreach (var items in list)
             {
-                grd2 = grd2.Where(x => x.GroundId != items.GroundId).ToList();
+                GroundList grnd = grd2.Where(x => x.GroundId != items.GroundId).FirstOrDefault()!;
+                grnds.Add(grnd);
             }            
-            return grd2;
+            return grnds;
         }
 
         public void BookingGround(TblBookGround booking)

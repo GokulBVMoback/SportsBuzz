@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entiti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{715EC64B-F580-40B5-A582-C5DA3E9D43D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BALTest", "BALTest\BALTest.csproj", "{861802E8-C885-4D2E-BD3E-32A5AF05E8AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BALTest", "BALTest\BALTest.csproj", "{861802E8-C885-4D2E-BD3E-32A5AF05E8AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{8FFECFC1-864F-4812-A394-992030EEDB08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{861802E8-C885-4D2E-BD3E-32A5AF05E8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{861802E8-C885-4D2E-BD3E-32A5AF05E8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{861802E8-C885-4D2E-BD3E-32A5AF05E8AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FFECFC1-864F-4812-A394-992030EEDB08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FFECFC1-864F-4812-A394-992030EEDB08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FFECFC1-864F-4812-A394-992030EEDB08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FFECFC1-864F-4812-A394-992030EEDB08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
