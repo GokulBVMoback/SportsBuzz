@@ -131,7 +131,7 @@ namespace BALTest.Services
             encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
             genarate.Setup(x => x.GenerateToken(user)).Returns("login successfull");
             //Act
-            string result = userService.LogIn(user);
+            Tuple<string,int> result = userService.LogIn(user);
 
             //Assert
             Assert.NotNull(result);

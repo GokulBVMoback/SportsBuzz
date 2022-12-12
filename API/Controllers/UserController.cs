@@ -20,9 +20,9 @@ namespace API.Controllers
     public class UserController : BaseController
     {
         private readonly IUserInterface _userService;
+        public const string SessionKey = "UserId";
         private readonly IMapper _mapper;
         private readonly DbSportsBuzzContext _db;
-
 
         public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService, IMapper mapper) : base(dbcontext)
         {
@@ -121,14 +121,16 @@ namespace API.Controllers
             try
             {
                 var logIndto = AutoMapper<LogIn, TblUser>.MapClass(logIn);
-                string result = _userService.LogIn(logIndto);
-                if(result!=null)
+                Tuple<string, int> result = _userService.LogIn(logIndto);
+                if (result != null)
                 {
-                    crudStatus.Status=true;
-                    crudStatus.Message=result;
+                    HttpContext.Session.SetInt32(SessionKey, result.Item2);
+                    LoginId(SessionKey);
+                    crudStatus.Status = true;
+                    crudStatus.Message = result.Item1;
                 }
                 else
-                { 
+                {
                     crudStatus.Status = false;
                     crudStatus.Message = "Email and Password does not match";
                 }

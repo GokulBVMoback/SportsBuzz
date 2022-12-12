@@ -72,18 +72,19 @@ namespace BAL.Services
             return token;
         }
 
-        public string LogIn(TblUser login)
+        public Tuple<string, int> LogIn(TblUser login)
         {
             TblUser user = _dbContext.TblUsers.Where(x => x.Email == login.Email && x.Password == encryptService.EncodePasswordToBase64(login.Password!)).FirstOrDefault()!;
             if (user != null)
             {
-                login.UserRole=user.UserRole;
+                login.UserRole = user.UserRole;
                 var token = _genarate.GenerateToken(login);
-                return token;
+                Tuple<string, int> myid = new Tuple<string, int>(token, user.UserId);
+                return myid;
             }
             return null!;
         }
- 
+
         public bool ForgetPassword(Registration changePassword)
         {
             TblUser user1 = _dbContext.TblUsers.Where(x => x.Email == changePassword.Email).FirstOrDefault()!;
