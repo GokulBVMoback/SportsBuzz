@@ -29,11 +29,8 @@ namespace BAL.Services
                                             Email= team.Email,
                                             PhoneNum= team.PhoneNum,
                                             FirstName=user.FirstName,
-                                            LastName=user.LastName,
-                                            CreatedDate= team.CreatedDate,
-                                            UpdatedDate= team.UpdatedDate,
-                                            Active= team.Active
-                                         }).ToList();
+                                            LastName=user.LastName
+                                        }).ToList();
             return result.ToList();
         }
 
@@ -50,58 +47,40 @@ namespace BAL.Services
         public bool CheckExtistTeam(TblTeam team)
         {
             TblTeam team1 = _dbContext.TblTeams.Where(x => x.TeamName == team.TeamName).FirstOrDefault()!;
-            if (team1 == null)
-            {
-                return false;
-            }
-            return true;
+            return  team1 != null;  
         }
 
         public bool CheckExtistUserId(TblTeam team) 
         {
             TblTeam team2 = _dbContext.TblTeams.Where(y => y.UserId == team.UserId).FirstOrDefault()!;
-            if (team2 == null)
-            {
-                return false;
-            }
-            return true;
+            return team2!=null; 
         }
 
-        public bool TeamRegistration(TblTeam team)
+        public void TeamRegistration(TblTeam team)
         {
             team.CreatedDate = DateTime.Now;
             team.UpdatedDate = null;
             team.Active = true;
             _dbContext.TblTeams.Add(team);
             _dbContext.SaveChanges();
-            return true;
         }
 
-        public bool EditTeam(TblTeam TeamName)
+        public void EditTeam(TblTeam TeamName)
         {
             TblTeam team = _dbContext.TblTeams.Where(x => x.TeamId == TeamName.TeamId).FirstOrDefault()!;
             team.TeamName = TeamName.TeamName;
             team.UpdatedDate = DateTime.Now;
             _dbContext.Entry(team).State = EntityState.Modified;
             _dbContext.SaveChanges();
-            return true;
         }
 
-        public bool ChangingActiveStatus(int teamID)
+        public void ChangingActiveStatus(int teamID)
         {
             TblTeam team = _dbContext.TblTeams.Where(x => x.TeamId == teamID).FirstOrDefault()!;
-            if (team.Active == true)
-            {
-                team.Active = false;
-            }
-            else
-            {
-                team!.Active = true;
-            }
+            team.Active=team.Active==true?false:true;   
             team.UpdatedDate = DateTime.Now;
             _dbContext.Entry(team).State = EntityState.Modified;
             _dbContext.SaveChanges();
-            return true;
         }
     }
 }

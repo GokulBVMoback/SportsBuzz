@@ -16,10 +16,12 @@ namespace API.Controllers
     public class TeamMemberController : BaseController
     {
         private readonly ITeamMember _teamMemberService;
-        
+        private readonly CrudStatus crudStatus;
+
         public TeamMemberController(DbSportsBuzzContext dbcontext, ITeamMember teamMemberService)  :base(dbcontext)
         {
             _teamMemberService = teamMemberService;
+            crudStatus = new CrudStatus();  
         }
 
         [HttpGet]
@@ -38,8 +40,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("AddTeamMember")]
         public JsonResult AddTeamMember(PlayerRegister player)
-        {
-            CrudStatus crudStatus = new CrudStatus();
+        {            
             try
             {
                 var playerdto = AutoMapper<PlayerRegister, TblTeamMember>.MapClass(player);
@@ -57,8 +58,7 @@ namespace API.Controllers
         [HttpPut]
         [Route("EditTeamMember")]
         public JsonResult EditTeamMember(TblTeamMember Player)
-        {
-            CrudStatus crudStatus = new CrudStatus();
+        {            
             try
             {
                 bool result = _teamMemberService.CheckExtistTeamMember(Player);
@@ -84,8 +84,7 @@ namespace API.Controllers
         [HttpDelete]
         [Route("delete")]
         public JsonResult DeleteTeamMember(TblTeamMember Player)
-        {
-            CrudStatus crudStatus = new CrudStatus();
+        {            
             try
             {
                 bool result = _teamMemberService.CheckExtistTeamMember(Player);

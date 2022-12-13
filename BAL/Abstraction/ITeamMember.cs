@@ -11,9 +11,9 @@ namespace BAL.Abstraction
     public interface ITeamMember
     {
         List<PlayerList> GetTeamMember();
-        bool AddTeamMember(TblTeamMember Player);
+        void  AddTeamMember(TblTeamMember Player);
         bool CheckExtistTeamMember(TblTeamMember Player);
-        bool EditTeamMember(TblTeamMember Player);
-        bool DeleteTeamMember(TblTeamMember Player);
+        void EditTeamMember(TblTeamMember Player);
+        void DeleteTeamMember(TblTeamMember Player);
     }
 }
