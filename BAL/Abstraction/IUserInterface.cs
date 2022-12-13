@@ -14,7 +14,7 @@ namespace BAL.Abstraction
         List<UserView> GetUserVersion2();
         bool CheckExtistUser(Registration user);
         bool CheckPassword(Registration user);
-        string Registration(TblUser user);
+        Tuple<string, int> Registration(TblUser user);
         Tuple<string, int> LogIn(TblUser login);
         void ForgetPassword(Registration changePassword);
         void ChangingActiveStatus(int userId);

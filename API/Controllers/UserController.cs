@@ -113,9 +113,11 @@ namespace API.Controllers
                     result=_userService.CheckPassword(user);
                     if (result==true)
                     {
-                        string token=_userService.Registration(userdto);
+                        Tuple<string, int> token = _userService.Registration(userdto);
+                        HttpContext.Session.SetInt32(SessionKey, token.Item2);
+                        LoginId(SessionKey);
                         crudStatus.Status = true;
-                        crudStatus.Message = token;
+                        crudStatus.Message = token.Item1;
                     }
                     else
                     {

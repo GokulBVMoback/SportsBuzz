@@ -86,14 +86,15 @@ namespace API.Controllers
         
         [HttpPut("EditGround")]
         [Authorize(Policy = "Ground Manager")]
-        public JsonResult EditGround(TblGround venu)
+        public JsonResult EditGround(EditGround venu)
         {
             try
             {
-                bool result = _groundService.GroundChecking(venu);
+                var venudto = AutoMapper<EditGround, TblGround>.MapClass(venu);
+                bool result = _groundService.GroundChecking(venudto);
                 if (result == true)
                 {
-                    _groundService.EditGround(venu);
+                    _groundService.EditGround(venudto);
                     crudStatus.Status = true;
                     crudStatus.Message = "Ground details are updated successfully";
                 }
