@@ -53,13 +53,10 @@ namespace BALTests
         public void CheckExtistTeamMember()
         {
             //Arrange
-            var teamMemberExtist = new TblTeamMember()
-            {
-                MemberId = 1,
-            };
+            int memberID=1;
 
             //Act
-            var result = teamMemberService.CheckExtistTeamMember(teamMemberExtist);
+            var result = teamMemberService.CheckExtistTeamMember(memberID);
 
             //Assert
             Assert.True(result);
@@ -69,13 +66,11 @@ namespace BALTests
         public void CheckExtistNewTeamMember()
         {
             //Arrange
-            var teamMemberExtist = new TblTeamMember()
-            {
-                MemberId = 5,
-            };
+            int memberID = 5;
+
 
             //Act
-            var result =teamMemberService.CheckExtistTeamMember(teamMemberExtist);
+            var result =teamMemberService.CheckExtistTeamMember(memberID);
 
             //Assert
             Assert.False(result);
@@ -106,16 +101,13 @@ namespace BALTests
         public void Delete_TeamMember()
         {
             //Arrange
-            var DeleteTeamMember = new TblTeamMember()
-            {
-                MemberId = 1,
-            };
+            int memberID = 1;
 
             //Act
             try
             {
 
-                teamMemberService.DeleteTeamMember(DeleteTeamMember);
+                teamMemberService.DeleteTeamMember(memberID);
                 Assert.True(true);  
             }
             catch 

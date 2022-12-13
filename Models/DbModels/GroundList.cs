@@ -23,12 +23,5 @@ namespace Models.DbModels
 
         public string? SportType { get; set; }
 
-        public int? UserId { get; set; }
-
-        public DateTime? CreatedDate { get; set; }
-
-        public DateTime? UpdatedDate { get; set; }
-
-        public bool? Active { get; set; }
     }
 }

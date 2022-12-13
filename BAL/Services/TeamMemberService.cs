@@ -38,9 +38,9 @@ namespace BAL.Services
             _dbContext.SaveChanges();            
         }
 
-        public bool CheckExtistTeamMember(TblTeamMember Player)
+        public bool CheckExtistTeamMember(int memberID)
         {
-            TblTeamMember player = _dbContext.TblTeamMembers.Where(x => x.MemberId == Player.MemberId).FirstOrDefault()!;
+            TblTeamMember player = _dbContext.TblTeamMembers.Where(x => x.MemberId == memberID).FirstOrDefault()!;
             return player != null;
         }
 
@@ -55,9 +55,9 @@ namespace BAL.Services
             _dbContext.SaveChanges();           
         }
 
-        public void DeleteTeamMember(TblTeamMember player)
+        public void DeleteTeamMember(int memberID)
         {
-            TblTeamMember teamMember1 = _dbContext.TblTeamMembers.Where(x => x.MemberId == player.MemberId).FirstOrDefault()!;
+            TblTeamMember teamMember1 = _dbContext.TblTeamMembers.Where(x => x.MemberId == memberID).FirstOrDefault()!;
             _dbContext.TblTeamMembers.Remove(teamMember1);
             _dbContext.SaveChanges();           
         }

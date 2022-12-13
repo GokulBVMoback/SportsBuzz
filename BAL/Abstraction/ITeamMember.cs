@@ -12,8 +12,8 @@ namespace BAL.Abstraction
     {
         List<PlayerList> GetTeamMember();
         void  AddTeamMember(TblTeamMember Player);
-        bool CheckExtistTeamMember(TblTeamMember Player);
+        bool CheckExtistTeamMember(int memberID);
         void EditTeamMember(TblTeamMember Player);
-        void DeleteTeamMember(TblTeamMember Player);
+        void DeleteTeamMember(int memberID);
     }
 }

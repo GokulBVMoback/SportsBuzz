@@ -62,7 +62,7 @@ namespace API.Controllers
             try
             {
                 var playerdto = AutoMapper<EditPlayer, TblTeamMember>.MapClass(player);
-                bool result = _teamMemberService.CheckExtistTeamMember(playerdto);
+                bool result = _teamMemberService.CheckExtistTeamMember(playerdto.MemberId);
                 if (result == true)
                 {
                     _teamMemberService.EditTeamMember(playerdto);
@@ -84,14 +84,14 @@ namespace API.Controllers
 
         [HttpDelete]
         [Route("delete")]
-        public JsonResult DeleteTeamMember(TblTeamMember Player)
+        public JsonResult DeleteTeamMember(int memberID)
         {            
             try
             {
-                bool result = _teamMemberService.CheckExtistTeamMember(Player);
+                bool result = _teamMemberService.CheckExtistTeamMember(memberID);
                 if (result == true)
                 {
-                    _teamMemberService.DeleteTeamMember(Player);
+                    _teamMemberService.DeleteTeamMember(memberID);
                     crudStatus.Status = true;
                     crudStatus.Message = "Player deleted successfully";
                 }
