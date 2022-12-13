@@ -82,7 +82,7 @@ namespace BAL.Services
             return user.Password == user.ConfirmPassword;
         }
 
-        public string Registration(TblUser user)
+        public Tuple<string, int> Registration(TblUser user)
         {
             user.Password = encryptService.EncodePasswordToBase64(user.Password!);
             user.CreatedDate = DateTime.Now;
@@ -91,7 +91,9 @@ namespace BAL.Services
             _dbContext.TblUsers.Add(user);
             _dbContext.SaveChanges();
             var token = _genarate.GenerateToken(user);
-            return token;
+            Tuple<string, int> myid = new Tuple<string, int>(token, user.UserId);
+            return myid;
+            //return token;
         }
 
         public Tuple<string, int> LogIn(TblUser login)

@@ -57,14 +57,15 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("EditTeamMember")]
-        public JsonResult EditTeamMember(TblTeamMember Player)
+        public JsonResult EditTeamMember(EditPlayer player)
         {            
             try
             {
-                bool result = _teamMemberService.CheckExtistTeamMember(Player);
+                var playerdto = AutoMapper<EditPlayer, TblTeamMember>.MapClass(player);
+                bool result = _teamMemberService.CheckExtistTeamMember(playerdto);
                 if (result == true)
                 {
-                    _teamMemberService.EditTeamMember(Player);
+                    _teamMemberService.EditTeamMember(playerdto);
                     crudStatus.Status = true;
                     crudStatus.Message = "Player is updated successfully";
                 }
