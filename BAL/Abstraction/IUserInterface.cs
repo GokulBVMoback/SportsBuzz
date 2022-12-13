@@ -12,13 +12,12 @@ namespace BAL.Abstraction
     {
         List<UserDisplay> GetUser();
         List<UserView> GetUserVersion2();
-
         bool CheckExtistUser(Registration user);
         bool CheckPassword(Registration user);
         string Registration(TblUser user);
         Tuple<string, int> LogIn(TblUser login);
-        bool ForgetPassword(Registration changePassword);
-        bool ChangingActiveStatus(int userId);
+        void ForgetPassword(Registration changePassword);
+        void ChangingActiveStatus(int userId);
         List<string> UserNotifications(int userId);
     }
 }

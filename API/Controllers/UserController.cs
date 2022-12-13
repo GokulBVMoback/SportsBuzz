@@ -7,9 +7,11 @@ using FluentNHibernate.Automapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.DbModels;
+using Newtonsoft.Json;
 using NHibernate.Mapping;
 using Repository;
 
@@ -20,14 +22,18 @@ namespace API.Controllers
     public class UserController : BaseController
     {
         private readonly IUserInterface _userService;
-        public const string SessionKey = "UserId";
+        private readonly DbSportsBuzzContext _dbcontext;
+        private readonly IPagination _pagination;
+        private readonly CrudStatus crudStatus;
+        public new const string SessionKey = "UserId";
         private readonly IMapper _mapper;
-        private readonly DbSportsBuzzContext _db;
 
-        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService, IMapper mapper) : base(dbcontext)
+        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService, IMapper mapper, IPagination pagination) : base(dbcontext)
         {
-            _db = dbcontext;
             _userService = userService;
+            _dbcontext = dbcontext;
+            _pagination = pagination;
+            crudStatus = new CrudStatus();
             _mapper=mapper;
         }
 
@@ -45,6 +51,23 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Paginated")]
+        public IActionResult GetUsers([FromQuery] PaginationParameters ownerParameters)
+        {
+            var user = _pagination.GetUser(ownerParameters);
+            var metadata = new
+            {
+                user.TotalCount,
+                user.PageSize,
+                user.CurrentPage,
+                user.TotalPages,
+                user.HasNext,
+                user.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(user);
+        }
         [HttpGet]
         [Authorize]
         [MapToApiVersion("2")]
@@ -64,11 +87,11 @@ namespace API.Controllers
             var c = new MapperConfiguration(cfg => cfg.CreateProjection<TblUser, UserDisplay>()
                                                       .ForMember(dto => dto.UserRole, conf =>
                                                   conf.MapFrom(ol => ol.UserRoleNavigation!.UserRole)));
-            return Ok(_db.TblUsers.ProjectTo<UserDisplay>(c).ToList());
+            return Ok(_dbcontext.TblUsers.ProjectTo<UserDisplay>(c).ToList());
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [MapToApiVersion("4")]
         [Route("V4")]
         public List<UserDisplayV2> UserDetails4()
@@ -80,7 +103,6 @@ namespace API.Controllers
         [Route("registration")]
         public JsonResult Registration(Registration user)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 var userdto = AutoMapper<Registration, TblUser>.MapClass(user);
@@ -117,7 +139,6 @@ namespace API.Controllers
         [Route("LogIn")]
         public JsonResult LogIn(LogIn logIn)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 var logIndto = AutoMapper<LogIn, TblUser>.MapClass(logIn);
@@ -145,7 +166,6 @@ namespace API.Controllers
         [HttpPut("Forget Password")]
         public JsonResult ForgetPassword(ForgotPassword changePassword)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 var changePassworddto = AutoMapper<ForgotPassword, Registration>.MapClass(changePassword);
@@ -181,10 +201,9 @@ namespace API.Controllers
         [HttpPut("Changing_Active_Status")]
         public JsonResult ChangingActiveStatus(int userId)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
-                bool result = _userService.ChangingActiveStatus(userId);
+                _userService.ChangingActiveStatus(userId);
                 crudStatus.Status = true;
                 crudStatus.Message = "Active status changed successfully";
                 return new JsonResult(crudStatus);
@@ -198,7 +217,6 @@ namespace API.Controllers
         [HttpGet("User_Notification")]
         public JsonResult UserNotifications(int userId)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 return new JsonResult(_userService.UserNotifications(userId));

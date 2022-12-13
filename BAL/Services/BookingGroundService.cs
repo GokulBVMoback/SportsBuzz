@@ -20,14 +20,14 @@ namespace BAL.Services
         public List<GroundList> GetGroundDetails(SearchAvailableGround availableGround)
         {
             List<TblBookGround> list = _dbContext.TblBookGrounds.ToList().Where(x => x.SessionId == availableGround.SessionId && x.Date==availableGround.Date).ToList();
-            List<GroundList> grd2 = ground.SearchByGroundCity(availableGround.City!).ToList();
-            List<GroundList> grnds = new List<GroundList>();
+            List<GroundList> grund = ground.SearchByGroundCity(availableGround.City!).ToList();            
             foreach (var items in list)
             {
-                GroundList grnd = grd2.Where(x => x.GroundId != items.GroundId).FirstOrDefault()!;
-                grnds.Add(grnd);
+                GroundList grund = grd2.Where(x => x.GroundId == items.GroundId).ToList();
+                grund.Remove(grund);
             }            
-            return grnds;
+            return grund;
+
         }
 
         public void BookingGround(TblBookGround booking)
