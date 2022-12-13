@@ -25,7 +25,7 @@ namespace API.Controllers
         private readonly DbSportsBuzzContext _dbcontext;
         private readonly IPagination _pagination;
         private readonly CrudStatus crudStatus;
-        public const string SessionKey = "UserId";
+        public new const string SessionKey = "UserId";
         private readonly IMapper _mapper;
 
         public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService, IMapper mapper, IPagination pagination) : base(dbcontext)
@@ -55,7 +55,7 @@ namespace API.Controllers
         [Route("Paginated")]
         public IActionResult GetUsers([FromQuery] PaginationParameters ownerParameters)
         {
-            var user =  _pagination.GetUser(ownerParameters);
+            var user = _pagination.GetUser(ownerParameters);
             var metadata = new
             {
                 user.TotalCount,
@@ -67,7 +67,8 @@ namespace API.Controllers
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(user);
-
+        }
+        [HttpGet]
         [Authorize]
         [MapToApiVersion("2")]
         [Route("V2")]
