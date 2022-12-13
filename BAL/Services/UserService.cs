@@ -1,10 +1,6 @@
 ﻿using BAL.Abstraction;
 using Entities.Models;
-using EnvDTE;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Models.DbModels;
 using System;
 using System.Collections.Generic;
@@ -18,6 +14,7 @@ using Twilio.TwiML.Messaging;
 using Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+
 
 namespace BAL.Services
 {
@@ -67,6 +64,13 @@ namespace BAL.Services
                 ownerParameters.PageSize);
         }
 
+        public List<UserView> GetUserVersion2()
+        {
+            var ver2 = _dbContext.UserViews.ToList();
+            return ver2;
+        }
+
+
         public bool CheckExtistUser(Registration user)
         {
             TblUser user1 = _dbContext.TblUsers.Where(x => x.Email == user.Email).FirstOrDefault()!;
@@ -78,7 +82,7 @@ namespace BAL.Services
             return user.Password == user.ConfirmPassword;
         }
 
-        public string Registration(Registration user)
+        public string Registration(TblUser user)
         {
             user.Password = encryptService.EncodePasswordToBase64(user.Password!);
             user.CreatedDate = DateTime.Now;
@@ -90,14 +94,15 @@ namespace BAL.Services
             return token;
         }
 
-        public string LogIn(TblUser login)
+        public Tuple<string, int> LogIn(TblUser login)
         {
             TblUser user = _dbContext.TblUsers.Where(x => x.Email == login.Email && x.Password == encryptService.EncodePasswordToBase64(login.Password!)).FirstOrDefault()!;
             if (user != null)
             {
-                login.UserRole=user.UserRole;
+                login.UserRole = user.UserRole;
                 var token = _genarate.GenerateToken(login);
-                return token;
+                Tuple<string, int> myid = new Tuple<string, int>(token, user.UserId);
+                return myid;
             }
             return null!;
         }

@@ -2,12 +2,7 @@
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Models.DbModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BAL.Services
 {
@@ -37,7 +32,7 @@ namespace BAL.Services
                                             LastName=user.LastName,
                                             CreatedDate= team.CreatedDate,
                                             UpdatedDate= team.UpdatedDate,
-                                            Active= team.Active,
+                                            Active= team.Active
                                          }).ToList();
             return result.ToList();
         }

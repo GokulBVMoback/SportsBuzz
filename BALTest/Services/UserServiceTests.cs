@@ -1,4 +1,5 @@
 using API.Controllers;
+using AutoMapper;
 using BAL.Abstraction;
 using BAL.Services;
 using Castle.Components.DictionaryAdapter.Xml;
@@ -28,7 +29,7 @@ namespace BALTest.Services
     public class UserServiceTests
     {
         private readonly DataBaseFixture _fixture;
-        private readonly UserService userService;
+        private readonly IUserInterface userService;
         private readonly Mock<IEncrypt> encrypt;
         private readonly Mock<IGenarate> genarate;
 
@@ -38,7 +39,7 @@ namespace BALTest.Services
             _fixture = fixture;
             encrypt = new Mock<IEncrypt>();
             genarate = new Mock<IGenarate>();
-            userService = new UserService(_fixture.context, encrypt.Object,genarate.Object);
+            userService = new UserService(_fixture.context, encrypt.Object, genarate.Object);
 
         }
 
@@ -51,7 +52,7 @@ namespace BALTest.Services
             var result = userService.GetUser();
 
             //Assert
-            var expected=_fixture.context.TblUsers.Count();
+            var expected = _fixture.context.TblUsers.Count();
             var items = Assert.IsType<List<UserDisplay>>(result);
             Assert.Equal(expected, items.Count);
         }
@@ -60,7 +61,7 @@ namespace BALTest.Services
         public void Check_Extist_with_CheckExtistUser()
         {
             //Arrange
-            var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "bvgokulgok@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword = "1234", UserRole = 1, CreatedDate = DateTime.Now, UpdatedDate = null, Active = true };
+            var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "bvgokulgok@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword = "1234", UserRole = 1/*, CreatedDate = DateTime.Now, UpdatedDate = null, Active = true*/ };
 
             //Act
             var result = userService.CheckExtistUser(user);
@@ -73,7 +74,7 @@ namespace BALTest.Services
         public void Check_New_with_CheckExtistUser()
         {
             //Arrange
-            var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "anish@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword = "1234", UserRole = 1, CreatedDate = DateTime.Now, UpdatedDate = null, Active = true };
+            var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "anish@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword = "1234"/*, UserRole = 1, CreatedDate = DateTime.Now, UpdatedDate = null, Active = true*/ };
 
             //Act
             var result = userService.CheckExtistUser(user);
@@ -86,7 +87,7 @@ namespace BALTest.Services
         public void Check_Correct_ConfirmPassword()
         {
             //Arrange
-            var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "bvgokulgok@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword = "1234", UserRole = 1, CreatedDate = DateTime.Now, UpdatedDate = null, Active = true };
+            var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "bvgokulgok@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword = "1234", UserRole = 1/*, CreatedDate = DateTime.Now, UpdatedDate = null, Active = true */};
 
             //Act
             var result = userService.CheckPassword(user);
@@ -99,7 +100,7 @@ namespace BALTest.Services
         public void Check_Wrong_ConfirmPassword()
         {
             //Arrange
-            var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "anish@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword = "4321", UserRole = 1, CreatedDate = DateTime.Now, UpdatedDate = null, Active = true };
+            var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "anish@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword = "4321", UserRole = 1 };
 
             //Act
             var result = userService.CheckPassword(user);
@@ -112,9 +113,9 @@ namespace BALTest.Services
         public void Test_Register()
         {
             //Arrange
-            var user = new Registration() { FirstName = "Gokul", LastName = "B V", Email = "gok@gmail.com", PhoneNum = 8834834383, Password = "1234", ConfirmPassword="1234", UserRole = 1, CreatedDate = DateTime.Now, UpdatedDate = null, Active = true };
+            var user = new TblUser() { FirstName = "Gokul", LastName = "B V", Email = "gok@gmail.com", PhoneNum = 8834834383, Password = "1234", UserRole = 1 };
             encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
-            genarate.Setup(x=>x.GenerateToken(user)).Returns("login successfull");
+            genarate.Setup(x => x.GenerateToken(user)).Returns("login successfull");
 
             //Act
             var result = userService.Registration(user);
@@ -130,7 +131,7 @@ namespace BALTest.Services
             encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
             genarate.Setup(x => x.GenerateToken(user)).Returns("login successfull");
             //Act
-            string result = userService.LogIn(user);
+            Tuple<string,int> result = userService.LogIn(user);
 
             //Assert
             Assert.NotNull(result);
@@ -147,7 +148,7 @@ namespace BALTest.Services
             var result = userService.LogIn(user);
 
             //Assert
-            Assert.Equal(null,result);
+            Assert.Equal(null, result);
         }
 
         [Fact]
@@ -159,16 +160,16 @@ namespace BALTest.Services
 
             //Act
             var result = userService.LogIn(user);
-            
+
             //Assert
-            Assert.Equal(null,result);
+            Assert.Equal(null, result);
         }
 
         [Fact]
         public void Forget_Password_Test()
         {
             //Arrange
-            var user = new Registration() { Email = "bvgokulgok@gmail.com", Password = "4321", ConfirmPassword="4321"};
+            var user = new Registration() { Email = "bvgokulgok@gmail.com", Password = "4321", ConfirmPassword = "4321" };
             encrypt.Setup(method => method.EncodePasswordToBase64(user.Password)).Returns(user.Password);
 
             //Act

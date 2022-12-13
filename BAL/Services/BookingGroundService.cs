@@ -1,14 +1,6 @@
 ﻿using BAL.Abstraction;
 using Entities.Models;
-using EnvDTE;
-using Microsoft.EntityFrameworkCore;
 using Models.DbModels;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BAL.Services
 {
@@ -35,6 +27,7 @@ namespace BAL.Services
                 grund.Remove(grund);
             }            
             return grund;
+
         }
 
         public void BookingGround(TblBookGround booking)
