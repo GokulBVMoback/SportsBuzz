@@ -26,9 +26,8 @@ namespace BAL.Services
                                            Venue = ground.Venue,
                                            City = ground.City,
                                            SportType = sport.SportType,
-                                           CreatedDate = ground.CreatedDate,
-                                           UpdatedDate = ground.UpdatedDate,
-                                           Active = ground.Active
+                                           Latitude= ground.Latitude,
+                                           Longitude= ground.Longitude
                                        }).ToList();
             return result.ToList();
         }
