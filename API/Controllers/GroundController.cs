@@ -84,7 +84,7 @@ namespace API.Controllers
             }
         }
         
-        [HttpPut("EditeGround")]
+        [HttpPut("EditGround")]
         [Authorize(Policy = "Ground Manager")]
         public JsonResult EditGround(TblGround venu)
         {
@@ -111,6 +111,7 @@ namespace API.Controllers
         }
 
         [HttpPut("Changing_Active_Status")]
+        [Authorize(Policy = "Ground Manager")]
         public JsonResult ChangingActiveStatus(int groundID)
         {
             try

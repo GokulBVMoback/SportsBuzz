@@ -52,6 +52,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("Paginated")]
         public IActionResult GetUsers([FromQuery] PaginationParameters ownerParameters)
         {
@@ -199,6 +200,7 @@ namespace API.Controllers
         }
 
         [HttpPut("Changing_Active_Status")]
+        [Authorize]
         public JsonResult ChangingActiveStatus(int userId)
         {
             try
@@ -215,6 +217,7 @@ namespace API.Controllers
         }
 
         [HttpGet("User_Notification")]
+        [Authorize]
         public JsonResult UserNotifications(int userId)
         {
             try

@@ -46,20 +46,20 @@ namespace BAL.Services
                                         }).ToList();
             return result.ToList();
         }
-        public IQueryable<TblUser> GetAll()
+        public IQueryable<UserView> GetAll()
         {
-            return this. _dbContext.Set<TblUser>()
+            return this. _dbContext.Set<UserView>()
                 .AsNoTracking();
         }
-        public PagedList<TblUser> GetUser(PaginationParameters ownerParameters)
+        public PagedList<UserView> GetUser(PaginationParameters ownerParameters)
         {
             bool IsDescending=ownerParameters.IsDescending;
             if(IsDescending==false)
-            return PagedList<TblUser>.ToPagedList(GetAll().OrderBy(on => on.CreatedDate),
+            return PagedList<UserView>.ToPagedList(GetAll().OrderBy(on => on.CreatedDate),
                 ownerParameters.PageNumber,
                 ownerParameters.PageSize);
             else
-            return PagedList<TblUser>.ToPagedList(GetAll().OrderByDescending(on => on.CreatedDate),
+            return PagedList<UserView>.ToPagedList(GetAll().OrderByDescending(on => on.CreatedDate),
                 ownerParameters.PageNumber,
                 ownerParameters.PageSize);
         }
