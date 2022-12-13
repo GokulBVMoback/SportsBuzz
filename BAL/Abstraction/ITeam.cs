@@ -16,9 +16,8 @@ namespace BAL.Abstraction
         TeamList SearchByTeamName(string Team);
         bool CheckExtistTeam(TblTeam team);
         bool CheckExtistUserId(TblTeam team);
-        bool TeamRegistration(TblTeam team);
-        bool EditTeam(TblTeam TeamName);
-        bool ChangingActiveStatus(int teamID);
-
+        void TeamRegistration(TblTeam team);
+        void EditTeam(TblTeam TeamName);
+        void ChangingActiveStatus(int teamID);
     }
 }

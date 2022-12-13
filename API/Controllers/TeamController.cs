@@ -16,10 +16,12 @@ namespace API.Controllers
     public class TeamController : BaseController
     {
         private readonly ITeam _teamService;
-        
+        private readonly CrudStatus crudStatus;
+
         public TeamController(DbSportsBuzzContext dbcontext, ITeam teamService):base(dbcontext)
         {
             _teamService = teamService;
+            crudStatus = new CrudStatus();
         }
 
         [HttpGet]
@@ -64,8 +66,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("TeamRegistration")]
         public JsonResult TeamRegistration(TeamRegister team)
-        {
-            CrudStatus crudStatus = new CrudStatus();
+        {           
             try
             {
                 var teamdto = AutoMapper<TeamRegister, TblTeam>.MapClass(team);
@@ -101,7 +102,6 @@ namespace API.Controllers
         [HttpPut]
         public JsonResult EditTeam(TblTeam TeamName)
         {
-            CrudStatus crudStatus = new CrudStatus();
             try
             {
                 bool result = _teamService.CheckExtistTeam(TeamName);
@@ -126,11 +126,10 @@ namespace API.Controllers
 
         [HttpPut("Changing_Active_Status")]
         public JsonResult ChangingActiveStatus(int teamID)
-        {
-            CrudStatus crudStatus = new CrudStatus();
+        {            
             try
             {
-                bool result = _teamService.ChangingActiveStatus(teamID);
+                _teamService.ChangingActiveStatus(teamID);
                 crudStatus.Status = true;
                 crudStatus.Message = "Active status changed successfully";
                 return new JsonResult(crudStatus);

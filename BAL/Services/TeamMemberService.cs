@@ -32,24 +32,19 @@ namespace BAL.Services
              return result.ToList();         
         }
 
-        public bool AddTeamMember(TblTeamMember player)
+        public void AddTeamMember(TblTeamMember player)
         {
             _dbContext.TblTeamMembers.Add(player);
-            _dbContext.SaveChanges();
-            return true;
+            _dbContext.SaveChanges();            
         }
 
         public bool CheckExtistTeamMember(TblTeamMember Player)
         {
             TblTeamMember player = _dbContext.TblTeamMembers.Where(x => x.MemberId == Player.MemberId).FirstOrDefault()!;
-            if (player is null)
-            {
-                return false;
-            }
-            return true;
+            return player != null;
         }
 
-        public bool EditTeamMember(TblTeamMember Player)
+        public void  EditTeamMember(TblTeamMember Player)
         {
             TblTeamMember player = _dbContext.TblTeamMembers.Where(x => x.MemberId==Player.MemberId).FirstOrDefault()!;
             player.PlayerFirstName = player.PlayerFirstName;
@@ -57,16 +52,14 @@ namespace BAL.Services
             player.Age = player.Age;
             player.JerseyNo = player.JerseyNo;             
             _dbContext.Entry(player).State = EntityState.Modified;
-            _dbContext.SaveChanges();
-            return true;
+            _dbContext.SaveChanges();           
         }
 
-        public bool DeleteTeamMember(TblTeamMember player)
+        public void DeleteTeamMember(TblTeamMember player)
         {
             TblTeamMember teamMember1 = _dbContext.TblTeamMembers.Where(x => x.MemberId == player.MemberId).FirstOrDefault()!;
             _dbContext.TblTeamMembers.Remove(teamMember1);
-            _dbContext.SaveChanges();
-            return true;
+            _dbContext.SaveChanges();           
         }
     }
 }
