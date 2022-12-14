@@ -11,17 +11,35 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    ///<summary>
+    ///[ApiController]attribute makes model validation errors automatically trigger an HTTP 400 response
+    ///</summary>
+    
     public class BookingGroundController : BaseController
     {
+        /// <summary>
+        /// By the dependency injection we are calling all the methods 
+        /// </summary>
+
         private readonly IBookingGround _bookingGround;
         private readonly CrudStatus crudStatus;
 
+        /// <summary>
+        /// In this constructor we are passing these parameters
+        /// </summary>
+        /// <param name="dbcontext"></param>
+        /// <param name="bookingGround"></param>
         public BookingGroundController(DbSportsBuzzContext dbcontext, IBookingGround bookingGround) : base(dbcontext)
         {
             _bookingGround = bookingGround;
             crudStatus = new CrudStatus();
         }
 
+        /// <summary>
+        /// calling GetGroundDetails() from the BookGroundService
+        /// </summary>
+        /// <param name="availableGround"></param>
+        /// <returns></returns>
         [HttpPost("GetAvailableGroundDetails")]
         [Authorize]
         public JsonResult GetAvailableGroundDetails(int userId, SearchAvailableGround availableGround)
@@ -36,6 +54,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling BookingGround() from the BookGroundService
+        /// </summary>
+        /// <param name="booking"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Booking_Match")]
         [Authorize(Policy = "Team Manager")]
