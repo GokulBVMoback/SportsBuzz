@@ -9,6 +9,6 @@ namespace BAL.Abstraction
 {
     public interface IPagination
     {
-        PagedList<TblUser> GetUser(PaginationParameters ownerParameters);
+        PagedList<UserView> GetUser(PaginationParameters ownerParameters);
     }
 }

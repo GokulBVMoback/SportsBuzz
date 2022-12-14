@@ -92,6 +92,7 @@ namespace API.Controllers
         /// <param name="ownerParameters"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         [Route("Paginated")]
 
         public IActionResult GetUsers([FromQuery] PaginationParameters ownerParameters)
@@ -169,9 +170,11 @@ namespace API.Controllers
                     result=_userService.CheckPassword(user);
                     if (result==true)
                     {
-                        string token=_userService.Registration(userdto);
+                        Tuple<string, int> token = _userService.Registration(userdto);
+                        HttpContext.Session.SetInt32(SessionKey, token.Item2);
+                        LoginId(SessionKey);
                         crudStatus.Status = true;
-                        crudStatus.Message = token;
+                        crudStatus.Message = token.Item1;
                     }
                     else
                     {
@@ -273,6 +276,7 @@ namespace API.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpPut("Changing_Active_Status")]
+        [Authorize]
         public JsonResult ChangingActiveStatus(int userId)
         {
             try
@@ -294,7 +298,7 @@ namespace API.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet("User_Notification")]
-
+        [Authorize]
         public JsonResult UserNotifications(int userId)
         {
             try

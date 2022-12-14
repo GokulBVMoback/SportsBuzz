@@ -122,16 +122,17 @@ namespace API.Controllers
         /// </summary>
         /// <param name="venu"></param>
         /// <returns></returns>
-        [HttpPut("EditeGround")]
+        [HttpPut("EditGround")]
         [Authorize(Policy = "Ground Manager")]
-        public JsonResult EditGround(TblGround venu)
+        public JsonResult EditGround(EditGround venu)
         {
             try
             {
-                bool result = _groundService.GroundChecking(venu);
+                var venudto = AutoMapper<EditGround, TblGround>.MapClass(venu);
+                bool result = _groundService.GroundChecking(venudto);
                 if (result == true)
                 {
-                    _groundService.EditGround(venu);
+                    _groundService.EditGround(venudto);
                     crudStatus.Status = true;
                     crudStatus.Message = "Ground details are updated successfully";
                 }
@@ -154,6 +155,7 @@ namespace API.Controllers
         /// <param name="groundID"></param>
         /// <returns></returns>
         [HttpPut("Changing_Active_Status")]
+        [Authorize(Policy = "Ground Manager")]
         public JsonResult ChangingActiveStatus(int groundID)
         {
             try

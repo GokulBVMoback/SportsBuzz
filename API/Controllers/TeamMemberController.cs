@@ -87,15 +87,15 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("EditTeamMember")]
-          
-        public JsonResult EditTeamMember(TblTeamMember Player)
+        public JsonResult EditTeamMember(EditPlayer player)
         {            
             try
             {
-                bool result = _teamMemberService.CheckExtistTeamMember(Player);
+                var playerdto = AutoMapper<EditPlayer, TblTeamMember>.MapClass(player);
+                bool result = _teamMemberService.CheckExtistTeamMember(playerdto.MemberId);
                 if (result == true)
                 {
-                    _teamMemberService.EditTeamMember(Player);
+                    _teamMemberService.EditTeamMember(playerdto);
                     crudStatus.Status = true;
                     crudStatus.Message = "Player is updated successfully";
                 }
@@ -118,15 +118,15 @@ namespace API.Controllers
         /// <param name="Player"></param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("delete")]       
-        public JsonResult DeleteTeamMember(TblTeamMember Player)
+        [Route("delete")]
+        public JsonResult DeleteTeamMember(int memberID)
         {            
             try
             {
-                bool result = _teamMemberService.CheckExtistTeamMember(Player);
+                bool result = _teamMemberService.CheckExtistTeamMember(memberID);
                 if (result == true)
                 {
-                    _teamMemberService.DeleteTeamMember(Player);
+                    _teamMemberService.DeleteTeamMember(memberID);
                     crudStatus.Status = true;
                     crudStatus.Message = "Player deleted successfully";
                 }

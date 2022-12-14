@@ -46,20 +46,20 @@ namespace BAL.Services
                                         }).ToList();
             return result.ToList();
         }
-        public IQueryable<TblUser> GetAll()
+        public IQueryable<UserView> GetAll()
         {
-            return this. _dbContext.Set<TblUser>()
+            return this. _dbContext.Set<UserView>()
                 .AsNoTracking();
         }
-        public PagedList<TblUser> GetUser(PaginationParameters ownerParameters)
+        public PagedList<UserView> GetUser(PaginationParameters ownerParameters)
         {
             bool IsDescending=ownerParameters.IsDescending;
             if(IsDescending==false)
-            return PagedList<TblUser>.ToPagedList(GetAll().OrderBy(on => on.CreatedDate),
+            return PagedList<UserView>.ToPagedList(GetAll().OrderBy(on => on.CreatedDate),
                 ownerParameters.PageNumber,
                 ownerParameters.PageSize);
             else
-            return PagedList<TblUser>.ToPagedList(GetAll().OrderByDescending(on => on.CreatedDate),
+            return PagedList<UserView>.ToPagedList(GetAll().OrderByDescending(on => on.CreatedDate),
                 ownerParameters.PageNumber,
                 ownerParameters.PageSize);
         }
@@ -82,7 +82,7 @@ namespace BAL.Services
             return user.Password == user.ConfirmPassword;
         }
 
-        public string Registration(TblUser user)
+        public Tuple<string, int> Registration(TblUser user)
         {
             user.Password = encryptService.EncodePasswordToBase64(user.Password!);
             user.CreatedDate = DateTime.Now;
@@ -91,7 +91,9 @@ namespace BAL.Services
             _dbContext.TblUsers.Add(user);
             _dbContext.SaveChanges();
             var token = _genarate.GenerateToken(user);
-            return token;
+            Tuple<string, int> myid = new Tuple<string, int>(token, user.UserId);
+            return myid;
+            //return token;
         }
 
         public Tuple<string, int> LogIn(TblUser login)

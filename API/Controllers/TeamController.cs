@@ -138,15 +138,15 @@ namespace API.Controllers
         /// <param name="TeamName"></param>
         /// <returns></returns>
         [HttpPut]
-       
-        public JsonResult EditTeam(TblTeam TeamName)
+        public JsonResult EditTeam(EditTeam teamName)
         {
             try
             {
-                bool result = _teamService.CheckExtistTeam(TeamName);
+                var teamNamedto = AutoMapper<EditTeam, TblTeam>.MapClass(teamName);
+                bool result = _teamService.CheckExtistTeam(teamNamedto);
                 if (result == false)
                 {
-                    _teamService.EditTeam(TeamName);
+                    _teamService.EditTeam(teamNamedto);
                     crudStatus.Status = true;
                     crudStatus.Message = "Team name is updated successfully";
                 }
