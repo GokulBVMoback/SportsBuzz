@@ -13,17 +13,35 @@ namespace API.Controllers
     [Authorize(Policy = "Team Manager")]
     [Route("api/[controller]")]
     [ApiController]
+    ///<summary>
+    ///Api consist Team controller classes that drive from the controllerBase
+    ///</summary>  
+    
     public class TeamController : BaseController
     {
+        /// <summary>
+        /// By the dependency injection we are calling all the methods 
+        /// </summary>
+       
         private readonly ITeam _teamService;
         private readonly CrudStatus crudStatus;
-
+      
+        /// <summary>
+        /// In this constructor we are passing these parameters
+        /// </summary>
+        /// <param name="dbcontext"></param>
+        /// <param name="teamService"></param>
+        /// 
         public TeamController(DbSportsBuzzContext dbcontext, ITeam teamService):base(dbcontext)
         {
             _teamService = teamService;
             crudStatus = new CrudStatus();
         }
 
+        /// <summary>
+        /// calling GetTeam() method from the TeamService
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult TeamList()
         {
@@ -37,6 +55,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling SearchByCity() method from the TeamService
+        /// </summary>
+        /// <param name="City"></param>
+        /// <returns></returns>
         [HttpGet("City")]
         public JsonResult SearchByCity(string City)
         {
@@ -50,6 +73,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling SearchByTeamName() method from the TeamService
+        /// </summary>
+        /// <param name="Team"></param>
+        /// <returns></returns>
         [HttpGet("Team")]
         public JsonResult SearchByTeamName(string Team)
         {
@@ -63,6 +91,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        ///calling TeamRegistration() method from the TeamService
+        /// </summary>
+        /// <param name="team"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("TeamRegistration")]
         public JsonResult TeamRegistration(TeamRegister team)
@@ -99,6 +132,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling Edit method  from the TeamService
+        /// </summary>
+        /// <param name="TeamName"></param>
+        /// <returns></returns>
         [HttpPut]
         public JsonResult EditTeam(EditTeam teamName)
         {
@@ -125,6 +163,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling the ChangingActiveStatus() from the TeamService
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <returns></returns>
         [HttpPut("Changing_Active_Status")]
         public JsonResult ChangingActiveStatus(int teamID)
         {            
