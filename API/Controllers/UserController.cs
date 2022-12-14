@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using BAL.Abstraction;
 using BAL.Services;
 using Entities.Models;
+using EnvDTE;
 using FluentNHibernate.Automapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,16 +19,45 @@ using Repository;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    ///<summary>
+    ///[ApiController]attribute makes model validation errors automatically trigger an HTTP 400 response
+    ///</summary>
+    
     [ApiController]
+    ///Api consist User controller classes that drive from the controllerBase
+    
     public class UserController : BaseController
     {
+        /// <summary>
+        /// By the dependency injection we are calling all the methods 
+        /// </summary>
+        
         private readonly IUserInterface _userService;
         private readonly DbSportsBuzzContext _dbcontext;
+
+        /// <summary>
+        /// data source with lots of records and we need to display those records in a view 
+        /// We can display all the records in a view at once.
+        /// </summary>
+       
         private readonly IPagination _pagination;
         private readonly CrudStatus crudStatus;
+
+        /// <summary>
+        /// sessionkey: communications session between a user and another computer or between two computers.
+        /// </summary>
+        
         public new const string SessionKey = "UserId";
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// In this constructor we are passing these parameters
+        /// </summary>
+        /// <param name="dbcontext"></param>
+        /// <param name="userService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="pagination"></param>
+        
         public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService, IMapper mapper, IPagination pagination) : base(dbcontext)
         {
             _userService = userService;
@@ -37,8 +67,13 @@ namespace API.Controllers
             _mapper=mapper;
         }
 
+        /// <summary>
+        /// calling GetUser() method  from the UserService
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
+       
         public JsonResult UserDetails()
         {
             try
@@ -51,8 +86,14 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling GetUser method  from the UserService
+        /// </summary>
+        /// <param name="ownerParameters"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Paginated")]
+
         public IActionResult GetUsers([FromQuery] PaginationParameters ownerParameters)
         {
             var user = _pagination.GetUser(ownerParameters);
@@ -68,6 +109,11 @@ namespace API.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(user);
         }
+
+        /// <summary>
+        /// calling GetUserVersion2() method from the UserService
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [MapToApiVersion("2")]
@@ -78,10 +124,15 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Joining two tables by automapper without linq
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [MapToApiVersion("3")]
         [Route("V3")]
+
         public ActionResult<List<UserDisplayV2>> UserDetails3()
         {
             var c = new MapperConfiguration(cfg => cfg.CreateProjection<TblUser, UserDisplay>()
@@ -99,8 +150,14 @@ namespace API.Controllers
             return AutoMapper<UserView, UserDisplayV2>.MapList(_userService.GetUserVersion2());
         }
 
+        /// <summary>
+        /// Calling Registration() method from UserController
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("registration")]
+       
         public JsonResult Registration(Registration user)
         {
             try
@@ -135,8 +192,13 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling LogIn() method from the UserController
+        /// </summary>
+        /// <param name="logIn"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("LogIn")]
+        [Route("LogIn")]       
         public JsonResult LogIn(LogIn logIn)
         {
             try
@@ -163,6 +225,12 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// Calling ForgetPassword() method from UserService
+        /// </summary>
+        /// <param name="changePassword"></param>
+        /// <returns></returns>
+
         [HttpPut("Forget Password")]
         public JsonResult ForgetPassword(ForgotPassword changePassword)
         {
@@ -175,6 +243,7 @@ namespace API.Controllers
                     result = _userService.CheckPassword(changePassworddto);
                     if (result== true)
                     {
+                        LogIn(changePassword);
                         _userService.ForgetPassword(changePassworddto);
                         crudStatus.Status = true;
                         crudStatus.Message = "Password updated successfully";
@@ -198,6 +267,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling ChangingActiveStatus(userId) method from the UserService
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [HttpPut("Changing_Active_Status")]
         public JsonResult ChangingActiveStatus(int userId)
         {
@@ -214,7 +288,13 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling UserNotifications() method from the UserService
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [HttpGet("User_Notification")]
+
         public JsonResult UserNotifications(int userId)
         {
             try

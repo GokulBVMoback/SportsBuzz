@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DbModels;
 using Repository;
+using System.Dynamic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,17 +14,36 @@ namespace API.Controllers
     [Authorize(Policy = "Team Manager")]
     [Route("api/[controller]")]
     [ApiController]
+
+    ///<summary>
+    ///Api consist of  Team controller classes  drive from the controllerBase
+    /// </summary>
+    
     public class TeamMemberController : BaseController
     {
+        /// <summary>
+        /// By the dependency injection we are calling all the methods 
+        /// </summary>
+
         private readonly ITeamMember _teamMemberService;
         private readonly CrudStatus crudStatus;
 
-        public TeamMemberController(DbSportsBuzzContext dbcontext, ITeamMember teamMemberService)  :base(dbcontext)
+        /// <summary>
+        /// In this constructor we are passing these parameters
+        /// </summary>
+        /// <param name="dbcontext"></param>
+        /// <param name="teamMemberService"></param>
+        
+        public TeamMemberController(DbSportsBuzzContext dbcontext, ITeamMember teamMemberService) : base(dbcontext)
         {
             _teamMemberService = teamMemberService;
-            crudStatus = new CrudStatus();  
+            crudStatus = new CrudStatus();
         }
 
+        /// <summary>
+        /// calling GetTeamMember() method from the TeamMemberService
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult PlayerList()
         {
@@ -37,6 +57,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling the AddTeamMember() from the TeamMemberService
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("AddTeamMember")]
         public JsonResult AddTeamMember(PlayerRegister player)
@@ -55,8 +80,14 @@ namespace API.Controllers
             }            
         }
 
+        /// <summary>
+        /// calling EditTeamMember() method from the TeamMemberService
+        /// </summary>
+        /// <param name="Player"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("EditTeamMember")]
+          
         public JsonResult EditTeamMember(TblTeamMember Player)
         {            
             try
@@ -81,8 +112,13 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling DeleteTeamMember() method from the TeamMemberService
+        /// </summary>
+        /// <param name="Player"></param>
+        /// <returns></returns>
         [HttpDelete]
-        [Route("delete")]
+        [Route("delete")]       
         public JsonResult DeleteTeamMember(TblTeamMember Player)
         {            
             try

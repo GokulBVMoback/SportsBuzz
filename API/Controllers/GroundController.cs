@@ -12,17 +12,33 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    ///<summary>
+    ///Api consist Ground controller classes that drive from the controllerBase
+    ///</summary> 
     public class GroundController : BaseController
     {
+        /// <summary>
+        /// By the dependency injection we are calling all the methods 
+        /// </summary>
+        
         private readonly IGround _groundService;
         private readonly CrudStatus crudStatus;
 
+        /// <summary>
+        /// In this constructor we are passing these parameters
+        /// </summary>
+        /// <param name="dbcontext"></param>
+        /// <param name="groundService"></param>
         public GroundController(DbSportsBuzzContext dbcontext,IGround groundService) : base(dbcontext)
         {
             _groundService = groundService;
             crudStatus = new CrudStatus();
         }
 
+        /// <summary>
+        /// calling GetGroundDetails() from the GroundService
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetGroundDetails")]
         [Authorize]
         public JsonResult GetGroundDetails()
@@ -37,6 +53,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling SearchByGroundCity() method from the GroundService
+        /// </summary>
+        /// <param name="City"></param>
+        /// <returns></returns>
         [HttpGet("Ground_City")]
         [Authorize]
         public JsonResult SearchByGroundCity(string City)
@@ -50,6 +71,13 @@ namespace API.Controllers
                 return new JsonResult(ex);
             }
         }
+
+
+        /// <summary>
+        /// calling SearchByGroundName() method from the GroundService
+        /// </summary>
+        /// <param name="GroundName"></param>
+        /// <returns></returns>
 
         [HttpGet("GroundName")]
         [Authorize]
@@ -65,6 +93,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling  AddGrounds() from the GroundService
+        /// </summary>
+        /// <param name="ground"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("AddGround")]
         [Authorize(Policy = "Ground Manager")]
@@ -83,7 +116,12 @@ namespace API.Controllers
                 return new JsonResult(ex.Message);
             }
         }
-        
+
+        /// <summary>
+        ///  calling EditGround() method from the GroundService
+        /// </summary>
+        /// <param name="venu"></param>
+        /// <returns></returns>
         [HttpPut("EditeGround")]
         [Authorize(Policy = "Ground Manager")]
         public JsonResult EditGround(TblGround venu)
@@ -110,6 +148,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// calling ChangingActiveStatus() method from the GroundService
+        /// </summary>
+        /// <param name="groundID"></param>
+        /// <returns></returns>
         [HttpPut("Changing_Active_Status")]
         public JsonResult ChangingActiveStatus(int groundID)
         {
