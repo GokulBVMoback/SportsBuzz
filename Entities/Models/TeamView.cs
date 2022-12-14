@@ -5,6 +5,8 @@ namespace Entities.Models;
 
 public partial class TeamView
 {
+    public int? UserId { get; set; }
+
     public int TeamId { get; set; }
 
     public string? TeamName { get; set; }

@@ -1,5 +1,6 @@
 ﻿using BAL.Abstraction;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Models.DbModels;
 
 namespace BAL.Services
@@ -17,10 +18,11 @@ namespace BAL.Services
             _notification = notification;
         }
 
-        public List<GroundList> GetGroundDetails(SearchAvailableGround availableGround)
+        public List<GroundList> GetGroundDetails(int userId,SearchAvailableGround availableGround)
         {
+            var sportType=_dbContext.TeamViews.Where(x=>x.UserId == userId).First();
             List<TblBookGround> list = _dbContext.TblBookGrounds.ToList().Where(x => x.SessionId == availableGround.SessionId && x.Date==availableGround.Date).ToList();
-            List<GroundList> grounds = ground.SearchByGroundCity(availableGround.City!).ToList();            
+            List<GroundList> grounds = ground.SearchByGroundCity(availableGround.City!).Where(x => x.SportType == sportType.SportType).ToList();            
             foreach (var items in list)
             {
                 GroundList ground = grounds.Where(x => x.GroundId == items.GroundId).FirstOrDefault()!;

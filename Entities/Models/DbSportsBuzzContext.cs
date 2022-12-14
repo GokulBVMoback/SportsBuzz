@@ -240,11 +240,10 @@ public partial class DbSportsBuzzContext : DbContext
 
         modelBuilder.Entity<TblTeamMember>(entity =>
         {
-            entity.HasKey(e => e.MemberId).HasName("PK__tbl_Team__0CF04B18801EEA95");
+            entity.HasKey(e => e.MemberId).HasName("PK__tbl_Team__0CF04B180BFFDEE3");
 
             entity.ToTable("tbl_Team_Members");
 
-            entity.Property(e => e.MemberId).ValueGeneratedNever();
             entity.Property(e => e.PlayerFirstName)
                 .HasMaxLength(20)
                 .IsUnicode(false);
@@ -258,7 +257,7 @@ public partial class DbSportsBuzzContext : DbContext
 
             entity.HasOne(d => d.Team).WithMany(p => p.TblTeamMembers)
                 .HasForeignKey(d => d.TeamId)
-                .HasConstraintName("FK__tbl_Team___TeamI__403A8C7D");
+                .HasConstraintName("FK__tbl_Team___TeamI__66603565");
         });
 
         modelBuilder.Entity<TblUser>(entity =>
@@ -344,6 +343,7 @@ public partial class DbSportsBuzzContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.UpdatedDate).HasColumnType("smalldatetime");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
         });
 
         modelBuilder.Entity<UserView>(entity =>

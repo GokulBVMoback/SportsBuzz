@@ -24,11 +24,11 @@ namespace API.Controllers
 
         [HttpPost("GetAvailableGroundDetails")]
         [Authorize]
-        public JsonResult GetAvailableGroundDetails(SearchAvailableGround availableGround)
+        public JsonResult GetAvailableGroundDetails(int userId, SearchAvailableGround availableGround)
         {
             try
             {
-                return new JsonResult(_bookingGround.GetGroundDetails(availableGround).ToList());
+                return new JsonResult(_bookingGround.GetGroundDetails(userId,availableGround).ToList());
             }
             catch (Exception ex)
             {
