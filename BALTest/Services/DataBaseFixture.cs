@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BALTest.Services
 {
-    public class DataBaseFixture:IDisposable
+    public class DataBaseFixture : IDisposable
     {
         private static DbContextOptions<DbSportsBuzzContext> dbContextOptions = new DbContextOptionsBuilder<DbSportsBuzzContext>()
           .UseInMemoryDatabase(databaseName: "db_SportsBuzz")
@@ -80,9 +80,9 @@ namespace BALTest.Services
             context.TblGrounds.AddRange(Ground);
             context.SaveChanges();
 
-            var BookingGround=new List<TblBookGround>()
+            var BookingGround = new List<TblBookGround>()
             {
-                new TblBookGround() { BookedId = 4, TeamId = 1, SessionId = 1, Date =new DateTime(2022,12,19), GroundId = 6 }
+                new TblBookGround() { BookedId = 1, TeamId = 1, SessionId = 1, Date =new DateTime(2022,12,19), GroundId = 1 }
             };
             context.TblBookGrounds.AddRange(BookingGround);
             context.SaveChanges();
