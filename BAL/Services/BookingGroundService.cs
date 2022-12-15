@@ -18,7 +18,7 @@ namespace BAL.Services
             _notification = notification;
         }
 
-        public List<GroundList> GetGroundDetails(int userId,SearchAvailableGround availableGround)
+        public List<GroundList> GetGroundDetails(int? userId,SearchAvailableGround availableGround)
         {
             var sportType=_dbContext.TeamViews.Where(x=>x.UserId == userId).First();
             List<TblBookGround> list = _dbContext.TblBookGrounds.ToList().Where(x => x.SessionId == availableGround.SessionId && x.Date==availableGround.Date).ToList();

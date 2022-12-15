@@ -42,10 +42,12 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPost("GetAvailableGroundDetails")]
         [Authorize]
-        public JsonResult GetAvailableGroundDetails(int userId, SearchAvailableGround availableGround)
+        public JsonResult GetAvailableGroundDetails(SearchAvailableGround availableGround)
         {
             try
             {
+                LoginId(SessionKey);
+                int? userId = HttpContext.Session.GetInt32(SessionKey);
                 return new JsonResult(_bookingGround.GetGroundDetails(userId,availableGround).ToList());
             }
             catch (Exception ex)
