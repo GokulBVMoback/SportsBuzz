@@ -17,7 +17,7 @@ namespace BAL.Abstraction
         Tuple<string, int> Registration(TblUser user);
         Tuple<string, int> LogIn(TblUser login);
         void ForgetPassword(Registration changePassword);
-        void ChangingActiveStatus(int userId);
-        List<string> UserNotifications(int userId);
+        void ChangingActiveStatus(int? userId);
+        List<string> UserNotifications(int? userId);
     }
 }

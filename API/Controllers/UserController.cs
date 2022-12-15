@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.DbModels;
 using Newtonsoft.Json;
+using NHibernate.Hql.Ast.ANTLR.Tree;
 using NHibernate.Mapping;
 using Repository;
 
@@ -49,6 +50,7 @@ namespace API.Controllers
         
         public new const string SessionKey = "UserId";
         private readonly IMapper _mapper;
+        private readonly ILogger<UserController> _logger;
 
         /// <summary>
         /// In this constructor we are passing these parameters
@@ -57,9 +59,9 @@ namespace API.Controllers
         /// <param name="userService"></param>
         /// <param name="mapper"></param>
         /// <param name="pagination"></param>
-        
-        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService, IMapper mapper, IPagination pagination) : base(dbcontext)
+        public UserController(DbSportsBuzzContext dbcontext, IUserInterface userService, IMapper mapper, IPagination pagination, ILogger<UserController> logger) : base(dbcontext)
         {
+            _logger= logger;
             _userService = userService;
             _dbcontext = dbcontext;
             _pagination = pagination;
@@ -277,10 +279,12 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPut("Changing_Active_Status")]
         [Authorize]
-        public JsonResult ChangingActiveStatus(int userId)
+        public JsonResult ChangingActiveStatus()
         {
             try
             {
+                LoginId(SessionKey);
+                int? userId = HttpContext.Session.GetInt32(SessionKey);
                 _userService.ChangingActiveStatus(userId);
                 crudStatus.Status = true;
                 crudStatus.Message = "Active status changed successfully";
@@ -299,10 +303,12 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpGet("User_Notification")]
         [Authorize]
-        public JsonResult UserNotifications(int userId)
+        public JsonResult UserNotifications()
         {
             try
             {
+                LoginId(SessionKey);
+                int? userId = HttpContext.Session.GetInt32(SessionKey);
                 return new JsonResult(_userService.UserNotifications(userId));
             }
             catch (Exception ex)
