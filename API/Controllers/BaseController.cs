@@ -16,10 +16,10 @@ namespace API.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public void  LoginId(string sessionkey)
+        public int?  LoginId(string sessionkey)
         {
            var test=  HttpContext.Session.GetInt32(sessionkey);
-            
+            return test;
         }
     }
 }

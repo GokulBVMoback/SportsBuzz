@@ -135,7 +135,6 @@ namespace API.Controllers
         [Authorize]
         [MapToApiVersion("3")]
         [Route("V3")]
-
         public ActionResult<List<UserDisplayV2>> UserDetails3()
         {
             var c = new MapperConfiguration(cfg => cfg.CreateProjection<TblUser, UserDisplay>()
@@ -307,8 +306,7 @@ namespace API.Controllers
         {
             try
             {
-                LoginId(SessionKey);
-                int? userId = HttpContext.Session.GetInt32(SessionKey);
+                int? userId=LoginId(SessionKey);
                 return new JsonResult(_userService.UserNotifications(userId));
             }
             catch (Exception ex)
