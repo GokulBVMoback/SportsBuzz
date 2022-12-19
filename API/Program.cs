@@ -84,6 +84,11 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Team Manager",
          policy => policy.RequireRole("Team Manager"));
 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin",
+         policy => policy.RequireRole("Admin"));
+});
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

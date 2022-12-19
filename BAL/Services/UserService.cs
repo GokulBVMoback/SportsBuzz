@@ -118,7 +118,7 @@ namespace BAL.Services
             _dbContext.SaveChanges();
         }
 
-        public void ChangingActiveStatus(int userId)
+        public void ChangingActiveStatus(int? userId)
         {
             TblUser user = _dbContext.TblUsers.Where(x => x.UserId == userId).FirstOrDefault()!;
             user.Active=user.Active==true?false:true;
@@ -127,7 +127,7 @@ namespace BAL.Services
             _dbContext.SaveChanges();
         }
 
-        public List<string> UserNotifications(int userId)
+        public List<string> UserNotifications(int? userId)
         {
             TblUser user = _dbContext.TblUsers.Where(x => x.UserId == userId).FirstOrDefault()!;
             if (user.UserRole == 1)

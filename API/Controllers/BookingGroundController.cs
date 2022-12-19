@@ -46,7 +46,9 @@ namespace API.Controllers
         {
             try
             {
-                return new JsonResult(_bookingGround.GetGroundDetails(availableGround).ToList());
+                LoginId(SessionKey);
+                int? userId = HttpContext.Session.GetInt32(SessionKey);
+                return new JsonResult(_bookingGround.GetGroundDetails(userId,availableGround).ToList());
             }
             catch (Exception ex)
             {
