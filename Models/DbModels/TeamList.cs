@@ -24,6 +24,7 @@ namespace Models.DbModels
         public string? Email { get; set; }
 
         public long? PhoneNum { get; set; }
+        public bool? Active { get; set; }
 
     }
 }

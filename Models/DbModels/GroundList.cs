@@ -22,6 +22,7 @@ namespace Models.DbModels
         public string? Longitude { get; set; }
 
         public string? SportType { get; set; }
+        public bool? Active { get; set; }
 
     }
 }

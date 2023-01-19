@@ -20,6 +20,12 @@ builder.Services.AddDbContext<DbSportsBuzzContext>(option =>
 option.UseSqlServer(connectionString)
 );
 
+//builder.Configure.routes.MapHttpRoute(
+//    name: "API Default",
+//    routeTemplate: "api/{controller}/{id}",
+//    defaults: new { id = RouteParameter.Optional }
+//);
+
 // Add services to the container.
 builder.Services.AddScoped<IUserInterface, UserService>();
 builder.Services.AddScoped<IEncrypt, EncryptService>();
@@ -92,7 +98,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(1800);
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -109,5 +115,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-app.MapControllers();
+//app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action}/{id?}");
 app.Run();

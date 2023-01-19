@@ -41,7 +41,7 @@ namespace BALTest.Services
             };
 
             //Act
-            var result = bookingGroundService.GetGroundDetails(bookground);
+            var result = bookingGroundService.GetGroundDetails(1,bookground);
             //Assert
             var items = Assert.IsType<List<GroundList>>(result);
             Assert.Equal(0, items.Count);
@@ -59,7 +59,7 @@ namespace BALTest.Services
             };
 
             //Act
-            var result = bookingGroundService.GetGroundDetails(bookground);
+            var result = bookingGroundService.GetGroundDetails(1,bookground);
             //Assert
             var items = Assert.IsType<List<GroundList>>(result);
             Assert.Equal(1, items.Count);
@@ -76,7 +76,7 @@ namespace BALTest.Services
             };
 
             //Act
-            var result = bookingGroundService.GetGroundDetails(bookground);
+            var result = bookingGroundService.GetGroundDetails(1,bookground);
             //Assert
             var items = Assert.IsType<List<GroundList>>(result);
             Assert.Equal(1, items.Count);

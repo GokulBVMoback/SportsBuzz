@@ -10,7 +10,7 @@ using Repository;
 
 namespace API.Controllers
 {
-    [Authorize(Policy = "Team Manager")]
+    //[Authorize(Policy = "Team Manager")]
     [Route("api/[controller]")]
     [ApiController]
     ///<summary>
@@ -43,11 +43,28 @@ namespace API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Policy = "Admin")]
         public JsonResult TeamList()
         {
             try
             {
                 return new JsonResult(_teamService.GetTeam().ToList());
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex);
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "Team Manager")]
+        [Route("MyTeams")]
+        public JsonResult MyTeams()
+        {
+            try
+            {
+                int? userId = HttpContext.Session.GetInt32(SessionKey);
+                return new JsonResult(_teamService.MyTeams(userId));
             }
             catch (Exception ex)
             {
@@ -61,6 +78,7 @@ namespace API.Controllers
         /// <param name="City"></param>
         /// <returns></returns>
         [HttpGet("City")]
+        [Authorize]
         public JsonResult SearchByCity(string City)
         {
             try
@@ -79,6 +97,7 @@ namespace API.Controllers
         /// <param name="Team"></param>
         /// <returns></returns>
         [HttpGet("Team")]
+        [Authorize]
         public JsonResult SearchByTeamName(string Team)
         {
             try
@@ -98,31 +117,23 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("TeamRegistration")]
+        [Authorize(Policy = "Team Manager")]
         public JsonResult TeamRegistration(TeamRegister team)
         {           
             try
             {
                 var teamdto = AutoMapper<TeamRegister, TblTeam>.MapClass(team);
-                bool result = _teamService.CheckExtistUserId(teamdto);
+                bool result = _teamService.CheckExtistTeam(teamdto);
                 if (result == false)
                 {
-                    result = _teamService.CheckExtistTeam(teamdto);
-                    if (result == false)
-                    {
-                        _teamService.TeamRegistration(teamdto);
-                        crudStatus.Status = true;
-                        crudStatus.Message = "Team added successfully";
-                    }
-                    else
-                    {
-                        crudStatus.Status = false;
-                        crudStatus.Message = "Team name is already extist";
-                    }
+                    _teamService.TeamRegistration(teamdto);
+                    crudStatus.Status = true;
+                    crudStatus.Message = "Team added successfully";
                 }
                 else
                 {
                     crudStatus.Status = false;
-                    crudStatus.Message = "This user already have a team";
+                    crudStatus.Message = "Team name is already extist";
                 }
                 return new JsonResult(crudStatus);
             }
@@ -138,6 +149,7 @@ namespace API.Controllers
         /// <param name="TeamName"></param>
         /// <returns></returns>
         [HttpPut]
+        [Authorize(Policy = "Team Manager")]
         public JsonResult EditTeam(EditTeam teamName)
         {
             try
@@ -169,6 +181,7 @@ namespace API.Controllers
         /// <param name="teamID"></param>
         /// <returns></returns>
         [HttpPut("Changing_Active_Status")]
+        [Authorize(Policy = "Team Manager")]
         public JsonResult ChangingActiveStatus(int teamID)
         {            
             try

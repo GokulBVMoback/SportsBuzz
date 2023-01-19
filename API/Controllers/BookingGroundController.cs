@@ -35,6 +35,37 @@ namespace API.Controllers
             crudStatus = new CrudStatus();
         }
 
+        [HttpGet]
+        [Route("BookingDetails")]
+        [Authorize(Policy = "Admin")]
+        public JsonResult BookingDetails()
+        {
+            try
+            {
+                return new JsonResult(_bookingGround.BookingDetails());
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("MyBookingDetails")]
+        [Authorize(Policy = "Team Manager")]
+        public JsonResult MyBookingDetails()
+        {
+            try
+            {
+                int? userId = HttpContext.Session.GetInt32(SessionKey);
+                return new JsonResult(_bookingGround.MyBookingDetails(userId));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex);
+            }
+        }
+
         /// <summary>
         /// calling GetGroundDetails() from the BookGroundService
         /// </summary>

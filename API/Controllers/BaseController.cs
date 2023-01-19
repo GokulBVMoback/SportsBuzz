@@ -10,6 +10,8 @@ namespace API.Controllers
     {
         private readonly DbSportsBuzzContext dbContext;
         public const string SessionKey = "UserId";
+        public const string SessionToken = "Token";
+
         public BaseController(DbSportsBuzzContext dbcontext)
         {
             dbContext = dbcontext;
@@ -19,6 +21,13 @@ namespace API.Controllers
         public int?  LoginId(string sessionkey)
         {
            var test=  HttpContext.Session.GetInt32(sessionkey);
+            return test;
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public string? GetToken(string token)
+        {
+            var test = HttpContext.Session.GetString(token);
             return test;
         }
     }

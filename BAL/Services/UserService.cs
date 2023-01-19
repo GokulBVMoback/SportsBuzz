@@ -42,10 +42,31 @@ namespace BAL.Services
                                             LastName = user.LastName,
                                             Email = user.Email,
                                             PhoneNum = user.PhoneNum,
-                                            UserRole = role.UserRole
+                                            UserRole = role.UserRole,
+                                            Active = user.Active
                                         }).ToList();
             return result.ToList();
         }
+
+        public UserDisplay MyDetails(int? id)
+        {
+            UserDisplay result = (from user in _dbContext.TblUsers
+                                        join role in _dbContext.TblUserRoles on user.UserRole equals role.UserRoleId
+                                        orderby user.UserId
+                                        where user.UserId == id
+                                        select new UserDisplay
+                                        {
+                                            UserId = user.UserId,
+                                            FirstName = user.FirstName,
+                                            LastName = user.LastName,
+                                            Email = user.Email,
+                                            PhoneNum = user.PhoneNum,
+                                            UserRole = role.UserRole,
+                                            Active= user.Active
+                                        }).FirstOrDefault()!;
+            return result;
+        }
+
         public IQueryable<UserView> GetAll()
         {
             return this. _dbContext.Set<UserView>()

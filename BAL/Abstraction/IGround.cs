@@ -11,6 +11,7 @@ namespace BAL.Abstraction
     public interface IGround
     {
         List<GroundList> GetGroundDetails();
+        List<GroundList> MyGround(int? id);
         List<GroundList> SearchByGroundCity(string City);
         GroundList SearchByGroundName(string Ground);
         void AddGrounds(TblGround ground);

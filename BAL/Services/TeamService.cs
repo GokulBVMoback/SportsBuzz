@@ -29,8 +29,31 @@ namespace BAL.Services
                                             Email= team.Email,
                                             PhoneNum= team.PhoneNum,
                                             FirstName=user.FirstName,
-                                            LastName=user.LastName
+                                            LastName=user.LastName,
+                                            Active = team.Active
                                         }).ToList();
+            return result.ToList();
+        }
+
+        public List<TeamList> MyTeams(int? id)
+        {
+            List<TeamList> result = (from team in _dbContext.TblTeams
+                                     join sport in _dbContext.TblSportTypes on team.SportType equals sport.SportTypeId
+                                     join user in _dbContext.TblUsers on team.UserId equals user.UserId
+                                     orderby team.TeamId
+                                     where user.UserId == id
+                                     select new TeamList
+                                     {
+                                         TeamId = team.TeamId,
+                                         TeamName = team.TeamName,
+                                         City = team.City,
+                                         SportType = sport.SportType,
+                                         Email = team.Email,
+                                         PhoneNum = team.PhoneNum,
+                                         FirstName = user.FirstName,
+                                         LastName = user.LastName,
+                                         Active=team.Active
+                                     }).ToList();
             return result.ToList();
         }
 
@@ -48,12 +71,6 @@ namespace BAL.Services
         {
             TblTeam team1 = _dbContext.TblTeams.Where(x => x.TeamName == team.TeamName).FirstOrDefault()!;
             return  team1 != null;  
-        }
-
-        public bool CheckExtistUserId(TblTeam team) 
-        {
-            TblTeam team2 = _dbContext.TblTeams.Where(y => y.UserId == team.UserId).FirstOrDefault()!;
-            return team2!=null; 
         }
 
         public void TeamRegistration(TblTeam team)

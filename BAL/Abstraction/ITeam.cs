@@ -12,10 +12,10 @@ namespace BAL.Abstraction
     public interface ITeam
     {
         List<TeamList> GetTeam();
+        List<TeamList> MyTeams(int? id);
         List<TeamList> SearchByCity(string City);
         TeamList SearchByTeamName(string Team);
         bool CheckExtistTeam(TblTeam team);
-        bool CheckExtistUserId(TblTeam team);
         void TeamRegistration(TblTeam team);
         void EditTeam(TblTeam TeamName);
         void ChangingActiveStatus(int teamID);

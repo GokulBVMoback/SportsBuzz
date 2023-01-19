@@ -27,7 +27,29 @@ namespace BAL.Services
                                            City = ground.City,
                                            SportType = sport.SportType,
                                            Latitude= ground.Latitude,
-                                           Longitude= ground.Longitude
+                                           Longitude= ground.Longitude,
+                                           Active= ground.Active
+                                       }).ToList();
+            return result.ToList();
+        }
+
+        public List<GroundList> MyGround(int? id)
+        {
+            List<GroundList> result = (from ground in _dbContext.TblGrounds
+                                       join sport in _dbContext.TblSportTypes on ground.SportType equals sport.SportTypeId
+                                       join user in _dbContext.TblUsers on ground.UserId equals user.UserId
+                                       orderby ground.GroundId
+                                       where user.UserId == id
+                                       select new GroundList
+                                       {
+                                           GroundId = ground.GroundId,
+                                           CompanyName = ground.CompanyName,
+                                           Venue = ground.Venue,
+                                           City = ground.City,
+                                           SportType = sport.SportType,
+                                           Latitude = ground.Latitude,
+                                           Longitude = ground.Longitude,
+                                           Active = ground.Active
                                        }).ToList();
             return result.ToList();
         }

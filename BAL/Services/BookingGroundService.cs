@@ -2,6 +2,7 @@
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Models.DbModels;
+using System.ComponentModel;
 
 namespace BAL.Services
 {
@@ -18,11 +19,23 @@ namespace BAL.Services
             _notification = notification;
         }
 
+        public List<BookedGroundView> BookingDetails()
+        {
+            List<BookedGroundView> list = _dbContext.BookedGroundViews.ToList();
+            return list;
+        }
+
+        public List<BookedGroundView> MyBookingDetails(int? id)
+        {
+            List<BookedGroundView> list= _dbContext.BookedGroundViews.Where(x=>x.UserId== id).ToList();
+            return list;
+        }
+
         public List<GroundList> GetGroundDetails(int? userId,SearchAvailableGround availableGround)
         {
             var sportType=_dbContext.TeamViews.Where(x=>x.UserId == userId).First();
             List<TblBookGround> list = _dbContext.TblBookGrounds.ToList().Where(x => x.SessionId == availableGround.SessionId && x.Date==availableGround.Date).ToList();
-            List<GroundList> grounds = ground.SearchByGroundCity(availableGround.City!).Where(x => x.SportType == sportType.SportType).ToList();            
+            List<GroundList> grounds = ground.SearchByGroundCity(availableGround.City!).Where(x => x.SportType == sportType.SportType && x.Active==true).ToList();            
             foreach (var items in list)
             {
                 GroundList ground = grounds.Where(x => x.GroundId == items.GroundId).FirstOrDefault()!;

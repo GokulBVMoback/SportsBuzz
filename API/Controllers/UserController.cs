@@ -5,11 +5,15 @@ using BAL.Services;
 using Entities.Models;
 using EnvDTE;
 using FluentNHibernate.Automapping;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Models;
 using Models.DbModels;
 using Newtonsoft.Json;
@@ -49,6 +53,7 @@ namespace API.Controllers
         /// </summary>
         
         public new const string SessionKey = "UserId";
+        public new const string SessionToken = "Token";
         private readonly IMapper _mapper;
         private readonly ILogger<UserController> _logger;
 
@@ -74,13 +79,30 @@ namespace API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize]
-       
+        [Authorize(Policy = "Admin")]
+        [Route("UserDetails")]
+
         public JsonResult UserDetails()
         {
             try
             {
                 return new JsonResult(_userService.GetUser().ToList());
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex);
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("MyDetails")]
+        public JsonResult MyDetails()
+        {
+            try
+            {
+                int? userId = HttpContext.Session.GetInt32(SessionKey);
+                return new JsonResult(_userService.MyDetails(userId));
             }
             catch (Exception ex)
             {
@@ -94,7 +116,7 @@ namespace API.Controllers
         /// <param name="ownerParameters"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "Admin")]
         [Route("Paginated")]
 
         public IActionResult GetUsers([FromQuery] PaginationParameters ownerParameters)
@@ -118,7 +140,7 @@ namespace API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "Admin")]
         [MapToApiVersion("2")]
         [Route("V2")]
         public ActionResult<List<UserDisplayV2>> UserDetails2()
@@ -132,7 +154,7 @@ namespace API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "Admin")]
         [MapToApiVersion("3")]
         [Route("V3")]
         public ActionResult<List<UserDisplayV2>> UserDetails3()
@@ -144,7 +166,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "Admin")]
         [MapToApiVersion("4")]
         [Route("V4")]
         public List<UserDisplayV2> UserDetails4()
@@ -158,8 +180,7 @@ namespace API.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("registration")]
-       
+        [Route("Registration")]
         public JsonResult Registration(Registration user)
         {
             try
@@ -212,6 +233,7 @@ namespace API.Controllers
                 if (result != null)
                 {
                     HttpContext.Session.SetInt32(SessionKey, result.Item2);
+                    HttpContext.Session.SetString(SessionToken, result.Item1);
                     LoginId(SessionKey);
                     crudStatus.Status = true;
                     crudStatus.Message = result.Item1;
@@ -235,7 +257,7 @@ namespace API.Controllers
         /// <param name="changePassword"></param>
         /// <returns></returns>
 
-        [HttpPut("Forget Password")]
+        [HttpPut("ForgetPassword")]
         public JsonResult ForgetPassword(ForgotPassword changePassword)
         {
             try
@@ -247,7 +269,6 @@ namespace API.Controllers
                     result = _userService.CheckPassword(changePassworddto);
                     if (result== true)
                     {
-                        LogIn(changePassword);
                         _userService.ForgetPassword(changePassworddto);
                         crudStatus.Status = true;
                         crudStatus.Message = "Password updated successfully";
@@ -282,11 +303,19 @@ namespace API.Controllers
         {
             try
             {
-                LoginId(SessionKey);
+                //LoginId(SessionKey);
                 int? userId = HttpContext.Session.GetInt32(SessionKey);
                 _userService.ChangingActiveStatus(userId);
+                TblUser user=_dbcontext.TblUsers.Where(x => x.UserId == userId).FirstOrDefault()!;
                 crudStatus.Status = true;
-                crudStatus.Message = "Active status changed successfully";
+                if(user.Active==true)
+                {
+                    crudStatus.Message = "Activated";
+                }
+                else
+                {
+                    crudStatus.Message = "Deactivated";
+                }
                 return new JsonResult(crudStatus);
             }
             catch (Exception ex)
@@ -298,9 +327,8 @@ namespace API.Controllers
         /// <summary>
         /// calling UserNotifications() method from the UserService
         /// </summary>
-        /// <param name="userId"></param>
         /// <returns></returns>
-        [HttpGet("User_Notification")]
+        [HttpGet("UserNotifications")]
         [Authorize]
         public JsonResult UserNotifications()
         {
@@ -308,6 +336,25 @@ namespace API.Controllers
             {
                 int? userId=LoginId(SessionKey);
                 return new JsonResult(_userService.UserNotifications(userId));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("LogOut")]
+        [Authorize]
+        public ActionResult LogOut()
+        {
+            try
+            {
+                string token = GetToken(SessionToken)!;
+                HttpContext.Session.SetString(SessionToken, string.Empty);
+                HttpContext.Session.Clear();
+                HttpContext.SignOutAsync(token);
+                return RedirectToAction("LogIn");
             }
             catch (Exception ex)
             {

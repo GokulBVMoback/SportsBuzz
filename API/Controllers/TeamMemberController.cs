@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DbModels;
 using Repository;
 using System.Dynamic;
+using Twilio.Jwt.Taskrouter;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers
 {
-    [Authorize(Policy = "Team Manager")]
     [Route("api/[controller]")]
     [ApiController]
 
@@ -45,11 +45,30 @@ namespace API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Policy = "Admin")]
         public JsonResult PlayerList()
         {
             try
             {
                 return new JsonResult(_teamMemberService.GetTeamMember().ToList());
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex);
+            }
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        [Route("MyTeamMembers")]
+        [Authorize(Policy = "Team Manager")]
+        public JsonResult MyTeamMembers()
+        {
+            try
+            {
+                int? userId = HttpContext.Session.GetInt32(SessionKey);
+                return new JsonResult(_teamMemberService.MyTeamMembers(userId));
             }
             catch (Exception ex)
             {
@@ -64,6 +83,7 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("AddTeamMember")]
+        [Authorize(Policy = "Team Manager")]
         public JsonResult AddTeamMember(PlayerRegister player)
         {            
             try
@@ -87,6 +107,7 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("EditTeamMember")]
+        [Authorize(Policy = "Team Manager")]
         public JsonResult EditTeamMember(EditPlayer player)
         {            
             try
@@ -119,6 +140,7 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("delete")]
+        [Authorize(Policy = "Team Manager")]
         public JsonResult DeleteTeamMember(int memberID)
         {            
             try

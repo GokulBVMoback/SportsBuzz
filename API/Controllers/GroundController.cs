@@ -40,12 +40,28 @@ namespace API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("GetGroundDetails")]
-        [Authorize]
+        [Authorize(Policy = "Admin")]
         public JsonResult GetGroundDetails()
         {
             try
             {
                 return new JsonResult(_groundService.GetGroundDetails().ToList());
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("MyGrounds")]
+        [Authorize(Policy = "Ground Manager")]
+        public JsonResult MyGrounds()
+        {
+            try
+            {
+                int? userId = HttpContext.Session.GetInt32(SessionKey);
+                return new JsonResult(_groundService.MyGround(userId));
             }
             catch (Exception ex)
             {

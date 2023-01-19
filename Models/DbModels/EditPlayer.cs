@@ -10,8 +10,6 @@ namespace Models.DbModels
     {
         public int MemberId { get; set; }
 
-        public string? TeamName { get; set; }
-
         public string? PlayerFirstName { get; set; }
 
         public string? PlayerLastName { get; set; }
