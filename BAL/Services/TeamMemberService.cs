@@ -38,7 +38,7 @@ namespace BAL.Services
                                        join team in _dbContext.TblTeams on player.TeamId equals team.TeamId
                                        join user in _dbContext.TblUsers on team.UserId equals user.UserId
                                        orderby player.TeamId
-                                       where user.UserId == id
+                                       where team.TeamId == id
                                        select new PlayerList
                                        {
                                            MemberId = player.MemberId,

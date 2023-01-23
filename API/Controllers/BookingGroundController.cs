@@ -53,12 +53,11 @@ namespace API.Controllers
         [HttpGet]
         [Route("MyBookingDetails")]
         [Authorize(Policy = "Team Manager")]
-        public JsonResult MyBookingDetails()
+        public JsonResult MyBookingDetails(int? id)
         {
             try
             {
-                int? userId = HttpContext.Session.GetInt32(SessionKey);
-                return new JsonResult(_bookingGround.MyBookingDetails(userId));
+                return new JsonResult(_bookingGround.MyBookingDetails(id));
             }
             catch (Exception ex)
             {
@@ -77,9 +76,7 @@ namespace API.Controllers
         {
             try
             {
-                LoginId(SessionKey);
-                int? userId = HttpContext.Session.GetInt32(SessionKey);
-                return new JsonResult(_bookingGround.GetGroundDetails(userId,availableGround).ToList());
+                return new JsonResult(_bookingGround.GetGroundDetails(availableGround).ToList());
             }
             catch (Exception ex)
             {

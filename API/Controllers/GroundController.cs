@@ -56,12 +56,11 @@ namespace API.Controllers
         [HttpGet]
         [Route("MyGrounds")]
         [Authorize(Policy = "Ground Manager")]
-        public JsonResult MyGrounds()
+        public JsonResult MyGrounds(int? id)
         {
             try
             {
-                int? userId = HttpContext.Session.GetInt32(SessionKey);
-                return new JsonResult(_groundService.MyGround(userId));
+                return new JsonResult(_groundService.MyGround(id));
             }
             catch (Exception ex)
             {
@@ -117,7 +116,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("AddGround")]
         [Authorize(Policy = "Ground Manager")]
-        public JsonResult AddGrounds(GroundRegister ground)
+        public JsonResult AddGround(GroundRegister ground)
         {
             try
             {

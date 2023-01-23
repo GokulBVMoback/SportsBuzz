@@ -59,12 +59,11 @@ namespace API.Controllers
         [HttpGet]
         [Authorize(Policy = "Team Manager")]
         [Route("MyTeams")]
-        public JsonResult MyTeams()
+        public JsonResult MyTeams(int? id)
         {
             try
             {
-                int? userId = HttpContext.Session.GetInt32(SessionKey);
-                return new JsonResult(_teamService.MyTeams(userId));
+                return new JsonResult(_teamService.MyTeams(id));
             }
             catch (Exception ex)
             {
@@ -148,7 +147,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="TeamName"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPut("EditTeam")]
         [Authorize(Policy = "Team Manager")]
         public JsonResult EditTeam(EditTeam teamName)
         {

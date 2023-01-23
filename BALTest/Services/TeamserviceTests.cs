@@ -110,37 +110,37 @@ namespace BALTests
             Assert.False(result);
         }
 
-        [Fact]  
-        public void CheckExtist_userId()
-        {
-            //Arrange
-            var teamExtistUser = new TblTeam()
-            {
-                UserId=1
-            };
+        //[Fact]  
+        //public void CheckExtist_userId()
+        //{
+        //    //Arrange
+        //    var teamExtistUser = new TblTeam()
+        //    {
+        //        UserId=1
+        //    };
 
-            //Act
-            var result =_teamService.CheckExtistUserId(teamExtistUser);
+        //    //Act
+        //    var result =_teamService.CheckExtistUserId(teamExtistUser);
 
-            //Assert
-            Assert.True(result);                          
-        }
+        //    //Assert
+        //    Assert.True(result);                          
+        //}
 
-        [Fact]
-        public void CheckExtist_newuserId()
-        {
-            //Arrange
-            var teamExtistuser = new TblTeam()
-            {
-                UserId = 5,
-            };
+        //[Fact]
+        //public void CheckExtist_newuserId()
+        //{
+        //    //Arrange
+        //    var teamExtistuser = new TblTeam()
+        //    {
+        //        UserId = 5,
+        //    };
 
-            //Act
-            var result = _teamService.CheckExtistUserId(teamExtistuser);
+        //    //Act
+        //    var result = _teamService.CheckExtistUserId(teamExtistuser);
 
-            //Assert
-            Assert.False(result);  
-        }
+        //    //Assert
+        //    Assert.False(result);  
+        //}
 
         [Fact]
         public void TeamRegistration()

@@ -12,7 +12,7 @@ namespace BAL.Abstraction
     {
         List<BookedGroundView> BookingDetails();
         List<BookedGroundView> MyBookingDetails(int? id);
-        List<GroundList> GetGroundDetails(int? userId, SearchAvailableGround availableGround);
+        List<GroundList> GetGroundDetails(SearchAvailableGround availableGround);
         void BookingGround(TblBookGround booking);
         Notification GenerateMessage(TblBookGround booking);
         bool CheckExtistBookedDetails(TblBookGround booking);

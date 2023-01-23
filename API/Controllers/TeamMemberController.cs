@@ -63,12 +63,11 @@ namespace API.Controllers
         [Authorize]
         [Route("MyTeamMembers")]
         [Authorize(Policy = "Team Manager")]
-        public JsonResult MyTeamMembers()
+        public JsonResult MyTeamMembers(int teamID)
         {
             try
             {
-                int? userId = HttpContext.Session.GetInt32(SessionKey);
-                return new JsonResult(_teamMemberService.MyTeamMembers(userId));
+                return new JsonResult(_teamMemberService.MyTeamMembers(teamID));
             }
             catch (Exception ex)
             {

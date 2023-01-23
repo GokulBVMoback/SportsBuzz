@@ -97,12 +97,11 @@ namespace API.Controllers
         [HttpGet]
         [Authorize]
         [Route("MyDetails")]
-        public JsonResult MyDetails()
+        public JsonResult MyDetails(int? id)
         {
             try
             {
-                int? userId = HttpContext.Session.GetInt32(SessionKey);
-                return new JsonResult(_userService.MyDetails(userId));
+                return new JsonResult(_userService.MyDetails(id));
             }
             catch (Exception ex)
             {
@@ -197,6 +196,7 @@ namespace API.Controllers
                         LoginId(SessionKey);
                         crudStatus.Status = true;
                         crudStatus.Message = token.Item1;
+                        crudStatus.Id = token.Item2;
                     }
                     else
                     {
@@ -237,6 +237,7 @@ namespace API.Controllers
                     LoginId(SessionKey);
                     crudStatus.Status = true;
                     crudStatus.Message = result.Item1;
+                    crudStatus.Id = result.Item2;
                 }
                 else
                 {
@@ -299,14 +300,12 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPut("Changing_Active_Status")]
         [Authorize]
-        public JsonResult ChangingActiveStatus()
+        public JsonResult ChangingActiveStatus(int? id)
         {
             try
             {
-                //LoginId(SessionKey);
-                int? userId = HttpContext.Session.GetInt32(SessionKey);
-                _userService.ChangingActiveStatus(userId);
-                TblUser user=_dbcontext.TblUsers.Where(x => x.UserId == userId).FirstOrDefault()!;
+                _userService.ChangingActiveStatus(id);
+                TblUser user=_dbcontext.TblUsers.Where(x => x.UserId == id).FirstOrDefault()!;
                 crudStatus.Status = true;
                 if(user.Active==true)
                 {
@@ -330,12 +329,11 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpGet("UserNotifications")]
         [Authorize]
-        public JsonResult UserNotifications()
+        public JsonResult UserNotifications(int? id)
         {
             try
             {
-                int? userId=LoginId(SessionKey);
-                return new JsonResult(_userService.UserNotifications(userId));
+                return new JsonResult(_userService.UserNotifications(id));
             }
             catch (Exception ex)
             {

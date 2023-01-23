@@ -13,5 +13,6 @@ namespace Models.DbModels
         public int? SessionId { get; set; }
 
         public DateTime? Date { get; set; }
+        public string? SportType { get; set; }
     }
 }

@@ -31,18 +31,16 @@ namespace BAL.Services
             return list;
         }
 
-        public List<GroundList> GetGroundDetails(int? userId,SearchAvailableGround availableGround)
+        public List<GroundList> GetGroundDetails(SearchAvailableGround availableGround)
         {
-            var sportType=_dbContext.TeamViews.Where(x=>x.UserId == userId).First();
             List<TblBookGround> list = _dbContext.TblBookGrounds.ToList().Where(x => x.SessionId == availableGround.SessionId && x.Date==availableGround.Date).ToList();
-            List<GroundList> grounds = ground.SearchByGroundCity(availableGround.City!).Where(x => x.SportType == sportType.SportType && x.Active==true).ToList();            
+            List<GroundList> grounds = ground.SearchByGroundCity(availableGround.City!).Where(x => x.SportType == availableGround.SportType && x.Active==true).ToList();            
             foreach (var items in list)
             {
                 GroundList ground = grounds.Where(x => x.GroundId == items.GroundId).FirstOrDefault()!;
                 grounds.Remove(ground);
             }            
             return grounds;
-
         }
 
         public void BookingGround(TblBookGround booking)
