@@ -13,6 +13,7 @@ namespace BAL.Abstraction
     {
         List<TeamList> GetTeam();
         List<TeamList> MyTeams(int? id);
+        List<TeamList> MyTeamsParticularSport(int? id, int grundid);
         List<TeamList> SearchByCity(string City);
         TeamList SearchByTeamName(string Team);
         bool CheckExtistTeam(TblTeam team);

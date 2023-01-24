@@ -27,7 +27,13 @@ namespace BAL.Services
 
         public List<BookedGroundView> MyBookingDetails(int? id)
         {
-            List<BookedGroundView> list= _dbContext.BookedGroundViews.Where(x=>x.UserId== id).ToList();
+            List<TblTeam> teams= _dbContext.TblTeams.Where(x=>x.UserId== id).ToList();
+            List<BookedGroundView> list = _dbContext.BookedGroundViews.ToList();
+            foreach (var team in  teams)
+            {
+                BookedGroundView booked=list.Where(x=>x.UserId!=team.UserId).FirstOrDefault()!;
+                list.Remove(booked);
+            }
             return list;
         }
 

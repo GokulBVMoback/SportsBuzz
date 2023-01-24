@@ -57,6 +57,29 @@ namespace BAL.Services
             return result.ToList();
         }
 
+        public List<TeamList> MyTeamsParticularSport(int? id,int grundid)
+        {
+            TblGround ground = _dbContext.TblGrounds.Where(x => x.GroundId == grundid).FirstOrDefault()!;
+            List<TeamList> result = (from team in _dbContext.TblTeams
+                                     join sport in _dbContext.TblSportTypes on team.SportType equals sport.SportTypeId
+                                     join user in _dbContext.TblUsers on team.UserId equals user.UserId
+                                     orderby team.TeamId
+                                     where user.UserId == id && sport.SportTypeId==ground.SportType
+                                     select new TeamList
+                                     {
+                                         TeamId = team.TeamId,
+                                         TeamName = team.TeamName,
+                                         City = team.City,
+                                         SportType = sport.SportType,
+                                         Email = team.Email,
+                                         PhoneNum = team.PhoneNum,
+                                         FirstName = user.FirstName,
+                                         LastName = user.LastName,
+                                         Active = team.Active
+                                     }).ToList();
+            return result.ToList();
+        }
+
         public List<TeamList> SearchByCity(string City)
         {
             return GetTeam().Where(x => x.City!.ToLower() == City.ToLower()).ToList();

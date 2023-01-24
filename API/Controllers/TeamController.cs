@@ -59,11 +59,18 @@ namespace API.Controllers
         [HttpGet]
         [Authorize(Policy = "Team Manager")]
         [Route("MyTeams")]
-        public JsonResult MyTeams(int? id)
+        public JsonResult MyTeams(int? id, int grndid)
         {
             try
             {
-                return new JsonResult(_teamService.MyTeams(id));
+                if(grndid== 0)
+                {
+                    return new JsonResult(_teamService.MyTeams(id));
+                }
+                else
+                {
+                    return new JsonResult(_teamService.MyTeamsParticularSport(id,grndid));
+                }
             }
             catch (Exception ex)
             {
