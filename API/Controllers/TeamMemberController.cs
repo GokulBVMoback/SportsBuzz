@@ -60,7 +60,6 @@ namespace API.Controllers
 
 
         [HttpGet]
-        [Authorize]
         [Route("MyTeamMembers")]
         [Authorize(Policy = "Team Manager")]
         public JsonResult MyTeamMembers(int teamID)
@@ -68,6 +67,21 @@ namespace API.Controllers
             try
             {
                 return new JsonResult(_teamMemberService.MyTeamMembers(teamID));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("TeamMembersById")]
+        [Authorize(Policy = "Team Manager")]
+        public JsonResult TeamMembersById(int playerID)
+        {
+            try
+            {
+                return new JsonResult(_teamMemberService.GetTeamMemberbyId(playerID));
             }
             catch (Exception ex)
             {

@@ -15,21 +15,21 @@ namespace BAL.Services
 
         public List<PlayerList> GetTeamMember()
         {
-             List<PlayerList> result = (from player in _dbContext.TblTeamMembers
-                                      join team in _dbContext.TblTeams on player.TeamId equals team.TeamId                                    
-                                      orderby player.TeamId
-                                        select new PlayerList
-                                        {
-                                            MemberId = player.MemberId,
-                                            TeamName = team.TeamName,
-                                            PlayerFirstName = player.PlayerFirstName,
-                                            PlayerLastName = player.PlayerLastName,
-                                            Age = player.Age,
-                                            JerseyNo = player.JerseyNo,
-                                            State = player.State,
+            List<PlayerList> result = (from player in _dbContext.TblTeamMembers
+                                       join team in _dbContext.TblTeams on player.TeamId equals team.TeamId
+                                       orderby player.TeamId
+                                       select new PlayerList
+                                       {
+                                           MemberId = player.MemberId,
+                                           TeamName = team.TeamName,
+                                           PlayerFirstName = player.PlayerFirstName,
+                                           PlayerLastName = player.PlayerLastName,
+                                           Age = player.Age,
+                                           JerseyNo = player.JerseyNo,
+                                           State = player.State,
 
-                                        }).ToList();
-             return result.ToList();         
+                                       }).ToList();
+            return result.ToList();
         }
 
         public List<PlayerList> MyTeamMembers(int? id)
@@ -51,6 +51,27 @@ namespace BAL.Services
 
                                        }).ToList();
             return result.ToList();
+        }
+
+        public PlayerList GetTeamMemberbyId(int? id)
+        {
+            PlayerList result = (from player in _dbContext.TblTeamMembers
+                                       join team in _dbContext.TblTeams on player.TeamId equals team.TeamId
+                                       join user in _dbContext.TblUsers on team.UserId equals user.UserId
+                                       orderby player.TeamId
+                                       where player.MemberId == id
+                                       select new PlayerList
+                                       {
+                                           MemberId = player.MemberId,
+                                           TeamName = team.TeamName,
+                                           PlayerFirstName = player.PlayerFirstName,
+                                           PlayerLastName = player.PlayerLastName,
+                                           Age = player.Age,
+                                           JerseyNo = player.JerseyNo,
+                                           State = player.State,
+
+                                       }).FirstOrDefault()!;
+            return result;
         }
 
         public void AddTeamMember(TblTeamMember player)

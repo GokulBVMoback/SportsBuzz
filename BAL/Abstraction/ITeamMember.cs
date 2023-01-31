@@ -12,7 +12,7 @@ namespace BAL.Abstraction
     {
         List<PlayerList> GetTeamMember();
         List<PlayerList> MyTeamMembers(int? id);
-
+        PlayerList GetTeamMemberbyId(int? id);
         void AddTeamMember(TblTeamMember Player);
         bool CheckExtistTeamMember(int memberID);
         void EditTeamMember(TblTeamMember Player);
